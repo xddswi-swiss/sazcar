@@ -94,7 +94,7 @@ export const Header: React.FC = () => {
 
       {/* Mobile Navigation Dropdown */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-zinc-200 bg-white px-6 py-6 dark:border-zinc-800 dark:bg-zinc-950 transition-colors">
+        <div className="lg:hidden border-t border-zinc-200 bg-white px-6 pt-24 pb-6 dark:border-zinc-800 dark:bg-zinc-950 transition-colors">
           <nav className="flex flex-col gap-4 mb-6">
             {navItems.map((item) => (
               <a

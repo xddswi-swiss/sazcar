@@ -69,7 +69,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
       {/* Slider Container */}
       <div
         ref={containerRef}
-        className="relative h-[250px] sm:h-[350px] md:h-[450px] w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 select-none"
+        className="relative h-[250px] sm:h-[350px] md:h-[450px] w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 shadow-xl dark:border-zinc-800 dark:bg-zinc-900 select-none touch-none"
       >
         {/* Before Image (Base layer - shows when slider is slid to the right) */}
         <div className="absolute inset-0 h-full w-full">
@@ -110,7 +110,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
 
         {/* Sliding Divider Bar */}
         <div
-          className="absolute top-0 bottom-0 z-30 w-1 cursor-ew-resize bg-white dark:bg-orange-500 shadow-[0_0_10px_rgba(0,0,0,0.5)]"
+          className="absolute top-0 bottom-0 z-30 w-1 cursor-ew-resize bg-white dark:bg-orange-500 shadow-[0_0_10px_rgba(0,0,0,0.5)] touch-none"
           style={{ left: `${sliderPosition}%` }}
           onMouseDown={(e) => {
             e.preventDefault();
