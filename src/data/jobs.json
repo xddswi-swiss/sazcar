@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "titleDe": "Auffahrunfall - Heckschaden Instandsetzung",
+    "titleTr": "Arkadan Çarpma - Arka Kısım Onarımı",
+    "titleEn": "Rear-end Collision Repair",
+    "beforeImage": "/assets/images/car_before_1.png",
+    "afterImage": "/assets/images/car_after_1.png",
+    "createdAt": "2026-06-20T12:00:00Z"
+  },
+  {
+    "id": 2,
+    "titleDe": "Seitenwandschaden - Kratzer & Beulen entfernen",
+    "titleTr": "Yan Panel Hasarı - Çizik & Göçük Düzeltme",
+    "titleEn": "Side Panel Damage - Scratch & Dent Removal",
+    "beforeImage": "/assets/images/car_before_2.png",
+    "afterImage": "/assets/images/car_after_2.png",
+    "createdAt": "2026-06-20T12:30:00Z"
+  }
+]

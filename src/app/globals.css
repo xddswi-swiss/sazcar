@@ -1,26 +1,101 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+    --border: #e2e8f0;
+    --primary: #f97316;
+    --primary-foreground: #ffffff;
+    --muted: #64748b;
+    --muted-foreground: #94a3b8;
+    --accent: #f97316;
+    --glow: rgba(249, 115, 22, 0.15);
+  }
+
+  .dark {
+    --background: #0d0e12;
+    --foreground: #f1f5f9;
+    --card: #15181f;
+    --card-foreground: #f1f5f9;
+    --border: #27272a;
+    --primary: #ff6b00;
+    --primary-foreground: #ffffff;
+    --muted: #94a3b8;
+    --muted-foreground: #4b5563;
+    --accent: #ff6b00;
+    --glow: rgba(255, 107, 0, 0.25);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
   }
 }
 
-body {
+/* Carbon Fiber Texture Background for Dark Mode body */
+.dark body {
+  background-color: #0d0e12;
+  background-image: 
+    linear-gradient(45deg, #111319 25%, transparent 25%), 
+    linear-gradient(-45deg, #111319 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #111319 75%), 
+    linear-gradient(-45deg, transparent 75%, #111319 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, var(--card) 25%, var(--border) 50%, var(--card) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Custom UI styling */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass-panel {
+  background: rgba(21, 24, 31, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glow-hover:hover {
+  box-shadow: 0 0 20px var(--glow);
+  border-color: var(--primary);
 }
