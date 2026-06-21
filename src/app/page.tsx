@@ -11,7 +11,7 @@ import { Wrench, Paintbrush, Hammer, ShieldCheck, ChevronRight, MessageSquare, A
 import defaultJobs from "@/data/jobs.json";
 
 interface Job {
-  id: number;
+  id: number | string;
   titleDe: string;
   titleTr: string;
   titleEn: string;

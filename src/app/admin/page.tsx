@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { useLanguage } from "@/app/contexts/LanguageContext";
-import { ArrowLeft, Lock, LogOut, CheckCircle, AlertCircle, Upload, Eye, FileImage, X } from "lucide-react";
+import { ArrowLeft, Lock, LogOut, CheckCircle, AlertCircle, Upload, Eye, FileImage, X, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 interface Job {
-  id: number;
+  id: number | string;
   titleDe: string;
   titleTr: string;
   titleEn: string;
@@ -128,6 +128,30 @@ export default function AdminPage() {
       setStatus("error");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleDeleteJob = async (id: string | number) => {
+    if (!window.confirm("Bu işi silmek istediğinizden emin misiniz?")) return;
+
+    try {
+      const response = await fetch("/api/jobs", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id,
+          passcode: "sazcar2026",
+        }),
+      });
+
+      if (response.ok) {
+        fetchJobs(); // reload list
+      } else {
+        alert("Silme işlemi başarısız oldu.");
+      }
+    } catch (err) {
+      console.error("Error deleting job:", err);
+      alert("Bir hata oluştu.");
     }
   };
 
@@ -377,19 +401,32 @@ export default function AdminPage() {
                 existingJobs.map((job) => (
                   <div
                     key={job.id}
-                    className="flex gap-3 rounded-xl border border-zinc-800 bg-zinc-950 p-3 items-center"
+                    className="flex gap-3 rounded-xl border border-zinc-800 bg-zinc-950 p-3 items-center justify-between"
                   >
-                    <div className="relative h-12 w-12 rounded-lg overflow-hidden shrink-0">
-                      <img src={job.afterImage} alt="After thumbnail" className="h-full w-full object-cover" />
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="relative h-12 w-12 rounded-lg overflow-hidden shrink-0">
+                        <img src={job.afterImage} alt="After thumbnail" className="h-full w-full object-cover" />
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-xs font-bold text-zinc-300 truncate">
+                          {job.titleTr}
+                        </span>
+                        <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold mt-0.5">
+                          ID: {typeof job.id === 'string' ? job.id.substring(0, 8) + '...' : job.id}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-xs font-bold text-zinc-300 truncate">
-                        {job.titleTr}
-                      </span>
-                      <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-semibold mt-0.5">
-                        ID: {job.id}
-                      </span>
-                    </div>
+
+                    {/* Delete button (Only for Supabase database-backed jobs - identified by string UUIDs) */}
+                    {typeof job.id === 'string' && (
+                      <button
+                        onClick={() => handleDeleteJob(job.id)}
+                        className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-red-500 hover:border-red-500/35 transition-all cursor-pointer flex items-center justify-center active:scale-95 shrink-0"
+                        title="İşi Sil"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    )}
                   </div>
                 ))
               )}
