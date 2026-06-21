@@ -53,20 +53,63 @@ export async function POST(req: Request) {
       <p>Ekte ${attachments.length} adet hasar fotoğrafı bulunmaktadır.</p>
     `;
 
-    const { data, error } = await resend.emails.send({
-      from: "SazCar Garage <onboarding@resend.dev>", // default sender for dev accounts
-      to: "info@sazcar.ch", // Replace with your actual email or recipient
+    const fromEmail = process.env.RESEND_FROM_EMAIL || "SazCar Garage <onboarding@resend.dev>";
+    const toEmail = process.env.RESEND_TO_EMAIL || "sazcargmbh@gmail.com";
+
+    let sendResult = await resend.emails.send({
+      from: fromEmail,
+      to: toEmail,
       subject: `Yeni Teklif Talebi: ${name} - ${car}`,
       html: emailHtml,
       attachments: attachments,
     });
 
-    if (error) {
-      console.error("Resend API Error:", error);
-      return NextResponse.json({ error: error.message }, { status: 400 });
+    if (sendResult.error) {
+      console.error("Resend API Error:", sendResult.error);
+      const errorMsg = sendResult.error.message || "";
+      
+      // Check for sandbox domain restriction
+      if (errorMsg.includes("You can only send testing emails to your own email address")) {
+        // Extract the email address inside the parentheses: e.g. (eren.yigit.aydin@gmail.com)
+        const match = errorMsg.match(/\(([^)]+)\)/);
+        if (match && match[1]) {
+          const fallbackEmail = match[1];
+          console.log(`Sandbox restriction detected. Retrying with fallback email: ${fallbackEmail}`);
+          
+          const fallbackHtml = `
+            <div style="background-color: #fff3cd; color: #856404; padding: 15px; border: 1px solid #ffeeba; border-radius: 5px; margin-bottom: 20px; font-family: sans-serif;">
+              <strong>⚠️ Resend Sandbox Hinweis (Entwickler-Modus):</strong><br/>
+              Diese E-Mail wurde an Ihre registrierte Test-Adresse (<strong>${fallbackEmail}</strong>) gesendet, da Ihre Domain noch nicht verifiziert ist.<br/>
+              Sobald Sie Ihre Domain bei <a href="https://resend.com/domains" target="_blank">resend.com/domains</a> verifizieren und die Absenderadresse im Code/Environment anpassen, werden die E-Mails direkt an <strong>${toEmail}</strong> gesendet.
+            </div>
+            ${emailHtml}
+          `;
+
+          const retryResult = await resend.emails.send({
+            from: fromEmail,
+            to: fallbackEmail,
+            subject: `[TEST-SANDBOX] Yeni Teklif Talebi: ${name} - ${car}`,
+            html: fallbackHtml,
+            attachments: attachments,
+          });
+
+          if (!retryResult.error) {
+            return NextResponse.json({ 
+              success: true, 
+              sandboxFallback: true, 
+              recipient: fallbackEmail,
+              data: retryResult.data 
+            });
+          } else {
+            console.error("Resend Fallback Error:", retryResult.error);
+            return NextResponse.json({ error: retryResult.error.message }, { status: 400 });
+          }
+        }
+      }
+      return NextResponse.json({ error: sendResult.error.message }, { status: 400 });
     }
 
-    return NextResponse.json({ success: true, data });
+    return NextResponse.json({ success: true, data: sendResult.data });
   } catch (error: any) {
     console.error("Estimate API Route Error:", error);
     return NextResponse.json({ error: error.message || "Internal server error" }, { status: 500 });

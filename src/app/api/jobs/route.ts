@@ -33,7 +33,8 @@ export async function GET() {
         titleEn: j.title_en,
         beforeImage: j.before_image_url,
         afterImage: j.after_image_url,
-        createdAt: j.created_at
+        createdAt: j.created_at,
+        carModel: j.car_model
       }));
       return NextResponse.json(mappedJobs);
     }
@@ -54,7 +55,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const { passcode, titleDe, titleTr, titleEn, beforeImage, afterImage } = await req.json();
+    const { passcode, titleDe, titleTr, titleEn, beforeImage, afterImage, carModel } = await req.json();
 
     // Verify passcode
     if (passcode !== process.env.ADMIN_PASSCODE) {
@@ -93,7 +94,8 @@ export async function POST(req: Request) {
           title_tr: titleTr,
           title_en: titleEn,
           before_image_url: beforeUrl,
-          after_image_url: afterUrl
+          after_image_url: afterUrl,
+          car_model: carModel
         }
       ])
       .select()
@@ -110,7 +112,8 @@ export async function POST(req: Request) {
       titleEn: newJob.title_en,
       beforeImage: newJob.before_image_url,
       afterImage: newJob.after_image_url,
-      createdAt: newJob.created_at
+      createdAt: newJob.created_at,
+      carModel: newJob.car_model
     };
 
     return NextResponse.json({ success: true, job: mappedJob });

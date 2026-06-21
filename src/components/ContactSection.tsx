@@ -27,7 +27,7 @@ export const ContactSection: React.FC = () => {
   const mapEmbedUrl = `https://maps.google.com/maps?q=${mapQuery}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
 
   return (
-    <section id="contact" className="relative px-6 py-20 bg-zinc-50/50 dark:bg-zinc-950/20 border-t border-zinc-200/50 dark:border-zinc-850/50 transition-colors">
+    <section id="contact" className="scroll-mt-[72px] md:scroll-mt-[80px] relative px-6 py-20 bg-zinc-50/50 dark:bg-zinc-950/20 border-t border-zinc-200/50 dark:border-zinc-850/50 transition-colors">
       {/* Background glow accents */}
       <div className="absolute top-1/3 right-1/4 h-72 w-72 rounded-full bg-orange-500/5 blur-[100px] dark:bg-orange-500/10 pointer-events-none" />
       <div className="absolute bottom-1/4 left-1/3 h-80 w-80 rounded-full bg-red-600/5 blur-[120px] dark:bg-red-600/15 pointer-events-none" />
@@ -108,7 +108,7 @@ export const ContactSection: React.FC = () => {
 
               {/* Email Card (span 2 on small screen or flex) */}
               <a
-                href="mailto:info@sazcar.ch"
+                href="mailto:sazcargmbh@gmail.com"
                 className="sm:col-span-2 group flex flex-col gap-2 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-5 shadow-sm hover:border-orange-500/40 dark:hover:border-orange-500/30 hover:scale-[1.01] transition-all duration-200"
               >
                 <span className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-orange-500">
@@ -116,7 +116,7 @@ export const ContactSection: React.FC = () => {
                   {t.contact.emailLabel}
                 </span>
                 <span className="text-base font-extrabold text-zinc-900 dark:text-white group-hover:text-orange-500 transition-colors break-all">
-                  info@sazcar.ch
+                  sazcargmbh@gmail.com
                 </span>
               </a>
 

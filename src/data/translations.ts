@@ -8,6 +8,7 @@ export interface TranslationSchema {
   nav: {
     home: string;
     services: string;
+    cars: string;
     gallery: string;
     estimate: string;
     contact: string;
@@ -34,6 +35,7 @@ export interface TranslationSchema {
     mfkDesc: string;
     glassTitle: string;
     glassDesc: string;
+    autokaufTitle: string;
   };
   gallery: {
     title: string;
@@ -97,6 +99,20 @@ export interface TranslationSchema {
     address: string;
     rights: string;
   };
+  carSpecs: {
+    year: string;
+    mileage: string;
+    power: string;
+    transmission: string;
+    fuelType: string;
+    mfk: string;
+    manual: string;
+    automatic: string;
+    petrol: string;
+    diesel: string;
+    hybrid: string;
+    electric: string;
+  };
 }
 
 export const translations: Record<Language, TranslationSchema> = {
@@ -108,6 +124,7 @@ export const translations: Record<Language, TranslationSchema> = {
     nav: {
       home: "Startseite",
       services: "Dienstleistungen",
+      cars: "Autoverkauf",
       gallery: "Vor/Nach",
       estimate: "Kostenvorschlag",
       contact: "Kontakt"
@@ -133,7 +150,8 @@ export const translations: Record<Language, TranslationSchema> = {
       mfkTitle: "MFK-Vorbereitung (Vorführen)",
       mfkDesc: "Kompletter Check und Reparatur aller MFK-relevanten Mängel sowie Vorführen des Fahrzeugs beim Strassenverkehrsamt.",
       glassTitle: "Scheiben- & Glasschaden",
-      glassDesc: "Austausch und Reparatur von Front-, Heck- und Seitenscheiben bei Steinschlägen oder Rissen, inklusive direkter Versicherungsabwicklung."
+      glassDesc: "Austausch und Reparatur von Front-, Heck- und Seitenscheiben bei Steinschlägen oder Rissen, inklusive direkter Versicherungsabwicklung.",
+      autokaufTitle: "Autokauf / Autoverkauf"
     },
     gallery: {
       title: "Unsere Arbeit im Vergleich",
@@ -196,6 +214,20 @@ export const translations: Record<Language, TranslationSchema> = {
       contactTitle: "Kontakt & Adresse",
       address: "SAZCAR GMBH,\nUnterdorfstrasse 14,\n8165 Schöfflisdorf ZH",
       rights: "Alle Rechte vorbehalten."
+    },
+    carSpecs: {
+      year: "Erstzulassung",
+      mileage: "Kilometerstand",
+      power: "Leistung",
+      transmission: "Getriebe",
+      fuelType: "Treibstoff",
+      mfk: "MFK",
+      manual: "Schaltgetriebe",
+      automatic: "Automatik",
+      petrol: "Benzin",
+      diesel: "Diesel",
+      hybrid: "Hybrid",
+      electric: "Elektro"
     }
   },
   tr: {
@@ -206,6 +238,7 @@ export const translations: Record<Language, TranslationSchema> = {
     nav: {
       home: "Anasayfa",
       services: "Hizmetlerimiz",
+      cars: "Araç Satışı",
       gallery: "Öncesi/Sonrası",
       estimate: "Teklif Al",
       contact: "İletişim"
@@ -231,7 +264,8 @@ export const translations: Record<Language, TranslationSchema> = {
       mfkTitle: "MFK (Muayene) Hazırlığı",
       mfkDesc: "İsviçre MFK muayenesi öncesi araç kontrolü, eksiklerin giderilmesi ve aracın muayeneye götürülmesi.",
       glassTitle: "Oto Cam Hasarları & Değişimi",
-      glassDesc: "Çatlak veya taş çarpması sonucu hasar gören ön, arka ve yan camların değişimi ve tamiri, kasko ve sigorta işlemleri dahil."
+      glassDesc: "Çatlak veya taş çarpması sonucu hasar gören ön, arka ve yan camların değişimi ve tamiri, kasko ve sigorta işlemleri dahil.",
+      autokaufTitle: "Araç Alım / Satım"
     },
     gallery: {
       title: "Öncesi ve Sonrası Karşılaştırma",
@@ -294,6 +328,20 @@ export const translations: Record<Language, TranslationSchema> = {
       contactTitle: "İletişim & Adres",
       address: "SAZCAR GMBH,\nUnterdorfstrasse 14,\n8165 Schöfflisdorf ZH",
       rights: "Tüm hakları saklıdır."
+    },
+    carSpecs: {
+      year: "İlk Tescil",
+      mileage: "Kilometre",
+      power: "Güç",
+      transmission: "Şanzıman",
+      fuelType: "Yakıt Tipi",
+      mfk: "MFK Durumu",
+      manual: "Manuel",
+      automatic: "Otomatik",
+      petrol: "Benzin",
+      diesel: "Dizel",
+      hybrid: "Hibrit",
+      electric: "Elektrikli"
     }
   },
   en: {
@@ -304,6 +352,7 @@ export const translations: Record<Language, TranslationSchema> = {
     nav: {
       home: "Home",
       services: "Services",
+      cars: "Car Sales",
       gallery: "Before/After",
       estimate: "Get Estimate",
       contact: "Contact"
@@ -329,7 +378,8 @@ export const translations: Record<Language, TranslationSchema> = {
       mfkTitle: "MFK Inspection Prep (Vorführen)",
       mfkDesc: "Complete check and repair of all inspection-relevant defects and presentation of the vehicle to the Swiss road traffic office.",
       glassTitle: "Auto Glass Service",
-      glassDesc: "Repair and replacement of windshields, rear and side windows due to stone chips or cracks, including direct insurance handling."
+      glassDesc: "Repair and replacement of windshields, rear and side windows due to stone chips or cracks, including direct insurance handling.",
+      autokaufTitle: "Car Sales / Purchase"
     },
     gallery: {
       title: "Our Work Compared",
@@ -392,6 +442,20 @@ export const translations: Record<Language, TranslationSchema> = {
       contactTitle: "Contact & Address",
       address: "SAZCAR GMBH,\nUnterdorfstrasse 14,\n8165 Schöfflisdorf ZH",
       rights: "All rights reserved."
+    },
+    carSpecs: {
+      year: "First Registration",
+      mileage: "Mileage",
+      power: "Power",
+      transmission: "Transmission",
+      fuelType: "Fuel Type",
+      mfk: "MFK",
+      manual: "Manual",
+      automatic: "Automatic",
+      petrol: "Petrol",
+      diesel: "Diesel",
+      hybrid: "Hybrid",
+      electric: "Electric"
     }
   }
 };

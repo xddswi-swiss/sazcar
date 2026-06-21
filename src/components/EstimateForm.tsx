@@ -215,6 +215,7 @@ export const EstimateForm: React.FC = () => {
               <option value="repair">{t.services.repairTitle}</option>
               <option value="tires">{t.services.tiresTitle}</option>
               <option value="mfk">{t.services.mfkTitle}</option>
+              <option value="autokauf">{t.services.autokaufTitle}</option>
             </select>
           </div>
 
