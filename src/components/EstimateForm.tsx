@@ -54,7 +54,29 @@ export const EstimateForm: React.FC = () => {
     const slotsAvailable = 4 - photos.length;
     const filesToProcess = filesArray.slice(0, slotsAvailable);
 
+    const maxSizeBytes = 1.5 * 1024 * 1024; // 1.5 MB per image
+    const validFiles: File[] = [];
+    let hasLargeFile = false;
+
     filesToProcess.forEach((file) => {
+      if (file.size > maxSizeBytes) {
+        hasLargeFile = true;
+      } else {
+        validFiles.push(file);
+      }
+    });
+
+    if (hasLargeFile) {
+      alert(
+        language === "tr" 
+          ? "Bazı resimler çok büyük. Lütfen her bir resmi 1.5 MB'tan küçük olacak şekilde seçin." 
+          : language === "en" 
+          ? "Some images are too large. Please select images smaller than 1.5 MB each." 
+          : "Einige Bilder sind zu gross. Bitte wählen Sie Bilder aus, die kleiner als 1.5 MB sind."
+      );
+    }
+
+    validFiles.forEach((file) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         if (typeof reader.result === "string") {
