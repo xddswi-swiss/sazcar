@@ -9,6 +9,7 @@ import { EstimateForm } from "@/components/EstimateForm";
 import { ContactSection } from "@/components/ContactSection";
 import { Wrench, Paintbrush, Hammer, ShieldCheck, ChevronRight, MessageSquare, AlertCircle, X, Globe } from "lucide-react";
 import defaultJobs from "@/data/jobs.json";
+import { CarLoader } from "@/components/CarLoader";
 
 interface Job {
   id: number | string;
@@ -40,6 +41,7 @@ interface Car {
 
 export default function Home() {
   const { t, language } = useLanguage();
+  const [isLoading, setIsLoading] = useState(true);
   
   const [jobs, setJobs] = useState<Job[]>(defaultJobs);
   const [activeJob, setActiveJob] = useState<Job | null>(null);
@@ -113,6 +115,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      {isLoading && <CarLoader onComplete={() => setIsLoading(false)} />}
       <Header />
 
       {/* Hero Section */}
