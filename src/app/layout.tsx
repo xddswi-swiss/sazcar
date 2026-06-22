@@ -36,11 +36,11 @@ export default function RootLayout({
   return (
     <html
       lang="de"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth overflow-x-hidden w-full max-w-full`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth overflow-x-clip w-full max-w-full`}
       suppressHydrationWarning
     >
       <body 
-        className="min-h-full flex flex-col bg-[#f8fafc] text-[#0f172a] dark:bg-[#0d0e12] dark:text-[#f1f5f9] transition-colors duration-300 overflow-x-hidden w-full max-w-full"
+        className="min-h-full flex flex-col bg-[#f8fafc] text-[#0f172a] dark:bg-[#0d0e12] dark:text-[#f1f5f9] transition-colors duration-300 overflow-x-clip w-full max-w-full"
         suppressHydrationWarning
       >
         <LanguageProvider>
