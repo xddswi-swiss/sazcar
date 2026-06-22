@@ -43,6 +43,7 @@ export interface TranslationSchema {
     sliderInstruction: string;
     beforeLabel: string;
     afterLabel: string;
+    emptyState: string;
   };
   estimate: {
     title: string;
@@ -158,7 +159,8 @@ export const translations: Record<Language, TranslationSchema> = {
       subtitle: "Sehen Sie selbst, wie wir Unfallfahrzeuge und Lackschäden wieder in den Neuzustand versetzen.",
       sliderInstruction: "Ziehen Sie den Schieberegler nach links oder rechts, um Vorher/Nachher zu vergleichen.",
       beforeLabel: "Vorher",
-      afterLabel: "Nachher"
+      afterLabel: "Nachher",
+      emptyState: "Derzeit sind keine Referenzprojekte online. Wir haben frisch gestartet und werden in Kürze unsere ersten Arbeiten veröffentlichen!"
     },
     estimate: {
       title: "Kostenvorschlag & Termin anfordern",
@@ -272,7 +274,8 @@ export const translations: Record<Language, TranslationSchema> = {
       subtitle: "Kaza hasarlı araçları nasıl sıfır kondisyona getirdiğimizi kendi gözlerinizle görün.",
       sliderInstruction: "Öncesi/sonrası halini karşılaştırmak için ortadaki çizgiyi sağa veya sola kaydırın.",
       beforeLabel: "Öncesi",
-      afterLabel: "Sonrası"
+      afterLabel: "Sonrası",
+      emptyState: "Şu anda yayında olan bir çalışma bulunmuyor. Yeni başladık ve yakında ilk projelerimizi burada yayınlayacağız!"
     },
     estimate: {
       title: "Fiyat Teklifi (Kostenvorschlag) & Randevu",
@@ -386,7 +389,8 @@ export const translations: Record<Language, TranslationSchema> = {
       subtitle: "See for yourself how we restore accident-damaged and scratched vehicles to brand new condition.",
       sliderInstruction: "Drag the slider left or right to compare the before and after states.",
       beforeLabel: "Before",
-      afterLabel: "After"
+      afterLabel: "After",
+      emptyState: "There are no reference projects online at the moment. We have just launched and will publish our first works shortly!"
     },
     estimate: {
       title: "Request Estimate & Appointment",

@@ -334,9 +334,11 @@ export default function Home() {
                   </p>
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center p-20 border border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900">
-                  <AlertCircle className="h-10 w-10 text-zinc-400 mb-2" />
-                  <p className="text-sm text-zinc-500">No jobs uploaded yet.</p>
+                <div className="flex flex-col items-center justify-center p-12 sm:p-20 border border-zinc-200 dark:border-zinc-800 rounded-2xl bg-white dark:bg-zinc-900 text-center">
+                  <AlertCircle className="h-10 w-10 text-zinc-400 mb-3 animate-pulse" />
+                  <p className="text-sm sm:text-base font-bold text-zinc-500 max-w-md">
+                    {t.gallery.emptyState}
+                  </p>
                 </div>
               )}
             </div>
