@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useLanguage } from "@/app/contexts/LanguageContext";
 import { ThemeToggle } from "./ThemeToggle";
 import { Menu, X, Car } from "lucide-react";
@@ -9,6 +10,26 @@ import { Language } from "@/data/translations";
 export const Header: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
+  const [clickCount, setClickCount] = useState(0);
+  const [lastClickTime, setLastClickTime] = useState(0);
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    const now = Date.now();
+    if (now - lastClickTime > 1500) {
+      setClickCount(1);
+    } else {
+      const nextCount = clickCount + 1;
+      if (nextCount >= 3) {
+        e.preventDefault();
+        router.push("/admin");
+        setClickCount(0);
+      } else {
+        setClickCount(nextCount);
+      }
+    }
+    setLastClickTime(now);
+  };
 
   const navItems = [
     { label: t.nav.home, href: "#home" },
@@ -33,7 +54,7 @@ export const Header: React.FC = () => {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:py-6 overflow-visible relative">
         
         {/* Logo Area */}
-        <a href="#home" className="relative z-50 flex items-center group">
+        <a href="#home" onClick={handleLogoClick} className="relative z-50 flex items-center group">
           <div className="absolute top-[-12px] md:top-[-16px] left-0 z-50 h-24 w-24 md:h-32 md:w-32 overflow-hidden rounded-b-2xl bg-zinc-950 border-b-4 border-x border-orange-500 shadow-[0_10px_35px_rgba(0,0,0,0.6)] transition-transform group-hover:scale-105 flex items-center justify-center p-2.5">
             <img src="/assets/images/logo.png" alt="SazCar Garage" className="h-full w-full object-contain" />
           </div>
