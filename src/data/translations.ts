@@ -160,7 +160,7 @@ export const translations: Record<Language, TranslationSchema> = {
       sliderInstruction: "Ziehen Sie den Schieberegler nach links oder rechts, um Vorher/Nachher zu vergleichen.",
       beforeLabel: "Vorher",
       afterLabel: "Nachher",
-      emptyState: "Derzeit sind keine Referenzprojekte online. Wir haben frisch gestartet und werden in Kürze unsere ersten Arbeiten veröffentlichen!"
+      emptyState: "Derzeit haben wir noch keine Referenzprojekte geladen, da wir frisch gestartet sind. In Kürze werden wir unsere ersten Arbeiten hier präsentieren!"
     },
     estimate: {
       title: "Kostenvorschlag & Termin anfordern",
@@ -275,7 +275,7 @@ export const translations: Record<Language, TranslationSchema> = {
       sliderInstruction: "Öncesi/sonrası halini karşılaştırmak için ortadaki çizgiyi sağa veya sola kaydırın.",
       beforeLabel: "Öncesi",
       afterLabel: "Sonrası",
-      emptyState: "Şu anda yayında olan bir çalışma bulunmuyor. Yeni başladık ve yakında ilk projelerimizi burada yayınlayacağız!"
+      emptyState: "Şu anda yüklediğimiz bir referans çalışması bulunmuyor, yeni başladık. Çok yakında en yeni projelerimizi burada sergileyeceğiz!"
     },
     estimate: {
       title: "Fiyat Teklifi (Kostenvorschlag) & Randevu",
@@ -390,7 +390,7 @@ export const translations: Record<Language, TranslationSchema> = {
       sliderInstruction: "Drag the slider left or right to compare the before and after states.",
       beforeLabel: "Before",
       afterLabel: "After",
-      emptyState: "There are no reference projects online at the moment. We have just launched and will publish our first works shortly!"
+      emptyState: "We haven't uploaded any reference projects yet as we have just launched. We will showcase our first works here very soon!"
     },
     estimate: {
       title: "Request Estimate & Appointment",

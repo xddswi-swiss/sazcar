@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/app/contexts/LanguageContext";
 import { ThemeProvider } from "@/app/contexts/ThemeContext";
+import { ZoomBlocker } from "@/components/ZoomBlocker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +44,7 @@ export default function RootLayout({
       >
         <LanguageProvider>
           <ThemeProvider>
+            <ZoomBlocker />
             {children}
           </ThemeProvider>
         </LanguageProvider>
@@ -50,3 +52,4 @@ export default function RootLayout({
     </html>
   );
 }
+
