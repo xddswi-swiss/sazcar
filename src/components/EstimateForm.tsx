@@ -246,13 +246,13 @@ export const EstimateForm: React.FC = () => {
             <label className="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
               {t.estimate.fieldDate}
             </label>
-            <div className="relative">
+            <div className="relative w-full min-w-0 max-w-full">
               <input
                 type="date"
                 name="date"
                 value={formData.date}
                 onChange={handleInputChange}
-                className="w-full rounded-xl border border-orange-300 bg-orange-50/30 pl-4 pr-10 py-3 text-sm font-bold outline-none focus:border-orange-500 focus:bg-white focus:ring-1 focus:ring-orange-500 dark:border-zinc-800 dark:bg-zinc-900 dark:focus:border-orange-500 dark:focus:bg-zinc-950/40 transition-all duration-200"
+                className="w-full min-w-0 max-w-full rounded-xl border border-orange-300 bg-orange-50/30 pl-4 pr-10 py-3 text-sm font-bold outline-none focus:border-orange-500 focus:bg-white focus:ring-1 focus:ring-orange-500 dark:border-zinc-800 dark:bg-zinc-900 dark:focus:border-orange-500 dark:focus:bg-zinc-950/40 transition-all duration-200"
               />
               <Calendar className="absolute right-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-zinc-400 pointer-events-none" />
             </div>

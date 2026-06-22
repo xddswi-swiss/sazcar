@@ -99,3 +99,27 @@
   box-shadow: 0 0 20px var(--glow);
   border-color: var(--primary);
 }
+
+/* Reset iOS native date inputs and hide native icon overlays */
+input[type="date"] {
+  min-width: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+}
+input[type="date"]::-webkit-date-and-time-value {
+  min-height: 1.5em;
+  text-align: left;
+}
+
