@@ -172,7 +172,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {/* Bodywork Service Card */}
-            <div className="group rounded-2xl border border-zinc-300 bg-white p-6 shadow-sm hover:bg-orange-50/30 dark:border-zinc-800 dark:bg-zinc-950 glow-hover transition-all">
+            <div className="group rounded-2xl border border-zinc-300 bg-white p-6 shadow-sm hover:bg-orange-50/30 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-orange-950/30 glow-hover transition-all">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/10 text-orange-500 dark:bg-orange-500/20 mb-4 group-hover:scale-105 transition-transform">
                 <Hammer className="h-6 w-6" />
               </div>
@@ -185,7 +185,7 @@ export default function Home() {
             </div>
 
             {/* Painting Service Card */}
-            <div className="group rounded-2xl border border-zinc-300 bg-white p-6 shadow-sm hover:bg-orange-50/30 dark:border-zinc-800 dark:bg-zinc-950 glow-hover transition-all">
+            <div className="group rounded-2xl border border-zinc-300 bg-white p-6 shadow-sm hover:bg-orange-50/30 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-orange-950/30 glow-hover transition-all">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/10 text-orange-500 dark:bg-orange-500/20 mb-4 group-hover:scale-105 transition-transform">
                 <Paintbrush className="h-6 w-6" />
               </div>
@@ -198,7 +198,7 @@ export default function Home() {
             </div>
 
             {/* General Service Card */}
-            <div className="group rounded-2xl border border-zinc-300 bg-white p-6 shadow-sm hover:bg-orange-50/30 dark:border-zinc-800 dark:bg-zinc-950 glow-hover transition-all">
+            <div className="group rounded-2xl border border-zinc-300 bg-white p-6 shadow-sm hover:bg-orange-50/30 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-orange-950/30 glow-hover transition-all">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/10 text-orange-500 dark:bg-orange-500/20 mb-4 group-hover:scale-105 transition-transform">
                 <Wrench className="h-6 w-6" />
               </div>
@@ -211,7 +211,7 @@ export default function Home() {
             </div>
 
             {/* Tires Service Card */}
-            <div className="group rounded-2xl border border-zinc-300 bg-white p-6 shadow-sm hover:bg-orange-50/30 dark:border-zinc-800 dark:bg-zinc-950 glow-hover transition-all">
+            <div className="group rounded-2xl border border-zinc-300 bg-white p-6 shadow-sm hover:bg-orange-50/30 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-orange-950/30 glow-hover transition-all">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/10 text-orange-500 dark:bg-orange-500/20 mb-4 group-hover:scale-105 transition-transform">
                 <svg className="h-6 w-6 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
                   <circle cx="12" cy="12" r="9" />
@@ -228,7 +228,7 @@ export default function Home() {
             </div>
 
             {/* MFK Prep Service Card */}
-            <div className="group rounded-2xl border border-zinc-300 bg-white p-6 shadow-sm hover:bg-orange-50/30 dark:border-zinc-800 dark:bg-zinc-950 glow-hover transition-all">
+            <div className="group rounded-2xl border border-zinc-300 bg-white p-6 shadow-sm hover:bg-orange-50/30 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-orange-950/30 glow-hover transition-all">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/10 text-orange-500 dark:bg-orange-500/20 mb-4 group-hover:scale-105 transition-transform">
                 <ShieldCheck className="h-6 w-6" />
               </div>
@@ -241,7 +241,7 @@ export default function Home() {
             </div>
 
             {/* Glass Damage (Glasschaden) Card */}
-            <div className="group rounded-2xl border border-zinc-300 bg-white p-6 shadow-sm hover:bg-orange-50/30 dark:border-zinc-800 dark:bg-zinc-950 glow-hover transition-all">
+            <div className="group rounded-2xl border border-zinc-300 bg-white p-6 shadow-sm hover:bg-orange-50/30 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-orange-950/30 glow-hover transition-all">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/10 text-orange-500 dark:bg-orange-500/20 mb-4 group-hover:scale-105 transition-transform">
                 <svg className="h-6 w-6 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
                   <path d="M4 18V6c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2z" />

@@ -299,22 +299,24 @@ export const EstimateForm: React.FC = () => {
         {/* Captcha & Submit Area */}
         <div className="flex flex-col gap-4 border-t border-zinc-100 pt-5 dark:border-zinc-900 sm:flex-row sm:items-center sm:justify-between">
           {/* Captcha */}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col gap-2">
             <span className="text-sm font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
               {t.estimate.captchaTitle}:
             </span>
-            <span className="rounded-lg bg-zinc-100 px-3 py-1.5 text-base font-black tracking-widest text-orange-600 dark:bg-zinc-900 dark:text-orange-400">
-              {captcha.num1} + {captcha.num2} =
-            </span>
-            <input
-              type="number"
-              name="captchaAnswer"
-              required
-              placeholder={t.estimate.captchaPlaceholder}
-              value={formData.captchaAnswer}
-              onChange={handleInputChange}
-              className="w-20 rounded-lg border border-orange-300 bg-orange-50/30 px-2 py-1.5 text-center text-sm font-bold outline-none focus:border-orange-500 dark:border-zinc-800 dark:bg-zinc-900 transition-all"
-            />
+            <div className="flex items-center gap-3">
+              <span className="rounded-lg bg-zinc-100 px-3 py-1.5 text-base font-black tracking-widest text-orange-600 dark:bg-zinc-900 dark:text-orange-400 whitespace-nowrap">
+                {captcha.num1} + {captcha.num2} =
+              </span>
+              <input
+                type="number"
+                name="captchaAnswer"
+                required
+                placeholder={t.estimate.captchaPlaceholder}
+                value={formData.captchaAnswer}
+                onChange={handleInputChange}
+                className="w-24 rounded-lg border border-orange-300 bg-orange-50/30 px-2 py-1.5 text-center text-sm font-bold outline-none focus:border-orange-500 dark:border-zinc-800 dark:bg-zinc-900 transition-all"
+              />
+            </div>
           </div>
 
           {/* Submit Button */}
