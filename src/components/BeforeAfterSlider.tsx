@@ -20,6 +20,21 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
   const [sliderPosition, setSliderPosition] = useState(50); // percentage (0 to 100)
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    setContainerWidth(containerRef.current.getBoundingClientRect().width);
+
+    const handleResize = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.getBoundingClientRect().width);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleMove = (clientX: number) => {
     if (!containerRef.current) return;
@@ -93,7 +108,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           style={{ width: `${sliderPosition}%` }}
         >
           {/* Container size must match parent to prevent image stretching */}
-          <div className="absolute inset-0 h-full w-[100vw] min-w-[300px] sm:min-w-[600px] md:min-w-[800px] lg:min-w-[1200px]" style={{ width: containerRef.current?.getBoundingClientRect().width }}>
+          <div className="absolute inset-0 h-full" style={{ width: containerWidth ? `${containerWidth}px` : "100%" }}>
             <Image
               src={afterImage}
               alt="After"

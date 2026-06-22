@@ -70,7 +70,7 @@ export const CarLoader: React.FC<CarLoaderProps> = ({ onComplete }) => {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0d0e12] select-none transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0d0e12] select-none transition-opacity duration-500 overflow-hidden ${
         fadeOut ? "opacity-0 pointer-events-none" : "opacity-100"
       }`}
     >
