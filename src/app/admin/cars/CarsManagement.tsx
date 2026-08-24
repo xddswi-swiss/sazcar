@@ -268,7 +268,7 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
                   </p>
                 </div>
                 
-                <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100 dark:border-slate-750">
+                <div className="flex items-center justify-between mt-4 pt-4 border-t border-slate-100 dark:border-slate-700">
                   <span className="font-bold text-slate-900 dark:text-white text-base">
                     CHF {car.price.toLocaleString()}.-
                   </span>

@@ -122,9 +122,9 @@ export default function AppointmentsList({ initialAppointments }: AppointmentsLi
                     {appt.status === 'rejected' && 'Abgelehnt'}
                   </span>
                 </div>
-
+ 
                 {/* Contact grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs border-t border-slate-100 dark:border-slate-750 pt-3 text-slate-600 dark:text-slate-350">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs border-t border-slate-100 dark:border-slate-700 pt-3 text-slate-600 dark:text-slate-300">
                   <a href={`tel:${appt.phone}`} className="flex items-center gap-2 hover:text-red-600">
                     <Phone className="w-3.5 h-3.5" />
                     <span>{appt.phone}</span>
@@ -142,14 +142,14 @@ export default function AppointmentsList({ initialAppointments }: AppointmentsLi
                     <span>{appt.preferred_time} Uhr</span>
                   </div>
                 </div>
-
+ 
                 {/* Vehicle & Services */}
-                <div className="space-y-2 border-t border-slate-100 dark:border-slate-750 pt-3">
+                <div className="space-y-2 border-t border-slate-100 dark:border-slate-700 pt-3">
                   <div className="flex items-center gap-2 text-xs font-semibold text-slate-800 dark:text-slate-200">
                     <Car className="w-4 h-4 text-slate-400" />
                     <span>{appt.vehicle_info}</span>
                   </div>
-
+ 
                   <div className="flex gap-1.5 flex-wrap">
                     {appt.selected_services.map((srv) => (
                       <span key={srv} className="inline-block bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] px-2 py-0.5 rounded-full font-medium">
@@ -158,15 +158,15 @@ export default function AppointmentsList({ initialAppointments }: AppointmentsLi
                     ))}
                   </div>
                 </div>
-
+ 
                 {/* Notes */}
                 {appt.notes && (
-                  <div className="bg-slate-50 dark:bg-slate-900 p-3 rounded-xl border border-slate-100 dark:border-slate-750 flex gap-2 text-xs text-slate-600 dark:text-slate-300">
+                  <div className="bg-slate-50 dark:bg-slate-900 p-3 rounded-xl border border-slate-100 dark:border-slate-700 flex gap-2 text-xs text-slate-600 dark:text-slate-300">
                     <MessageSquare className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
                     <p className="italic">{appt.notes}</p>
                   </div>
                 )}
-
+ 
                 {/* Damage Images */}
                 {appt.image_urls && appt.image_urls.length > 0 && (
                   <div className="space-y-1.5">
@@ -189,14 +189,14 @@ export default function AppointmentsList({ initialAppointments }: AppointmentsLi
                   </div>
                 )}
               </div>
-
+ 
               {/* Action Buttons */}
-              <div className="flex gap-2 pt-4 border-t border-slate-100 dark:border-slate-750 mt-4">
+              <div className="flex gap-2 pt-4 border-t border-slate-100 dark:border-slate-700 mt-4">
                 {appt.status === 'pending' ? (
                   <>
                     <button
                       onClick={() => handleStatusChange(appt.id, 'rejected')}
-                      className="flex-1 py-1.5 border border-slate-200 dark:border-slate-700 hover:bg-red-50 hover:border-red-200 hover:text-red-600 dark:hover:bg-red-950/20 dark:hover:border-red-900 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer text-slate-600 dark:text-slate-350"
+                      className="flex-1 py-1.5 border border-slate-200 dark:border-slate-700 hover:bg-red-50 hover:border-red-200 hover:text-red-600 dark:hover:bg-red-950/20 dark:hover:border-red-900 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer text-slate-600 dark:text-slate-300"
                     >
                       <X className="w-4 h-4" />
                       <span>Ablehnen</span>
