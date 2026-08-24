@@ -24,3 +24,84 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ── Custom Scrollbar Styling (Swiss Red Theme) ── */
+html {
+  scrollbar-color: #dc2626 #f8fafc; /* thumb (red), track (slate-50) */
+  scrollbar-width: auto;
+}
+
+/* Webkit (Chrome, Edge, Safari) scrollbar styling */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8fafc; /* Slate-50 background track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #dc2626; /* Swiss Red thumb */
+  border-radius: 6px;
+  border: 3px solid #f8fafc; /* Adds spacing around thumb using track color */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b91c1c; /* Darker red on hover */
+}
+
+/* ── Red glass card tint (plain rgba, not Tailwind's color-mix()-based
+   opacity modifiers — color-mix() has no support on older mobile
+   Safari/WebView, which silently drops the whole declaration and left
+   these cards white on some phones while working fine in Edge) ── */
+.card-tint-red {
+  background-color: rgba(220, 38, 38, 0.12); /* red-600 */
+  border-color: rgba(220, 38, 38, 0.2);
+}
+
+.card-tint-red:hover {
+  background-color: rgba(220, 38, 38, 0.18);
+  border-color: rgba(220, 38, 38, 0.4);
+}
+
+/* ── Looping car driving across the Standort map card ── */
+@keyframes map-car-drive {
+  0% { left: -10%; opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { left: 105%; opacity: 0; }
+}
+
+.map-car-drive {
+  position: absolute;
+  animation: map-car-drive 6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-car-drive {
+    animation: none;
+    display: none;
+  }
+}
+
+/* ── Looping "SAZCAR GMBH" van driving through the open space under the Hero content ── */
+@keyframes hero-van-drive {
+  0% { left: -14%; opacity: 0; }
+  6% { opacity: 1; }
+  94% { opacity: 1; }
+  100% { left: 104%; opacity: 0; }
+}
+
+.hero-van-drive {
+  position: absolute;
+  animation: hero-van-drive 11s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-van-drive {
+    animation: none;
+    display: none;
+  }
+}
+
