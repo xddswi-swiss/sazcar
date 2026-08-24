@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { uploadImage } from '@/app/actions/upload';
@@ -80,6 +81,7 @@ async function submitAppointment(data: {
 }
 
 export default function AppointmentForm() {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -152,6 +154,7 @@ export default function AppointmentForm() {
             setError(result.error);
           } else if (result && result.success) {
             setSuccess(true);
+            router.push('/danke');
           } else {
             setError('Verbindung zum Server fehlgeschlagen (Keine gültige Antwort).');
           }
