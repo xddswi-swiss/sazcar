@@ -172,7 +172,7 @@ export default function Header() {
                     className={`relative px-3 py-2 text-base font-bold transition-colors rounded-lg ${
                       isActive
                         ? 'text-red-600 bg-red-50'
-                        : 'text-slate-600 hover:text-red-600 hover:bg-slate-100'
+                        : 'text-black hover:text-red-600 hover:bg-slate-100'
                     }`}
                   >
                     {link.label}
@@ -293,7 +293,7 @@ export default function Header() {
                         className={`group relative flex items-center gap-3 rounded-2xl px-3 py-2.5 text-[16px] font-bold tracking-tight transition-all duration-300 ${
                           isActive
                             ? 'text-white'
-                            : 'text-slate-700 hover:text-red-600 hover:bg-white/60 hover:translate-x-1'
+                            : 'text-black hover:text-red-600 hover:bg-white/60 hover:translate-x-1'
                         }`}
                         style={
                           isActive
