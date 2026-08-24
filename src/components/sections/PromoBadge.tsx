@@ -27,7 +27,7 @@ function formatChf(value: number): string {
   return value.toLocaleString('de-CH', { maximumFractionDigits: 0 });
 }
 
-function formatEndDate(isoDate: string): string {
+function formatDate(isoDate: string): string {
   return new Date(`${isoDate}T00:00:00`).toLocaleDateString('de-CH', {
     day: 'numeric',
     month: 'long',
@@ -104,7 +104,7 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
               className="text-slate-500 font-semibold"
               style={{ fontSize: 'clamp(0.6875rem, 0.65rem + 0.15vw, 0.75rem)', marginTop: '0.4rem' }}
             >
-              Gültig bis {formatEndDate(promotion.end_date)}
+              Gültig vom {formatDate(promotion.start_date)} bis {formatDate(promotion.end_date)}
             </p>
           </>
         ) : (

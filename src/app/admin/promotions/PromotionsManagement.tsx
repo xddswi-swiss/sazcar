@@ -215,7 +215,7 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
                       className={`text-[10px] font-bold px-2 py-0.5 rounded-full border
                         ${running
                           ? 'bg-emerald-50 text-emerald-700 border-emerald-100 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-900'
-                          : 'bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-850 dark:text-slate-400 dark:border-slate-700'}
+                          : 'bg-slate-100 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700'}
                       `}
                     >
                       {running ? 'Live auf der Website' : promo.is_active ? 'Ausserhalb Zeitraum' : 'Inaktiv'}
