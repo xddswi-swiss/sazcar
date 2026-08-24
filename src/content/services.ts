@@ -61,19 +61,6 @@ export const services: ServiceItem[] = [
     ]
   },
   {
-    id: 'reifenservice',
-    title: 'Reifenservice',
-    shortDescription: 'Saisonaler Reifenwechsel, Auswuchten, Neureifen-Verkauf und Reifeneinlagerung.',
-    longDescription: 'Wir sorgen für den richtigen Grip zu jeder Jahreszeit. Neben dem schnellen Rad- und Reifenwechsel bieten wir das Auswuchten Ihrer Räder sowie die fachgerechte Einlagerung in unserem modernen Reifenhotel an.',
-    iconName: 'CircleDot',
-    features: [
-      'Saisonaler Rad- & Reifenwechsel (Sommer/Winter)',
-      'Verkauf von Qualitätsreifen aller namhaften Marken',
-      'Präzises Auswuchten für vibrationsfreie Fahrt',
-      'Bequeme Reifeneinlagerung (Reifenhotel)'
-    ]
-  },
-  {
     id: 'scheiben-glasschaden',
     title: 'Scheiben- & Glasschaden',
     shortDescription: 'Reparatur von Steinschlägen und Austausch von Front-, Heck- und Seitenscheiben.',
@@ -84,6 +71,19 @@ export const services: ServiceItem[] = [
       'Austausch von Front-, Heck- & Seitenscheiben',
       'Kalibrierung von Kameras & Assistenzsystemen (ADAS)',
       'Direkte Schadenabwicklung mit Kaskoversicherungen'
+    ]
+  },
+  {
+    id: 'reifenservice',
+    title: 'Reifenservice',
+    shortDescription: 'Saisonaler Reifenwechsel, Auswuchten, Neureifen-Verkauf und Reifeneinlagerung.',
+    longDescription: 'Wir sorgen für den richtigen Grip zu jeder Jahreszeit. Neben dem schnellen Rad- und Reifenwechsel bieten wir das Auswuchten Ihrer Räder sowie die fachgerechte Einlagerung in unserem modernen Reifenhotel an.',
+    iconName: 'CircleDot',
+    features: [
+      'Saisonaler Rad- & Reifenwechsel (Sommer/Winter)',
+      'Verkauf von Qualitätsreifen aller namhaften Marken',
+      'Präzises Auswuchten für vibrationsfreie Fahrt',
+      'Bequeme Reifeneinlagerung (Reifenhotel)'
     ]
   }
 ];

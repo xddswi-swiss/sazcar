@@ -149,7 +149,7 @@ export default function Services() {
 
                 {/* Features List */}
                 <ul
-                  className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 border-t border-slate-100 pt-5"
+                  className={`grid gap-x-4 gap-y-2.5 border-t border-slate-100 pt-5 ${isBigCard ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}
                   style={{
                     marginTop: 'clamp(1.5rem, 1.25rem + 0.5vw, 2rem)',
                   }}
@@ -157,11 +157,11 @@ export default function Services() {
                   {service.features.map((feat) => (
                     <li
                       key={feat}
-                      className="flex items-center gap-2 text-slate-700 font-medium"
+                      className="flex items-start gap-2 text-slate-700 font-medium"
                       style={{ fontSize: 'clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem)' }}
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-red-600 shrink-0" />
-                      <span className="line-clamp-1">{feat}</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-red-600 shrink-0 mt-1.5" />
+                      <span className="line-clamp-2">{feat}</span>
                     </li>
                   ))}
                 </ul>
