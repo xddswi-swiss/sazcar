@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { Shield, Award, Clock, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import PromoBadge, { type Promotion } from './PromoBadge';
 
 const badges = [
   { icon: Clock, text: '40+ Jahre Erfahrung' },
@@ -10,13 +11,10 @@ const badges = [
   { icon: Award, text: 'MFK-Garantie' },
 ];
 
-export default function Hero() {
+export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) {
   return (
     <section
-      className="relative w-full flex items-center justify-center overflow-hidden bg-slate-50"
-      style={{
-        minHeight: '100svh',
-      }}
+      className="relative w-full flex items-center justify-center overflow-hidden bg-slate-50 lg:min-h-[100svh]"
     >
       {/* ── Fluid clean layout gradient (Light theme) ── */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-white to-slate-50" aria-hidden="true" />
@@ -164,6 +162,43 @@ export default function Hero() {
             );
           })}
         </motion.div>
+
+        {/* Aktions- & Rabatt-Badges — mobile/tablet: fills the empty gap below the trust badges instead of overlaying text. Stacks when several campaigns run at once. */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="lg:hidden flex flex-col"
+          style={{
+            marginTop: 'clamp(1.5rem, 1rem + 2vw, 2.5rem)',
+            maxWidth: '280px',
+            gap: 'clamp(0.75rem, 0.5rem + 0.5vw, 1rem)',
+          }}
+        >
+          {promotions.length > 0 ? (
+            promotions.map((promo) => <PromoBadge key={promo.id} promotion={promo} />)
+          ) : (
+            <PromoBadge promotion={null} />
+          )}
+        </motion.div>
+      </div>
+
+      {/* Aktions- & Rabatt-Badges, overlaid on the workshop illustration (desktop only — avoids the risky 768–1024px tablet band).
+          Bottom-anchored so a stack of several active campaigns grows upward and can't overflow the section. */}
+      <div
+        className="hidden lg:flex lg:flex-col absolute z-[2]"
+        style={{
+          bottom: 'clamp(6rem, 15vh, 10rem)',
+          right: 'clamp(2rem, 5vw, 5.5rem)',
+          width: 'clamp(220px, 18vw, 270px)',
+          gap: 'clamp(0.75rem, 0.5rem + 0.5vw, 1rem)',
+        }}
+      >
+        {promotions.length > 0 ? (
+          promotions.map((promo) => <PromoBadge key={promo.id} promotion={promo} />)
+        ) : (
+          <PromoBadge promotion={null} />
+        )}
       </div>
 
       {/* Decorative looping van in the open space below the content, before the section ends */}

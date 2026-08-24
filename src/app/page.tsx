@@ -5,8 +5,17 @@ import BeforeAfter from '@/components/sections/BeforeAfter';
 import CarsShowcase from '@/components/sections/CarsShowcase';
 import AppointmentForm from '@/components/sections/AppointmentForm';
 import Footer from '@/components/layout/Footer';
+import { createClient } from '@/utils/supabase/server';
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+  // RLS already restricts anon reads to is_active promotions within their date window.
+  const { data: activePromotions } = await supabase
+    .from('promotions')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(3);
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'AutoRepair',
@@ -64,7 +73,7 @@ export default function Home() {
 
       {/* Main sections */}
       <main className="flex-1 flex flex-col">
-        <Hero />
+        <Hero promotions={activePromotions || []} />
         <Services />
         <BeforeAfter />
         <CarsShowcase />

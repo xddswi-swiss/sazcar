@@ -4,15 +4,16 @@ import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { logout } from './actions/auth';
-import { 
-  LayoutDashboard, 
-  Car, 
-  CalendarCheck, 
-  ClipboardList, 
-  LogOut, 
-  Menu, 
+import {
+  LayoutDashboard,
+  Car,
+  CalendarCheck,
+  ClipboardList,
+  LogOut,
+  Menu,
   X,
-  Gauge
+  Gauge,
+  Tag
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -29,6 +30,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: '/admin/projects/new', name: 'Neuer Auftrag', icon: ClipboardList },
     { href: '/admin/appointments', name: 'Termine', icon: CalendarCheck },
     { href: '/admin/cars', name: 'Occasionen', icon: Car },
+    { href: '/admin/promotions', name: 'Aktionen', icon: Tag },
   ];
 
   return (

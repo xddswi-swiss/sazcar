@@ -100,17 +100,61 @@ WITH CHECK (TRUE);
 
 
 -- Appointments Policies
-CREATE POLICY "Allow public insert on appointments" 
-ON public.appointments FOR INSERT 
+CREATE POLICY "Allow public insert on appointments"
+ON public.appointments FOR INSERT
 WITH CHECK (TRUE);
 
-CREATE POLICY "Allow admin read appointments" 
-ON public.appointments FOR SELECT 
-TO authenticated 
+CREATE POLICY "Allow admin read appointments"
+ON public.appointments FOR SELECT
+TO authenticated
 USING (TRUE);
 
-CREATE POLICY "Allow admin update/delete appointments" 
-ON public.appointments FOR ALL 
-TO authenticated 
-USING (TRUE) 
+CREATE POLICY "Allow admin update/delete appointments"
+ON public.appointments FOR ALL
+TO authenticated
+USING (TRUE)
 WITH CHECK (TRUE);
+
+
+-- =========================================================================
+-- 5. Promotions Table (Hero Aktions- & Rabatt-Badge)
+-- =========================================================================
+CREATE TABLE IF NOT EXISTS public.promotions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title TEXT NOT NULL,
+    description TEXT,
+    original_price NUMERIC(10, 2),
+    discounted_price NUMERIC(10, 2),
+    discount_percent INTEGER,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    badge_type TEXT NOT NULL DEFAULT 'custom' CHECK (badge_type IN ('winter_tires', 'summer_tires', 'detailing', 'service', 'custom')),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
+    CHECK (end_date >= start_date)
+);
+
+-- Enable RLS on promotions
+ALTER TABLE public.promotions ENABLE ROW LEVEL SECURITY;
+
+-- Promotions Policies
+-- Public only ever sees a promotion that is active AND currently within its date window.
+-- Expiry/activation is enforced here, not in application code, so it can't drift.
+CREATE POLICY "Allow public select on active promotions"
+ON public.promotions FOR SELECT
+USING (is_active = TRUE AND CURRENT_DATE BETWEEN start_date AND end_date);
+
+CREATE POLICY "Allow admin select all promotions"
+ON public.promotions FOR SELECT
+TO authenticated
+USING (TRUE);
+
+CREATE POLICY "Allow admin insert/update/delete on promotions"
+ON public.promotions FOR ALL
+TO authenticated
+USING (TRUE)
+WITH CHECK (TRUE);
+
+-- Fast lookup for the public-facing "current active promotion" query
+CREATE INDEX IF NOT EXISTS idx_promotions_active_window
+ON public.promotions (is_active, start_date, end_date);
