@@ -72,3 +72,39 @@ export async function completeProject(id: string, formData: FormData) {
   revalidatePath('/');
   redirect('/admin/dashboard');
 }
+
+export async function deleteProject(id: string) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from('projects')
+    .delete()
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error deleting project:', error);
+    return { error: 'Fehler beim Löschen des Auftrags.' };
+  }
+
+  revalidatePath('/admin/dashboard');
+  revalidatePath('/');
+  return { success: true };
+}
+
+export async function toggleProjectPublish(id: string, currentPublished: boolean) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from('projects')
+    .update({ is_published: !currentPublished })
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error updating project publish status:', error);
+    return { error: 'Fehler beim Verändern des Veröffentlichungsstatus.' };
+  }
+
+  revalidatePath('/admin/dashboard');
+  revalidatePath('/');
+  return { success: true };
+}
