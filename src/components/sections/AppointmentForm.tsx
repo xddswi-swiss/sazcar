@@ -120,36 +120,50 @@ export default function AppointmentForm() {
     e.preventDefault();
     setError(null);
 
-    const form = e.currentTarget;
-    const data = {
-      customer_name: (form.elements.namedItem('customer_name') as HTMLInputElement).value,
-      phone: (form.elements.namedItem('phone') as HTMLInputElement).value,
-      email: (form.elements.namedItem('email') as HTMLInputElement).value,
-      vehicle_info: (form.elements.namedItem('vehicle_info') as HTMLInputElement).value,
-      selected_services: selectedServices,
-      preferred_date: (form.elements.namedItem('preferred_date') as HTMLInputElement).value,
-      preferred_time: (form.elements.namedItem('preferred_time') as HTMLInputElement).value,
-      notes: (form.elements.namedItem('notes') as HTMLTextAreaElement).value,
-      image_urls: images,
-    };
+    try {
+      const form = e.currentTarget;
+      
+      const getVal = (name: string) => {
+        const el = form.elements.namedItem(name);
+        return el ? (el as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement).value : '';
+      };
 
-    if (!data.customer_name || !data.phone || !data.email || !data.vehicle_info || !data.preferred_date || !data.preferred_time) {
-      setError('Bitte füllen Sie alle Pflichtfelder (*) aus.');
-      return;
-    }
+      const data = {
+        customer_name: getVal('customer_name'),
+        phone: getVal('phone'),
+        email: getVal('email'),
+        vehicle_info: getVal('vehicle_info'),
+        selected_services: selectedServices,
+        preferred_date: getVal('preferred_date'),
+        preferred_time: getVal('preferred_time'),
+        notes: getVal('notes'),
+        image_urls: images,
+      };
 
-    startTransition(async () => {
-      try {
-        const result = await submitAppointment(data);
-        if (result.error) {
-          setError(result.error);
-        } else {
-          setSuccess(true);
-        }
-      } catch {
-        setError('Ein unerwarteter Fehler ist aufgetreten.');
+      if (!data.customer_name || !data.phone || !data.email || !data.vehicle_info || !data.preferred_date || !data.preferred_time) {
+        setError('Bitte füllen Sie alle Pflichtfelder (*) aus.');
+        return;
       }
-    });
+
+      startTransition(async () => {
+        try {
+          const result = await submitAppointment(data);
+          if (result && result.error) {
+            setError(result.error);
+          } else if (result && result.success) {
+            setSuccess(true);
+          } else {
+            setError('Verbindung zum Server fehlgeschlagen (Keine gültige Antwort).');
+          }
+        } catch (err) {
+          console.error('Submit error:', err);
+          setError('Netzwerkfehler: Verbindung zum Server fehlgeschlagen.');
+        }
+      });
+    } catch (err) {
+      console.error('Form processing error:', err);
+      setError('Formularfehler: Fehler bei der Datenverarbeitung.');
+    }
   };
 
   if (success) {
