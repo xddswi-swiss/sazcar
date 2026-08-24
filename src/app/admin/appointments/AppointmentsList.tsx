@@ -103,11 +103,11 @@ export default function AppointmentsList({ initialAppointments }: AppointmentsLi
                 {/* Header Info */}
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 text-sm">
-                      <User className="w-4 h-4 text-slate-400" />
+                    <h3 className="font-bold text-slate-900 dark:text-white flex items-center gap-2 text-base">
+                      <User className="w-4.5 h-4.5 text-red-500 shrink-0" />
                       <span>{appt.customer_name}</span>
                     </h3>
-                    <p className="text-[10px] text-slate-400 mt-0.5">
+                    <p className="text-xs text-slate-450 dark:text-slate-300 mt-1">
                       Erhalten am: {new Date(appt.created_at).toLocaleDateString('de-CH')}
                     </p>
                   </div>
@@ -122,55 +122,55 @@ export default function AppointmentsList({ initialAppointments }: AppointmentsLi
                     {appt.status === 'rejected' && 'Abgelehnt'}
                   </span>
                 </div>
- 
+
                 {/* Contact grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs border-t border-slate-100 dark:border-slate-700 pt-3 text-slate-600 dark:text-slate-300">
-                  <a href={`tel:${appt.phone}`} className="flex items-center gap-2 hover:text-red-600">
-                    <Phone className="w-3.5 h-3.5" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm border-t border-slate-100 dark:border-slate-700 pt-3.5 text-slate-700 dark:text-slate-200">
+                  <a href={`tel:${appt.phone}`} className="flex items-center gap-2 hover:text-red-500 transition-colors">
+                    <Phone className="w-4 h-4 text-red-500 shrink-0" />
                     <span>{appt.phone}</span>
                   </a>
-                  <a href={`mailto:${appt.email}`} className="flex items-center gap-2 hover:text-red-600">
-                    <Mail className="w-3.5 h-3.5 animate-none" />
+                  <a href={`mailto:${appt.email}`} className="flex items-center gap-2 hover:text-red-500 transition-colors">
+                    <Mail className="w-4 h-4 text-red-500 shrink-0" />
                     <span className="truncate">{appt.email}</span>
                   </a>
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-3.5 h-3.5" />
+                  <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+                    <Calendar className="w-4 h-4 text-red-500 shrink-0" />
                     <span>{new Date(appt.preferred_date).toLocaleDateString('de-CH')}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-3.5 h-3.5" />
+                  <div className="flex items-center gap-2 text-slate-700 dark:text-slate-200">
+                    <Clock className="w-4 h-4 text-red-500 shrink-0" />
                     <span>{appt.preferred_time} Uhr</span>
                   </div>
                 </div>
- 
+
                 {/* Vehicle & Services */}
-                <div className="space-y-2 border-t border-slate-100 dark:border-slate-700 pt-3">
-                  <div className="flex items-center gap-2 text-xs font-semibold text-slate-800 dark:text-slate-200">
-                    <Car className="w-4 h-4 text-slate-400" />
+                <div className="space-y-2.5 border-t border-slate-100 dark:border-slate-700 pt-3.5">
+                  <div className="flex items-center gap-2 text-sm font-bold text-slate-800 dark:text-slate-100">
+                    <Car className="w-4.5 h-4.5 text-red-500 shrink-0" />
                     <span>{appt.vehicle_info}</span>
                   </div>
- 
+
                   <div className="flex gap-1.5 flex-wrap">
                     {appt.selected_services.map((srv) => (
-                      <span key={srv} className="inline-block bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] px-2 py-0.5 rounded-full font-medium">
+                      <span key={srv} className="inline-block bg-slate-150 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs px-2.5 py-1 rounded-full font-semibold border border-slate-200 dark:border-slate-600">
                         {srv}
                       </span>
                     ))}
                   </div>
                 </div>
- 
+
                 {/* Notes */}
                 {appt.notes && (
-                  <div className="bg-slate-50 dark:bg-slate-900 p-3 rounded-xl border border-slate-100 dark:border-slate-700 flex gap-2 text-xs text-slate-600 dark:text-slate-300">
-                    <MessageSquare className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
+                  <div className="bg-slate-50 dark:bg-slate-900/60 p-3.5 rounded-xl border border-slate-100 dark:border-slate-700 flex gap-2 text-sm text-slate-700 dark:text-slate-200">
+                    <MessageSquare className="w-4.5 h-4.5 text-red-500 shrink-0 mt-0.5" />
                     <p className="italic">{appt.notes}</p>
                   </div>
                 )}
- 
+
                 {/* Damage Images */}
                 {appt.image_urls && appt.image_urls.length > 0 && (
-                  <div className="space-y-1.5">
-                    <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Schadenfotos</span>
+                  <div className="space-y-2">
+                    <span className="block text-xs font-bold text-slate-400 dark:text-slate-350 uppercase tracking-wider">Schadenfotos</span>
                     <div className="flex gap-2 flex-wrap">
                       {appt.image_urls.map((url) => (
                         <div 
