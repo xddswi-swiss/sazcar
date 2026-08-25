@@ -26,6 +26,15 @@ const badgeIcons = {
   custom: Tag,
 } as const;
 
+// Per-category accent so several active promos read as distinct cards at a glance.
+const badgeTheme = {
+  winter_tires: { iconBg: 'bg-sky-50', iconText: 'text-sky-600', label: 'text-sky-600', cta: 'text-sky-600 hover:text-sky-700', border: 'border-sky-100', glow: 'bg-sky-500/25' },
+  summer_tires: { iconBg: 'bg-amber-50', iconText: 'text-amber-600', label: 'text-amber-600', cta: 'text-amber-600 hover:text-amber-700', border: 'border-amber-100', glow: 'bg-amber-500/25' },
+  detailing: { iconBg: 'bg-violet-50', iconText: 'text-violet-600', label: 'text-violet-600', cta: 'text-violet-600 hover:text-violet-700', border: 'border-violet-100', glow: 'bg-violet-500/25' },
+  service: { iconBg: 'bg-red-50', iconText: 'text-red-600', label: 'text-red-600', cta: 'text-red-600 hover:text-red-700', border: 'border-red-100', glow: 'bg-red-500/25' },
+  custom: { iconBg: 'bg-emerald-50', iconText: 'text-emerald-600', label: 'text-emerald-600', cta: 'text-emerald-600 hover:text-emerald-700', border: 'border-emerald-100', glow: 'bg-emerald-500/25' },
+} as const;
+
 // Maps a promo's badge_type to the matching entry in src/content/services.ts (by title).
 // detailing/custom have no direct match, so the CTA just scrolls without pre-selecting.
 const CTA_SERVICE_MATCH: Partial<Record<Promotion['badge_type'], string>> = {
@@ -59,13 +68,14 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
   const shouldReduceMotion = useReducedMotion();
   const Icon = promotion ? badgeIcons[promotion.badge_type] ?? Tag : Tag;
   const line = promotion ? discountLine(promotion) : null;
+  const theme = badgeTheme[promotion?.badge_type ?? 'service'];
 
   return (
     <div className="relative">
       {/* Glow ring behind the card */}
       <motion.div
         aria-hidden
-        className="absolute -inset-2 rounded-2xl bg-red-500/25 blur-xl"
+        className={`absolute -inset-2 rounded-2xl blur-xl ${theme.glow}`}
         animate={shouldReduceMotion ? undefined : { opacity: [0.35, 0.7, 0.35] }}
         transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
       />
@@ -78,17 +88,17 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
             ? { duration: 0.5, delay: 0.6 }
             : { scale: { duration: 3.2, repeat: Infinity, ease: 'easeInOut', delay: 1 }, opacity: { duration: 0.5, delay: 0.6 }, y: { duration: 0.5, delay: 0.6 } }
         }
-        className="relative bg-white/95 backdrop-blur-sm border border-red-100 shadow-lg shadow-red-900/10 rounded-2xl"
+        className={`relative bg-white/95 backdrop-blur-sm border shadow-lg shadow-slate-900/10 rounded-2xl ${theme.border}`}
         style={{ padding: 'clamp(0.875rem, 0.7rem + 0.6vw, 1.25rem)' }}
       >
         <div className="flex items-center gap-2">
-          <span className="flex items-center justify-center rounded-full bg-red-50 text-red-600 shrink-0"
+          <span className={`flex items-center justify-center rounded-full shrink-0 ${theme.iconBg} ${theme.iconText}`}
             style={{ width: 'clamp(1.75rem, 1.5rem + 0.5vw, 2.25rem)', height: 'clamp(1.75rem, 1.5rem + 0.5vw, 2.25rem)' }}
           >
             <Icon style={{ width: '55%', height: '55%' }} />
           </span>
           <span
-            className="font-bold uppercase tracking-wider text-red-600"
+            className={`font-bold uppercase tracking-wider ${theme.label}`}
             style={{ fontSize: 'clamp(0.5625rem, 0.53rem + 0.15vw, 0.6875rem)' }}
           >
             {promotion ? 'Aktion' : 'Aktionen'}
@@ -125,7 +135,7 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
                 window.dispatchEvent(new CustomEvent(PROMO_CTA_EVENT, { detail: { service } }));
                 document.getElementById('termin')?.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth' });
               }}
-              className="inline-flex items-center gap-1 font-bold text-red-600 hover:text-red-700 transition-colors"
+              className={`inline-flex items-center gap-1 font-bold transition-colors ${theme.cta}`}
               style={{ fontSize: 'clamp(0.75rem, 0.7rem + 0.2vw, 0.8125rem)', marginTop: '0.6rem' }}
             >
               Jetzt buchen
