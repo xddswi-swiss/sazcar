@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 
@@ -22,6 +22,11 @@ export const metadata: Metadata = {
     locale: 'de_CH',
     type: 'website',
   },
+};
+
+// White status bar (time/battery/wifi area) on iOS Safari instead of the default gray.
+export const viewport: Viewport = {
+  themeColor: '#ffffff',
 };
 
 export default function RootLayout({
