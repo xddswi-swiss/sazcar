@@ -168,10 +168,9 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="lg:hidden flex flex-col"
+          className="lg:hidden flex flex-col w-full"
           style={{
             marginTop: 'clamp(1.5rem, 1rem + 2vw, 2.5rem)',
-            maxWidth: '280px',
             gap: 'clamp(0.75rem, 0.5rem + 0.5vw, 1rem)',
           }}
         >
