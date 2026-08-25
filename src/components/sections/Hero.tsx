@@ -184,21 +184,26 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
       </div>
 
       {/* Aktions- & Rabatt-Badges, overlaid on the workshop illustration (desktop only — avoids the risky 768–1024px tablet band).
-          Bottom-anchored so a stack of several active campaigns grows upward and can't overflow the section. */}
-      <div
-        className="hidden lg:flex lg:flex-col absolute z-[2]"
-        style={{
-          bottom: 'clamp(6rem, 15vh, 10rem)',
-          right: 'clamp(2rem, 5vw, 5.5rem)',
-          width: 'clamp(220px, 18vw, 270px)',
-          gap: 'clamp(0.75rem, 0.5rem + 0.5vw, 1rem)',
-        }}
-      >
-        {promotions.length > 0 ? (
-          promotions.map((promo) => <PromoBadge key={promo.id} promotion={promo} />)
-        ) : (
-          <PromoBadge promotion={null} />
-        )}
+          Pinned to the same fitted box as the sketch image, so it tracks the illustration at any width — anchored under the lifted car's underbody. */}
+      <div className="hidden lg:flex absolute inset-y-0 right-0 lg:right-6 w-full lg:w-[58%] z-[2] items-center justify-end pointer-events-none">
+        <div className="relative w-full aspect-square max-h-full">
+          <div
+            className="absolute flex flex-col pointer-events-auto"
+            style={{
+              left: '62%',
+              top: '60%',
+              transform: 'translate(-50%, -50%)',
+              width: 'clamp(220px, 18vw, 270px)',
+              gap: 'clamp(0.75rem, 0.5rem + 0.5vw, 1rem)',
+            }}
+          >
+            {promotions.length > 0 ? (
+              promotions.map((promo) => <PromoBadge key={promo.id} promotion={promo} />)
+            ) : (
+              <PromoBadge promotion={null} />
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Decorative looping van in the open space below the content, before the section ends */}
