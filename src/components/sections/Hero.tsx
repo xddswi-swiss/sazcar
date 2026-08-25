@@ -185,7 +185,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
 
       {/* Aktions- & Rabatt-Badges, overlaid on the workshop illustration (desktop only — avoids the risky 768–1024px tablet band).
           Pinned to the same fitted box as the sketch image, so it tracks the illustration at any width — anchored under the lifted car's underbody. */}
-      <div className="hidden lg:flex absolute inset-y-0 right-0 lg:right-6 w-full lg:w-[58%] z-[2] items-center justify-end pointer-events-none">
+      <div className="hidden lg:flex absolute inset-y-0 right-0 lg:right-6 w-full lg:w-[58%] z-20 items-center justify-end pointer-events-none">
         <div className="relative w-full aspect-square max-h-full">
           <div
             className="absolute flex flex-col pointer-events-auto"
