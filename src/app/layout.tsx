@@ -37,6 +37,16 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Reload was reopening at whatever scroll position the browser last saved (its default
+            "auto" restoration), landing users mid-page instead of the top. Opt out early so a
+            plain reload starts at (0,0); #hash links still scroll to their target normally. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }",
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         {children}
       </body>

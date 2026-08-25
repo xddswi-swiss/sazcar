@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '@/components/ui/logo';
-import { Menu, X, Phone, ArrowUpRight } from 'lucide-react';
+import { Menu, X, Phone, ArrowUpRight, Home } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 const NAV_BREAKPOINT = 768;
@@ -22,15 +22,6 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const reduceMotion = useReducedMotion();
   const [activeSection, setActiveSection] = useState('');
-
-  // Reload was landing wherever the browser's native scroll-restoration left
-  // off (a different section each time) instead of the top. Opting out here
-  // takes effect on the *next* reload — with no #hash in the URL that means top.
-  useEffect(() => {
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
-    }
-  }, []);
 
   // Header background + active section, from one scroll handler.
   // The DOM is queried on every tick, so sections that mount late (client-only
@@ -149,10 +140,32 @@ export default function Header() {
           padding: 'clamp(0.75rem, 0.5rem + 0.5vw, 1rem) clamp(1rem, 0.429rem + 2.857vw, 3rem)',
         }}
       >
-        {/* Logo */}
-        <Link href="/" aria-label="Startseite">
-          <Logo />
-        </Link>
+        {/* Logo + home/back-to-top icon, grouped so the outer row's justify-between still treats
+            this as one block (nav-hidden-on-mobile / burger-hidden-on-desktop stays unaffected). */}
+        <div className="flex items-center gap-1">
+          <Link href="/" aria-label="Startseite">
+            <Logo />
+          </Link>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+            }}
+            aria-label="Zum Seitenanfang"
+            className="relative p-2 rounded-xl text-red-600 hover:bg-red-50 transition-colors"
+          >
+            {!reduceMotion && (
+              <motion.span
+                aria-hidden
+                className="absolute inset-0 rounded-xl bg-red-500/25"
+                animate={{ opacity: [0.15, 0.65, 0.15] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+              />
+            )}
+            <Home className="relative w-5 h-5" />
+          </a>
+        </div>
 
         {/* Desktop Nav */}
         <nav
