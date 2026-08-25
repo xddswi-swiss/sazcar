@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState, useTransition } from 'react';
-import { savePromotion, deletePromotion, togglePromotionActive } from '../actions/promotions';
+import { savePromotion, deletePromotion, togglePromotionActive, reorderPromotion } from '../actions/promotions';
+import { uploadImage } from '@/app/actions/upload';
 import {
   Plus,
   Trash2,
@@ -16,6 +17,9 @@ import {
   Sparkles,
   Wrench,
   Tag,
+  ArrowUp,
+  ArrowDown,
+  ImageIcon,
 } from 'lucide-react';
 
 type BadgeType = 'winter_tires' | 'summer_tires' | 'detailing' | 'service' | 'custom';
@@ -31,7 +35,61 @@ interface Promotion {
   end_date: string;
   is_active: boolean;
   badge_type: BadgeType;
+  sort_order: number;
+  image_url: string | null;
   created_at: string;
+}
+
+async function compressImage(file: File, maxW = 1200, maxH = 1200, quality = 0.8): Promise<File> {
+  if (typeof window === 'undefined') return file;
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxW) {
+            height = Math.round((height * maxW) / width);
+            width = maxW;
+          }
+        } else {
+          if (height > maxH) {
+            width = Math.round((width * maxH) / height);
+            height = maxH;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return resolve(file);
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              const compressedFile = new File([blob], file.name.replace(/\.[^/.]+$/, '') + '.jpg', {
+                type: 'image/jpeg',
+                lastModified: Date.now(),
+              });
+              resolve(compressedFile);
+            } else {
+              resolve(file);
+            }
+          },
+          'image/jpeg',
+          quality
+        );
+      };
+    };
+  });
 }
 
 const badgeIcons: Record<BadgeType, typeof Tag> = {
@@ -107,7 +165,9 @@ function isCurrentlyRunning(promo: Promotion): boolean {
 }
 
 export default function PromotionsManagement({ initialPromotions }: { initialPromotions: Promotion[] }) {
-  const [promotions, setPromotions] = useState<Promotion[]>(initialPromotions);
+  const [promotions, setPromotions] = useState<Promotion[]>(
+    [...initialPromotions].sort((a, b) => a.sort_order - b.sort_order)
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingPromo, setEditingPromo] = useState<Promotion | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -116,12 +176,15 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
   const [formTitle, setFormTitle] = useState('');
   const [formDescription, setFormDescription] = useState('');
   const [formBadgeType, setFormBadgeType] = useState<BadgeType>('custom');
+  const [formImageUrl, setFormImageUrl] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   const openAddModal = () => {
     setEditingPromo(null);
     setFormTitle('');
     setFormDescription('');
     setFormBadgeType('custom');
+    setFormImageUrl(null);
     setError(null);
     setIsModalOpen(true);
   };
@@ -131,8 +194,35 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
     setFormTitle(promo.title);
     setFormDescription(promo.description || '');
     setFormBadgeType(promo.badge_type);
+    setFormImageUrl(promo.image_url);
     setError(null);
     setIsModalOpen(true);
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    setError(null);
+
+    try {
+      const compressed = await compressImage(file);
+      const formData = new FormData();
+      formData.append('file', compressed);
+      const res = await uploadImage(formData);
+      if (res.success && res.url) {
+        setFormImageUrl(res.url);
+      } else {
+        setError(res.error || 'Fehler beim Hochladen des Bildes.');
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Fehler bei der Bildverarbeitung.');
+    } finally {
+      setUploadingImage(false);
+      e.target.value = '';
+    }
   };
 
   const applyTemplate = (tpl: QuickTemplate) => {
@@ -148,6 +238,9 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
     const formData = new FormData(e.currentTarget);
     if (editingPromo) {
       formData.append('id', editingPromo.id);
+    }
+    if (formImageUrl) {
+      formData.append('image_url', formImageUrl);
     }
 
     startTransition(async () => {
@@ -170,6 +263,23 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
     } else {
       setPromotions((prev) => prev.filter((p) => p.id !== id));
     }
+  };
+
+  const handleMove = async (index: number, direction: 'up' | 'down') => {
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= promotions.length) return;
+
+    const current = promotions[index];
+    const target = promotions[targetIndex];
+
+    const reordered = [...promotions];
+    reordered[index] = { ...target, sort_order: current.sort_order };
+    reordered[targetIndex] = { ...current, sort_order: target.sort_order };
+    reordered.sort((a, b) => a.sort_order - b.sort_order);
+    setPromotions(reordered);
+
+    const res = await reorderPromotion(current.id, current.sort_order, target.id, target.sort_order);
+    if (res.error) alert(res.error);
   };
 
   const handleToggleActive = async (id: string, currentStatus: boolean) => {
@@ -196,7 +306,7 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
 
       {promotions.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {promotions.map((promo) => {
+          {promotions.map((promo, index) => {
             const Icon = badgeIcons[promo.badge_type];
             const running = isCurrentlyRunning(promo);
             return (
@@ -207,6 +317,10 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
                 `}
               >
                 <div>
+                  {promo.image_url && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={promo.image_url} alt="" className="w-full h-24 object-cover rounded-xl mb-3" />
+                  )}
                   <div className="flex items-center justify-between mb-2">
                     <span className="flex items-center justify-center w-8 h-8 rounded-full bg-red-50 text-red-600 dark:bg-red-950/20">
                       <Icon className="w-4 h-4" />
@@ -236,6 +350,22 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
                 </div>
 
                 <div className="flex items-center justify-end gap-1.5 mt-4 pt-4 border-t border-slate-100 dark:border-slate-700">
+                  <button
+                    onClick={() => handleMove(index, 'up')}
+                    disabled={index === 0}
+                    title="Nach oben"
+                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer disabled:opacity-30 disabled:pointer-events-none"
+                  >
+                    <ArrowUp className="w-4 h-4" />
+                  </button>
+                  <button
+                    onClick={() => handleMove(index, 'down')}
+                    disabled={index === promotions.length - 1}
+                    title="Nach unten"
+                    className="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer disabled:opacity-30 disabled:pointer-events-none"
+                  >
+                    <ArrowDown className="w-4 h-4" />
+                  </button>
                   <button
                     onClick={() => handleToggleActive(promo.id, promo.is_active)}
                     title={promo.is_active ? 'Inaktiv setzen' : 'Aktiv setzen'}
@@ -368,6 +498,37 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
                   className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
                   placeholder="Wird angezeigt, wenn kein Preis/Prozent gesetzt ist"
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+                  Bild (optional)
+                </label>
+                {formImageUrl ? (
+                  <div className="relative w-full h-32 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={formImageUrl} alt="" className="object-cover w-full h-full" />
+                    <button
+                      type="button"
+                      onClick={() => setFormImageUrl(null)}
+                      className="absolute top-2 right-2 p-1.5 bg-slate-900/70 hover:bg-slate-900/90 text-white rounded-lg cursor-pointer"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ) : (
+                  <label className="flex flex-col items-center justify-center gap-1.5 w-full h-24 border border-dashed border-slate-300 dark:border-slate-600 rounded-xl cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors text-slate-400">
+                    {uploadingImage ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <>
+                        <ImageIcon className="w-5 h-5" />
+                        <span className="text-xs font-semibold">Bild hochladen</span>
+                      </>
+                    )}
+                    <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploadingImage} className="hidden" />
+                  </label>
+                )}
               </div>
 
               <div className="grid grid-cols-3 gap-4">

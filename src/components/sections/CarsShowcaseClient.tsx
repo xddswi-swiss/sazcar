@@ -129,7 +129,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                     <Calendar className="w-3.5 h-3.5 text-red-600" /> {car.year}
                   </span>
                   <span className="flex items-center gap-1 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-lg">
-                    <Gauge className="w-3.5 h-3.5 text-red-600" /> {car.mileage.toLocaleString()} km
+                    <Gauge className="w-3.5 h-3.5 text-red-600" /> {car.mileage.toLocaleString('de-CH')} km
                   </span>
                   <span className="flex items-center gap-1 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-lg">
                     <Fuel className="w-3.5 h-3.5 text-red-600" /> {car.fuel_type}
@@ -145,7 +145,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                     className="font-black text-slate-900"
                     style={{ fontSize: 'clamp(1.125rem, 1rem + 0.3vw, 1.375rem)' }}
                   >
-                    CHF {car.price.toLocaleString()}.-
+                    CHF {car.price.toLocaleString('de-CH')}.-
                   </span>
                   <span
                     className="text-red-600 font-bold flex items-center gap-1 transition-all text-xs"
@@ -225,7 +225,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                   { label: 'Marke', value: selectedCar.brand },
                   { label: 'Modell', value: selectedCar.model },
                   { label: 'Jahrgang', value: String(selectedCar.year) },
-                  { label: 'Kilometer', value: `${selectedCar.mileage.toLocaleString()} km` },
+                  { label: 'Kilometer', value: `${selectedCar.mileage.toLocaleString('de-CH')} km` },
                   { label: 'Treibstoff', value: selectedCar.fuel_type },
                   { label: 'Getriebe', value: selectedCar.transmission },
                 ].map((spec) => (
@@ -240,7 +240,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
               <div className="bg-red-50 border border-red-150 p-5 rounded-2xl text-center">
                 <span className="block text-xs font-bold text-red-600 uppercase tracking-wider">Verkaufspreis</span>
                 <span className="block font-black text-red-600 mt-1" style={{ fontSize: 'clamp(1.5rem, 1.25rem + 0.6vw, 2rem)' }}>
-                  CHF {selectedCar.price.toLocaleString()}.-
+                  CHF {selectedCar.price.toLocaleString('de-CH')}.-
                 </span>
               </div>
 

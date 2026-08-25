@@ -16,6 +16,7 @@ export interface Promotion {
   start_date: string;
   end_date: string;
   badge_type: 'winter_tires' | 'summer_tires' | 'detailing' | 'service' | 'custom';
+  image_url?: string | null;
 }
 
 const badgeIcons = {
@@ -98,10 +99,10 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
             <Icon style={{ width: '55%', height: '55%' }} />
           </span>
           <span
-            className={`font-bold uppercase tracking-wider ${theme.label}`}
-            style={{ fontSize: 'clamp(0.8125rem, 0.75rem + 0.25vw, 0.9375rem)' }}
+            className={`font-bold uppercase tracking-normal leading-tight min-w-0 ${theme.label}`}
+            style={{ fontSize: 'clamp(0.5625rem, 0.5rem + 0.2vw, 0.6875rem)' }}
           >
-            {promotion ? 'Aktion' : 'Aktionen'}
+            {promotion ? 'Zeitlich begrenztes Angebot' : 'Angebote'}
           </span>
           {promotion && (
             <span className="relative flex shrink-0" style={{ width: '0.4rem', height: '0.4rem' }}>
@@ -120,6 +121,15 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
 
         {promotion ? (
           <>
+            {promotion.image_url && (
+              <div
+                className="w-full rounded-xl overflow-hidden"
+                style={{ height: 'clamp(4.5rem, 3.8rem + 3vw, 6.5rem)', marginTop: 'clamp(0.4rem, 0.35rem + 0.2vw, 0.5rem)' }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={promotion.image_url} alt="" className="w-full h-full object-cover" />
+              </div>
+            )}
             <h3
               className="font-black text-slate-900 leading-tight"
               style={{ fontSize: 'clamp(0.9375rem, 0.85rem + 0.4vw, 1.125rem)', marginTop: 'clamp(0.4rem, 0.35rem + 0.2vw, 0.5rem)' }}

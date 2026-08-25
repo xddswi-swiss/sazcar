@@ -14,6 +14,7 @@ export async function savePromotion(formData: FormData) {
   const end_date = formData.get('end_date') as string;
   const is_active = formData.get('is_active') === 'on';
   const badge_type = formData.get('badge_type') as string;
+  const image_url = formData.get('image_url') as string;
 
   if (!title || !start_date || !end_date || !badge_type) {
     return { error: 'Bitte füllen Sie alle erforderlichen Felder aus.' };
@@ -32,6 +33,7 @@ export async function savePromotion(formData: FormData) {
     end_date,
     is_active,
     badge_type,
+    image_url: image_url || null,
   };
 
   const supabase = await createClient();
@@ -44,9 +46,12 @@ export async function savePromotion(formData: FormData) {
       .eq('id', id);
     error = err;
   } else {
+    const { count } = await supabase
+      .from('promotions')
+      .select('id', { count: 'exact', head: true });
     const { error: err } = await supabase
       .from('promotions')
-      .insert([promotionData]);
+      .insert([{ ...promotionData, sort_order: count ?? 0 }]);
     error = err;
   }
 
@@ -71,6 +76,22 @@ export async function deletePromotion(id: string) {
   if (error) {
     console.error('Error deleting promotion:', error);
     return { error: 'Fehler beim Löschen der Aktion.' };
+  }
+
+  revalidatePath('/admin/promotions');
+  revalidatePath('/');
+  return { success: true };
+}
+
+export async function reorderPromotion(idA: string, orderA: number, idB: string, orderB: number) {
+  const supabase = await createClient();
+
+  const { error: errA } = await supabase.from('promotions').update({ sort_order: orderB }).eq('id', idA);
+  const { error: errB } = await supabase.from('promotions').update({ sort_order: orderA }).eq('id', idB);
+
+  if (errA || errB) {
+    console.error('Error reordering promotions:', errA || errB);
+    return { error: 'Fehler beim Ändern der Reihenfolge.' };
   }
 
   revalidatePath('/admin/promotions');

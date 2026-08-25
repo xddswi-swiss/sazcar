@@ -130,9 +130,15 @@ CREATE TABLE IF NOT EXISTS public.promotions (
     end_date DATE NOT NULL,
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
     badge_type TEXT NOT NULL DEFAULT 'custom' CHECK (badge_type IN ('winter_tires', 'summer_tires', 'detailing', 'service', 'custom')),
+    sort_order INTEGER NOT NULL DEFAULT 0,
+    image_url TEXT,
     created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
     CHECK (end_date >= start_date)
 );
+
+-- Existing databases: add columns if the table predates them.
+ALTER TABLE public.promotions ADD COLUMN IF NOT EXISTS sort_order INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE public.promotions ADD COLUMN IF NOT EXISTS image_url TEXT;
 
 -- Enable RLS on promotions
 ALTER TABLE public.promotions ENABLE ROW LEVEL SECURITY;

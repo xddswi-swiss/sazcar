@@ -13,7 +13,7 @@ export default async function Home() {
   const { data: activePromotions } = await supabase
     .from('promotions')
     .select('*')
-    .order('created_at', { ascending: false })
+    .order('sort_order', { ascending: true })
     .limit(3);
 
   const jsonLd = {

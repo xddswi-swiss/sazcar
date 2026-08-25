@@ -9,7 +9,7 @@ export default async function PromotionsPage() {
   const { data: promotions } = await supabase
     .from('promotions')
     .select('*')
-    .order('created_at', { ascending: false });
+    .order('sort_order', { ascending: true });
 
   return (
     <div className="space-y-6">
