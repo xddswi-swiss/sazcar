@@ -1,7 +1,10 @@
 'use client';
 
-import { Snowflake, Sun, Sparkles, Wrench, Tag } from 'lucide-react';
+import { Snowflake, Sun, Sparkles, Wrench, Tag, ArrowUpRight } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
+
+// Fired when the CTA is clicked so AppointmentForm can pre-select the matching service.
+export const PROMO_CTA_EVENT = 'sazcar:promo-cta';
 
 export interface Promotion {
   id: string;
@@ -22,6 +25,14 @@ const badgeIcons = {
   service: Wrench,
   custom: Tag,
 } as const;
+
+// Maps a promo's badge_type to the matching entry in src/content/services.ts (by title).
+// detailing/custom have no direct match, so the CTA just scrolls without pre-selecting.
+const CTA_SERVICE_MATCH: Partial<Record<Promotion['badge_type'], string>> = {
+  winter_tires: 'Reifenservice',
+  summer_tires: 'Reifenservice',
+  service: 'Autoservice & Reparatur',
+};
 
 function formatChf(value: number): string {
   return value.toLocaleString('de-CH', { maximumFractionDigits: 0 });
@@ -106,6 +117,20 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
             >
               Gültig vom {formatDate(promotion.start_date)} bis {formatDate(promotion.end_date)}
             </p>
+            <a
+              href="#termin"
+              onClick={(e) => {
+                e.preventDefault();
+                const service = CTA_SERVICE_MATCH[promotion.badge_type] ?? null;
+                window.dispatchEvent(new CustomEvent(PROMO_CTA_EVENT, { detail: { service } }));
+                document.getElementById('termin')?.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth' });
+              }}
+              className="inline-flex items-center gap-1 font-bold text-red-600 hover:text-red-700 transition-colors"
+              style={{ fontSize: 'clamp(0.75rem, 0.7rem + 0.2vw, 0.8125rem)', marginTop: '0.6rem' }}
+            >
+              Jetzt buchen
+              <ArrowUpRight style={{ width: '0.9em', height: '0.9em' }} />
+            </a>
           </>
         ) : (
           <p

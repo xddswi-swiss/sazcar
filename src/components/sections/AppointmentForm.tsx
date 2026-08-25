@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useState, useTransition } from 'react';
+import React, { useState, useTransition, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { uploadImage } from '@/app/actions/upload';
 import { services } from '@/content/services';
+import { PROMO_CTA_EVENT } from './PromoBadge';
 import {
   CalendarDays,
   Clock,
@@ -94,6 +95,18 @@ export default function AppointmentForm() {
       prev.includes(title) ? prev.filter((s) => s !== title) : [...prev, title]
     );
   };
+
+  // Pre-select the service a promo's "Jetzt buchen" CTA points to (see PromoBadge.tsx).
+  useEffect(() => {
+    const handlePromoCta = (e: Event) => {
+      const service = (e as CustomEvent<{ service: string | null }>).detail?.service;
+      if (service) {
+        setSelectedServices((prev) => (prev.includes(service) ? prev : [...prev, service]));
+      }
+    };
+    window.addEventListener(PROMO_CTA_EVENT, handlePromoCta);
+    return () => window.removeEventListener(PROMO_CTA_EVENT, handlePromoCta);
+  }, []);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
