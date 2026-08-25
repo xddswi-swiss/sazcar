@@ -28,11 +28,11 @@ const badgeIcons = {
 
 // Per-category accent so several active promos read as distinct cards at a glance.
 const badgeTheme = {
-  winter_tires: { iconBg: 'bg-sky-50', iconText: 'text-sky-600', label: 'text-sky-600', cta: 'text-sky-600 hover:text-sky-700', border: 'border-sky-100', glow: 'bg-sky-500/25' },
-  summer_tires: { iconBg: 'bg-amber-50', iconText: 'text-amber-600', label: 'text-amber-600', cta: 'text-amber-600 hover:text-amber-700', border: 'border-amber-100', glow: 'bg-amber-500/25' },
-  detailing: { iconBg: 'bg-violet-50', iconText: 'text-violet-600', label: 'text-violet-600', cta: 'text-violet-600 hover:text-violet-700', border: 'border-violet-100', glow: 'bg-violet-500/25' },
-  service: { iconBg: 'bg-red-50', iconText: 'text-red-600', label: 'text-red-600', cta: 'text-red-600 hover:text-red-700', border: 'border-red-100', glow: 'bg-red-500/25' },
-  custom: { iconBg: 'bg-emerald-50', iconText: 'text-emerald-600', label: 'text-emerald-600', cta: 'text-emerald-600 hover:text-emerald-700', border: 'border-emerald-100', glow: 'bg-emerald-500/25' },
+  winter_tires: { iconBg: 'bg-sky-50', iconText: 'text-sky-600', label: 'text-sky-600', cta: 'text-sky-600 hover:text-sky-700', border: 'border-sky-100', glow: 'bg-sky-500/25', bg: 'from-sky-50 to-white', dot: 'bg-sky-500' },
+  summer_tires: { iconBg: 'bg-amber-50', iconText: 'text-amber-600', label: 'text-amber-600', cta: 'text-amber-600 hover:text-amber-700', border: 'border-amber-100', glow: 'bg-amber-500/25', bg: 'from-amber-50 to-white', dot: 'bg-amber-500' },
+  detailing: { iconBg: 'bg-violet-50', iconText: 'text-violet-600', label: 'text-violet-600', cta: 'text-violet-600 hover:text-violet-700', border: 'border-violet-100', glow: 'bg-violet-500/25', bg: 'from-violet-50 to-white', dot: 'bg-violet-500' },
+  service: { iconBg: 'bg-red-50', iconText: 'text-red-600', label: 'text-red-600', cta: 'text-red-600 hover:text-red-700', border: 'border-red-100', glow: 'bg-red-500/25', bg: 'from-red-50 to-white', dot: 'bg-red-500' },
+  custom: { iconBg: 'bg-emerald-50', iconText: 'text-emerald-600', label: 'text-emerald-600', cta: 'text-emerald-600 hover:text-emerald-700', border: 'border-emerald-100', glow: 'bg-emerald-500/25', bg: 'from-emerald-50 to-white', dot: 'bg-emerald-500' },
 } as const;
 
 // Maps a promo's badge_type to the matching entry in src/content/services.ts (by title).
@@ -72,12 +72,12 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
 
   return (
     <div className="relative">
-      {/* Glow ring behind the card */}
+      {/* Glow ring behind the card — more visible pulse so it reads as "active promo", not plain text */}
       <motion.div
         aria-hidden
-        className={`absolute -inset-2 rounded-2xl blur-xl ${theme.glow}`}
-        animate={shouldReduceMotion ? undefined : { opacity: [0.35, 0.7, 0.35] }}
-        transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
+        className={`absolute -inset-3 rounded-2xl blur-2xl ${theme.glow}`}
+        animate={shouldReduceMotion ? undefined : { opacity: [0.4, 0.95, 0.4] }}
+        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       <motion.div
@@ -88,7 +88,7 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
             ? { duration: 0.5, delay: 0.6 }
             : { scale: { duration: 3.2, repeat: Infinity, ease: 'easeInOut', delay: 1 }, opacity: { duration: 0.5, delay: 0.6 }, y: { duration: 0.5, delay: 0.6 } }
         }
-        className={`relative bg-white/95 backdrop-blur-sm border shadow-lg shadow-slate-900/10 rounded-2xl ${theme.border}`}
+        className={`relative bg-gradient-to-br backdrop-blur-sm border shadow-lg shadow-slate-900/10 rounded-2xl ${theme.bg} ${theme.border}`}
         style={{ padding: 'clamp(0.875rem, 0.7rem + 0.6vw, 1.25rem)' }}
       >
         <div className="flex items-center gap-2">
@@ -103,6 +103,19 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
           >
             {promotion ? 'Aktion' : 'Aktionen'}
           </span>
+          {promotion && (
+            <span className="relative flex shrink-0" style={{ width: '0.4rem', height: '0.4rem' }}>
+              {!shouldReduceMotion && (
+                <motion.span
+                  aria-hidden
+                  className={`absolute inline-flex h-full w-full rounded-full ${theme.dot}`}
+                  animate={{ scale: [1, 2.2, 1], opacity: [0.8, 0, 0.8] }}
+                  transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                />
+              )}
+              <span className={`relative inline-flex h-full w-full rounded-full ${theme.dot}`} />
+            </span>
+          )}
         </div>
 
         {promotion ? (
