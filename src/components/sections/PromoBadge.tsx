@@ -93,13 +93,13 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
       >
         <div className="flex items-center gap-2">
           <span className={`flex items-center justify-center rounded-full shrink-0 ${theme.iconBg} ${theme.iconText}`}
-            style={{ width: 'clamp(1.75rem, 1.5rem + 0.5vw, 2.25rem)', height: 'clamp(1.75rem, 1.5rem + 0.5vw, 2.25rem)' }}
+            style={{ width: 'clamp(2rem, 1.7rem + 0.6vw, 2.5rem)', height: 'clamp(2rem, 1.7rem + 0.6vw, 2.5rem)' }}
           >
             <Icon style={{ width: '55%', height: '55%' }} />
           </span>
           <span
             className={`font-bold uppercase tracking-wider ${theme.label}`}
-            style={{ fontSize: 'clamp(0.5625rem, 0.53rem + 0.15vw, 0.6875rem)' }}
+            style={{ fontSize: 'clamp(0.8125rem, 0.75rem + 0.25vw, 0.9375rem)' }}
           >
             {promotion ? 'Aktion' : 'Aktionen'}
           </span>
