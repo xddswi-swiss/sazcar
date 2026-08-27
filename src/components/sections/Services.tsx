@@ -110,7 +110,7 @@ export default function Services() {
                   group relative border rounded-3xl overflow-hidden
                   transition-all duration-300 shadow-sm hover:shadow-md
                   flex flex-col justify-between ${bentoSpan}
-                  ${isBigCard ? 'card-tint-red' : 'bg-white/45 border-slate-200/80 hover:border-red-400 hover:bg-white'}
+                  ${isBigCard ? 'card-tint-red' : 'bg-white/45 border-black hover:border-red-400 hover:bg-white'}
                 `}
                 style={{
                   padding: 'clamp(1.5rem, 1.25rem + 0.8vw, 2.25rem)',
