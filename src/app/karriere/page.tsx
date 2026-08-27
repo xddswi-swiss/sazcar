@@ -63,8 +63,10 @@ export default async function KarrierePage() {
           openings.map((job, index) => (
             <div
               key={job.id}
-              className={`border rounded-2xl shadow-xs ${
-                index % 2 === 1 ? 'card-tint-red border-red-100' : 'bg-white border-black'
+              className={`border rounded-2xl shadow-xs transition-colors duration-300 ${
+                index % 2 === 1
+                  ? 'card-tint-red border-red-100'
+                  : 'bg-white border-black hover:border-red-600'
               }`}
               style={{ padding: 'clamp(1.5rem, 1.25rem + 0.8vw, 2.25rem)' }}
             >
