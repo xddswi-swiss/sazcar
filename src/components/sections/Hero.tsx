@@ -14,7 +14,7 @@ const badges = [
 export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) {
   return (
     <section
-      className="relative w-full flex items-center justify-center overflow-hidden bg-slate-50 lg:min-h-[100svh]"
+      className="relative w-full flex items-center justify-center overflow-hidden bg-slate-50"
     >
       {/* ── Fluid clean layout gradient (Light theme) ── */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-100 via-white to-slate-50" aria-hidden="true" />
@@ -205,46 +205,6 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
         </div>
       </div>
 
-      {/* Decorative looping van in the open space below the content, before the section ends */}
-      <div
-        aria-hidden
-        className="hidden md:block absolute inset-x-0 z-[1] pointer-events-none select-none"
-        style={{ bottom: 'clamp(2.5rem, 8vh, 5rem)' }}
-      >
-        <svg
-          className="hero-van-drive"
-          width="190"
-          height="68"
-          viewBox="0 0 180 64"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <ellipse cx="90" cy="58" rx="72" ry="3" fill="#0f172a" opacity="0.08" />
-
-          {/* body — boxy minibus silhouette, front (windshield) on the right */}
-          <path d="M14 50 L14 26 Q14 16 26 14 L120 14 Q136 14 146 24 L162 38 Q166 42 166 46 L166 50 Z" fill="#dc2626" />
-          <path d="M14 26 Q14 16 26 14 L120 14 Q136 14 146 24" stroke="#fecaca" strokeWidth="2" fill="none" opacity="0.45" />
-
-          {/* windshield + side window */}
-          <path d="M124 22 L138 22 Q144 22 149 27 L156 36 L124 36 Z" fill="#fecaca" />
-          <rect x="34" y="22" width="70" height="16" rx="4" fill="#fecaca" opacity="0.85" />
-
-          {/* headlight + bumper */}
-          <circle cx="160" cy="44" r="2.6" fill="#fde68a" />
-          <rect x="12" y="48" width="156" height="5" rx="2.5" fill="#7f1d1d" />
-
-          {/* side lettering */}
-          <text x="90" y="46" textAnchor="middle" fontFamily="Arial, sans-serif" fontWeight="800" fontSize="8" fill="#ffffff" letterSpacing="0.5">
-            SAZCAR GMBH
-          </text>
-
-          {/* wheels */}
-          <circle cx="46" cy="54" r="8" fill="#1e293b" />
-          <circle cx="46" cy="54" r="3.2" fill="#94a3b8" />
-          <circle cx="140" cy="54" r="8" fill="#1e293b" />
-          <circle cx="140" cy="54" r="3.2" fill="#94a3b8" />
-        </svg>
-      </div>
     </section>
   );
 }

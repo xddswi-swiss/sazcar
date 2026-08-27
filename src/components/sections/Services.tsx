@@ -119,13 +119,11 @@ export default function Services() {
                 }}
               >
                 <div className="space-y-4">
-                  {/* Icon Wrapper */}
-                  <div className="p-3 bg-red-50 text-red-600 rounded-2xl w-fit group-hover:bg-red-600 group-hover:text-white transition-all duration-300 border border-red-100">
-                    <Icon className="w-5 h-5" />
-                  </div>
-
-                  {/* Title & Description */}
-                  <div>
+                  {/* Icon + Title */}
+                  <div className="flex items-center gap-3">
+                    <div className="p-3 bg-red-50 text-red-600 rounded-2xl w-fit shrink-0 group-hover:bg-red-600 group-hover:text-white transition-all duration-300 border border-red-100">
+                      <Icon className="w-5 h-5" />
+                    </div>
                     <h3
                       className="font-bold text-slate-900 tracking-tight group-hover:text-red-600 transition-colors"
                       style={{
@@ -134,17 +132,18 @@ export default function Services() {
                     >
                       {service.title}
                     </h3>
-                    <p
-                      className="text-slate-600"
-                      style={{
-                        fontSize: 'clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem)',
-                        marginTop: '0.5rem',
-                        lineHeight: 1.6,
-                      }}
-                    >
-                      {service.shortDescription}
-                    </p>
                   </div>
+
+                  {/* Description */}
+                  <p
+                    className="text-slate-600"
+                    style={{
+                      fontSize: 'clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem)',
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {service.shortDescription}
+                  </p>
                 </div>
 
                 {/* Features List */}

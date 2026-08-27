@@ -164,3 +164,42 @@ WITH CHECK (TRUE);
 -- Fast lookup for the public-facing "current active promotion" query
 CREATE INDEX IF NOT EXISTS idx_promotions_active_window
 ON public.promotions (is_active, start_date, end_date);
+
+-- Job Openings Table (Karriere)
+-- Admin picks structured fields from dropdowns; the public ad text is assembled
+-- in the app from a fixed intro template + these fields, not stored as free text.
+CREATE TABLE IF NOT EXISTS public.job_openings (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    department TEXT NOT NULL CHECK (department IN ('karosserie', 'spengler', 'lackierer', 'mechaniker', 'sonstiges')),
+    pensum TEXT NOT NULL CHECK (pensum IN ('vollzeit', 'teilzeit')),
+    hours_per_week NUMERIC(4, 1),
+    employment_type TEXT NOT NULL CHECK (employment_type IN ('festanstellung', 'lehre', 'praktikum', 'temporaer')),
+    description TEXT NOT NULL DEFAULT '',
+    tasks TEXT[] NOT NULL DEFAULT '{}',
+    requirements TEXT[] NOT NULL DEFAULT '{}',
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    sort_order INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+-- For a table created before these columns existed:
+ALTER TABLE public.job_openings ADD COLUMN IF NOT EXISTS requirements TEXT[] NOT NULL DEFAULT '{}';
+ALTER TABLE public.job_openings ADD COLUMN IF NOT EXISTS description TEXT NOT NULL DEFAULT '';
+ALTER TABLE public.job_openings ADD COLUMN IF NOT EXISTS tasks TEXT[] NOT NULL DEFAULT '{}';
+
+ALTER TABLE public.job_openings ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow public select on active job openings"
+ON public.job_openings FOR SELECT
+USING (is_active = TRUE);
+
+CREATE POLICY "Allow admin select all job openings"
+ON public.job_openings FOR SELECT
+TO authenticated
+USING (TRUE);
+
+CREATE POLICY "Allow admin insert/update/delete on job openings"
+ON public.job_openings FOR ALL
+TO authenticated
+USING (TRUE)
+WITH CHECK (TRUE);

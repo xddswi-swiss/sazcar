@@ -15,6 +15,7 @@ const navLinks = [
   { href: '/#occasionen', label: 'Occasionen' },
   { href: '/#termin', label: 'Termin buchen' },
   { href: '/#kontakt', label: 'Kontakt' },
+  { href: '/karriere', label: 'Karriere' },
 ];
 
 export default function Header() {

@@ -85,23 +85,3 @@ html {
   }
 }
 
-/* ── Looping "SAZCAR GMBH" van driving through the open space under the Hero content ── */
-@keyframes hero-van-drive {
-  0% { left: -14%; opacity: 0; }
-  6% { opacity: 1; }
-  94% { opacity: 1; }
-  100% { left: 104%; opacity: 0; }
-}
-
-.hero-van-drive {
-  position: absolute;
-  animation: hero-van-drive 11s linear infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-van-drive {
-    animation: none;
-    display: none;
-  }
-}
-

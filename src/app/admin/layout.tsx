@@ -13,7 +13,8 @@ import {
   Menu,
   X,
   Gauge,
-  Tag
+  Tag,
+  Briefcase
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -31,6 +32,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: '/admin/appointments', name: 'Termine', icon: CalendarCheck },
     { href: '/admin/cars', name: 'Occasionen', icon: Car },
     { href: '/admin/promotions', name: 'Aktionen', icon: Tag },
+    { href: '/admin/jobs', name: 'Stellenangebote', icon: Briefcase },
   ];
 
   return (
