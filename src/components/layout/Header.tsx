@@ -54,12 +54,20 @@ export default function Header() {
       // The last section whose top has passed the 40% line is the one being read.
       const line = window.innerHeight * 0.4;
       let current = '';
+      let lastFoundHref = '';
       for (const link of allLinks) {
         const el = document.getElementById(link.href.split('#')[1]);
         if (!el) continue;
+        lastFoundHref = link.href;
         const rect = el.getBoundingClientRect();
         if (rect.top <= line && rect.bottom > 0) current = link.href;
       }
+
+      // At the very bottom of the page there's no more room to scroll the last
+      // section's top past the 40% line, so it would never register above — force it.
+      const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+      if (atBottom && lastFoundHref) current = lastFoundHref;
+
       setActiveSection(current);
     };
 
