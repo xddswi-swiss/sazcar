@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Logo from '@/components/ui/logo';
 import { Menu, X, Phone, ArrowUpRight, Home, ChevronDown, CornerDownRight } from 'lucide-react';
@@ -28,14 +29,27 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const reduceMotion = useReducedMotion();
-  const [activeSection, setActiveSection] = useState('');
+  const pathname = usePathname();
+  // Plain route links (no #section, e.g. /karriere) have no scroll position to spy on —
+  // they're active whenever the current page matches, regardless of scroll.
+  const [activeSection, setActiveSection] = useState(
+    () => allLinks.find((link) => !link.href.includes('#') && link.href === pathname)?.href ?? ''
+  );
 
   // Header background + active section, from one scroll handler.
   // The DOM is queried on every tick, so sections that mount late (client-only
   // sections, the form's success branch) get picked up without re-registering.
   useEffect(() => {
+    const routeMatch = allLinks.find((link) => !link.href.includes('#') && link.href === pathname);
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
+
+      // A plain route link stays active for the whole page — no #section to compare scroll against.
+      if (routeMatch) {
+        setActiveSection(routeMatch.href);
+        return;
+      }
 
       // The last section whose top has passed the 40% line is the one being read.
       const line = window.innerHeight * 0.4;
@@ -56,7 +70,7 @@ export default function Header() {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
-  }, []);
+  }, [pathname]);
 
   // Escape closes the menu
   useEffect(() => {
