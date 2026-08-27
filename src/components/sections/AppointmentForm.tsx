@@ -72,6 +72,7 @@ async function submitAppointment(data: {
   preferred_time: string;
   notes: string;
   image_urls: string[];
+  turnstile_token?: string;
 }) {
   const res = await fetch('/api/appointments', {
     method: 'POST',
@@ -89,6 +90,9 @@ export default function AppointmentForm() {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [images, setImages] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   const handleServiceToggle = (title: string) => {
     setSelectedServices((prev) =>
@@ -153,6 +157,7 @@ export default function AppointmentForm() {
         preferred_time: getVal('preferred_time'),
         notes: getVal('notes'),
         image_urls: images,
+        turnstile_token: turnstileToken || undefined,
       };
 
       if (!data.customer_name || !data.phone || !data.email || !data.vehicle_info || !data.preferred_date || !data.preferred_time) {
@@ -160,20 +165,39 @@ export default function AppointmentForm() {
         return;
       }
 
+      if (turnstileSiteKey && !turnstileToken) {
+        setError('Bitte schliessen Sie die Sicherheitsprüfung ab.');
+        return;
+      }
+
+      const resetTurnstile = () => {
+        if (turnstileSiteKey && (window as any).turnstile) {
+          try {
+            (window as any).turnstile.reset();
+          } catch (err) {
+            console.error('Error resetting Turnstile:', err);
+          }
+          setTurnstileToken(null);
+        }
+      };
+
       startTransition(async () => {
         try {
           const result = await submitAppointment(data);
           if (result && result.error) {
             setError(result.error);
+            resetTurnstile();
           } else if (result && result.success) {
             setSuccess(true);
             router.push('/danke');
           } else {
             setError('Verbindung zum Server fehlgeschlagen (Keine gültige Antwort).');
+            resetTurnstile();
           }
         } catch (err) {
           console.error('Submit error:', err);
           setError('Netzwerkfehler: Verbindung zum Server fehlgeschlagen.');
+          resetTurnstile();
         }
       });
     } catch (err) {
@@ -383,6 +407,13 @@ export default function AppointmentForm() {
                 </div>
               </div>
 
+              {turnstileSiteKey && (
+                <TurnstileWidget
+                  siteKey={turnstileSiteKey}
+                  onVerify={(token) => setTurnstileToken(token)}
+                />
+              )}
+
               <button
                 type="submit"
                 disabled={isPending || uploading}
@@ -407,4 +438,111 @@ export default function AppointmentForm() {
       </div>
     </section>
   );
+}
+
+// Simple custom Turnstile wrapper to avoid external dependencies
+function TurnstileWidget({
+  siteKey,
+  onVerify,
+}: {
+  siteKey: string;
+  onVerify: (token: string) => void;
+}) {
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  const onVerifyRef = React.useRef(onVerify);
+  
+  React.useEffect(() => {
+    onVerifyRef.current = onVerify;
+  }, [onVerify]);
+
+  React.useEffect(() => {
+    if (typeof window === 'undefined' || !siteKey) return;
+
+    console.log('TurnstileWidget: Mount/Effect run. siteKey:', siteKey);
+
+    let isCancelled = false;
+    let widgetId: string | null = null;
+
+    // Use a unique callback name per render/instance to avoid conflicts
+    const callbackName = 'cf_turnstile_callback_' + Math.random().toString(36).substring(2, 9);
+    (window as any)[callbackName] = (token: string) => {
+      if (!isCancelled) {
+        console.log('TurnstileWidget: Verified successfully.');
+        onVerifyRef.current(token);
+      }
+    };
+
+    // Inject Cloudflare Turnstile script
+    if (!document.getElementById('cf-turnstile-script')) {
+      const script = document.createElement('script');
+      script.id = 'cf-turnstile-script';
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=cfTurnstileOnloadCallback';
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+
+    const renderWidget = () => {
+      if (isCancelled) return;
+
+      const turnstile = (window as any).turnstile;
+      if (turnstile && containerRef.current) {
+        // Clear container to prevent double rendering and StrictMode conflicts
+        containerRef.current.innerHTML = '';
+        const el = document.createElement('div');
+        containerRef.current.appendChild(el);
+
+        try {
+          console.log('TurnstileWidget: Calling turnstile.render() on fresh element.');
+          widgetId = turnstile.render(el, {
+            sitekey: siteKey,
+            callback: (window as any)[callbackName],
+            theme: 'light',
+          });
+        } catch (e) {
+          console.error('Turnstile render error:', e);
+        }
+      } else {
+        setTimeout(renderWidget, 100);
+      }
+    };
+
+    // Register onload callback or render directly if script is already loaded
+    if (!(window as any).turnstile) {
+      const existingCallback = (window as any).cfTurnstileOnloadCallback;
+      (window as any).cfTurnstileOnloadCallback = () => {
+        if (existingCallback) {
+          try {
+            existingCallback();
+          } catch (e) {
+            console.error(e);
+          }
+        }
+        renderWidget();
+      };
+    } else {
+      renderWidget();
+    }
+
+    return () => {
+      console.log('TurnstileWidget: Cleanup run.');
+      isCancelled = true;
+      delete (window as any)[callbackName];
+      const turnstile = (window as any).turnstile;
+      if (widgetId && turnstile) {
+        try {
+          turnstile.remove(widgetId);
+        } catch (e) {
+          console.error('Turnstile cleanup error:', e);
+        }
+      }
+      if (containerRef.current) {
+        containerRef.current.innerHTML = '';
+      }
+    };
+  }, [siteKey]);
+
+  if (!siteKey) return null;
+  return <div ref={containerRef} className="flex justify-center my-3" />;
 }

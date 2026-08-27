@@ -15,6 +15,7 @@ export async function POST(request: Request) {
       preferred_time,
       notes,
       image_urls,
+      turnstile_token,
     } = body;
 
     // Server-side validation
@@ -23,6 +24,43 @@ export async function POST(request: Request) {
         { error: 'Bitte füllen Sie alle erforderlichen Felder aus.' },
         { status: 400 }
       );
+    }
+
+    // Verify Turnstile if key is configured
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+    if (turnstileSecret) {
+      if (!turnstile_token) {
+        return NextResponse.json(
+          { error: 'Sicherheitsprüfung fehlt. Bitte versuchen Sie es erneut.' },
+          { status: 400 }
+        );
+      }
+
+      try {
+        const verifyRes = await fetch(
+          'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              secret: turnstileSecret,
+              response: turnstile_token,
+            }),
+          }
+        );
+
+        const verifyJson = await verifyRes.json();
+        if (!verifyJson.success) {
+          console.warn('Turnstile verification failed:', verifyJson);
+          return NextResponse.json(
+            { error: 'Sicherheitsprüfung fehlgeschlagen. Sind Sie ein Roboter?' },
+            { status: 400 }
+          );
+        }
+      } catch (err) {
+        console.error('Turnstile connection error:', err);
+        // Do not block user if Cloudflare API is down
+      }
     }
 
     const supabase = await createClient();
