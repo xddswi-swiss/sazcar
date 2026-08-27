@@ -28,16 +28,26 @@ export default async function KarrierePage() {
   const openings = (jobs || []) as JobOpening[];
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800">
+    <div
+      className="min-h-screen flex flex-col text-slate-800"
+      style={{
+        backgroundImage:
+          'linear-gradient(rgba(248,250,252,0.82), rgba(248,250,252,0.82)), url(/karriere-bg.webp)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 35%',
+        backgroundAttachment: 'fixed',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       <Header />
 
       <main
-        className="flex-1 mx-auto w-full"
+        className="flex-1 w-full"
         style={{
-          maxWidth: '900px',
-          padding: 'clamp(6rem, 5rem + 4vw, 9rem) clamp(1.25rem, 0.75rem + 2vw, 2rem) clamp(4rem, 3rem + 4vw, 6rem)',
+          padding: 'clamp(7rem, 5rem + 6vw, 11rem) clamp(1rem, 0.429rem + 2.857vw, 3rem) clamp(4rem, 3rem + 4vw, 6rem)',
         }}
       >
+      <div className="mx-auto" style={{ maxWidth: '1200px' }}>
       <h1
         className="font-black tracking-tight text-slate-900"
         style={{ fontSize: 'clamp(1.75rem, 1.393rem + 1.786vw, 3rem)' }}
@@ -48,39 +58,60 @@ export default async function KarrierePage() {
         {JOB_AD_INTRO}
       </p>
 
-      <div className="mt-10 grid grid-cols-1 gap-5">
+      <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
         {openings.length > 0 ? (
           openings.map((job, index) => (
             <div
               key={job.id}
-              className={`border rounded-2xl p-6 shadow-xs ${
+              className={`border rounded-2xl shadow-xs ${
                 index % 2 === 1 ? 'card-tint-red border-red-100' : 'bg-white border-black'
               }`}
+              style={{ padding: 'clamp(1.5rem, 1.25rem + 0.8vw, 2.25rem)' }}
             >
               <div className="flex items-center gap-3">
                 <span className="flex items-center justify-center w-9 h-9 rounded-full bg-red-50 text-red-600 shrink-0">
                   <Briefcase className="w-4.5 h-4.5" />
                 </span>
-                <h2 className="font-bold text-slate-900 text-lg">{jobAdTitle(job)}</h2>
+                <h2
+                  className="font-bold text-slate-900 tracking-tight"
+                  style={{ fontSize: 'clamp(1rem, 0.95rem + 0.2vw, 1.25rem)' }}
+                >
+                  {jobAdTitle(job)}
+                </h2>
               </div>
-              <p className="flex items-center gap-1.5 text-xs text-slate-500 mt-2">
+              <p
+                className="flex items-center gap-1.5 text-slate-500 mt-2"
+                style={{ fontSize: 'clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem)' }}
+              >
                 <Clock className="w-3.5 h-3.5" />
                 {EMPLOYMENT_TYPE_LABELS[job.employment_type]}
                 {job.hours_per_week ? ` · ${job.hours_per_week} Std./Woche` : ''}
               </p>
 
               {job.description && (
-                <p className="text-sm text-slate-600 mt-4" style={{ lineHeight: 1.6 }}>
+                <p
+                  className="text-slate-600 mt-4"
+                  style={{ fontSize: 'clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem)', lineHeight: 1.6 }}
+                >
                   {job.description}
                 </p>
               )}
 
               {job.tasks && job.tasks.length > 0 && (
                 <div className="mt-4">
-                  <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wide">Typische Aufgaben</h3>
+                  <h3
+                    className="font-bold text-slate-900 uppercase tracking-wide"
+                    style={{ fontSize: 'clamp(0.6875rem, 0.67rem + 0.1vw, 0.75rem)' }}
+                  >
+                    Typische Aufgaben
+                  </h3>
                   <ul className="mt-2 space-y-1.5">
                     {job.tasks.map((task, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                      <li
+                        key={i}
+                        className="flex items-start gap-2 text-slate-700 font-medium"
+                        style={{ fontSize: 'clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem)' }}
+                      >
                         <Check className="w-3.5 h-3.5 text-red-600 shrink-0 mt-0.5" />
                         <span>{task}</span>
                       </li>
@@ -91,10 +122,19 @@ export default async function KarrierePage() {
 
               {job.requirements && job.requirements.length > 0 && (
                 <div className="mt-4">
-                  <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wide">Anforderungen & Erwartungen</h3>
+                  <h3
+                    className="font-bold text-slate-900 uppercase tracking-wide"
+                    style={{ fontSize: 'clamp(0.6875rem, 0.67rem + 0.1vw, 0.75rem)' }}
+                  >
+                    Anforderungen &amp; Erwartungen
+                  </h3>
                   <ul className="mt-2 space-y-1.5">
                     {job.requirements.map((req, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                      <li
+                        key={i}
+                        className="flex items-start gap-2 text-slate-700 font-medium"
+                        style={{ fontSize: 'clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem)' }}
+                      >
                         <Check className="w-3.5 h-3.5 text-red-600 shrink-0 mt-0.5" />
                         <span>{req}</span>
                       </li>
@@ -105,7 +145,8 @@ export default async function KarrierePage() {
 
               <a
                 href={jobMailtoHref(job)}
-                className="mt-5 inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl transition-colors"
+                className="mt-5 inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2.5 rounded-xl transition-colors"
+                style={{ fontSize: 'clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem)' }}
               >
                 <Send className="w-4 h-4" />
                 <span>Jetzt bewerben</span>
@@ -113,10 +154,11 @@ export default async function KarrierePage() {
             </div>
           ))
         ) : (
-          <p className="text-sm text-slate-500">
+          <p className="text-slate-500" style={{ fontSize: 'clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem)' }}>
             Aktuell keine offenen Stellen. Initiativbewerbungen sind jederzeit willkommen.
           </p>
         )}
+      </div>
       </div>
       </main>
 
