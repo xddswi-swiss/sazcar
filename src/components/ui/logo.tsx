@@ -1,5 +1,8 @@
+'use client';
+
 import Image from 'next/image';
 import { Car } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface LogoProps {
   className?: string;
@@ -19,6 +22,7 @@ interface LogoProps {
  */
 export default function Logo({ className, variant = 'default' }: LogoProps) {
   const inverted = variant === 'inverted';
+  const reduceMotion = useReducedMotion();
 
   return (
     <div className={className}>
@@ -62,12 +66,18 @@ export default function Logo({ className, variant = 'default' }: LogoProps) {
               >
                 AUTOGARAGE
               </span>
-              <span
-                className={`font-bold tracking-wide ${inverted ? 'text-red-100' : 'text-red-600'}`}
-                style={{ fontSize: 'clamp(0.75rem, 0.7rem + 0.25vw, 0.9375rem)' }}
+              <motion.span
+                className={`font-black italic tracking-wide ${
+                  inverted ? 'text-white' : 'bg-gradient-to-r from-red-600 to-red-500 bg-clip-text text-transparent'
+                }`}
+                /* fluid font: 17px@320 → 21px@1440, same slope as AUTOGARAGE above
+                   slope=(21-17)/(1440-320)=0.00357 → 0.357vw, intercept=17-0.00357*320=15.86px≈0.991rem */
+                style={{ fontSize: 'clamp(1.0625rem, 0.991rem + 0.357vw, 1.3125rem)' }}
+                animate={reduceMotion ? undefined : { scale: [1, 1.08, 1] }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
               >
                 SAZCAR
-              </span>
+              </motion.span>
             </span>
             <span className={`text-[10px] font-semibold tracking-widest uppercase ${inverted ? 'text-red-100' : 'text-red-600'}`}>
               & Carrosserie
