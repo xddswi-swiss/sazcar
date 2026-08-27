@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
@@ -35,6 +35,15 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState(
     () => allLinks.find((link) => !link.href.includes('#') && link.href === pathname)?.href ?? ''
   );
+  // Set (with a timestamp) when a nav link is clicked, so the smooth-scroll animation's
+  // in-between frames can't flicker the highlight back to the section being left.
+  const clickLockRef = useRef<{ href: string; until: number } | null>(null);
+  const CLICK_LOCK_MS = 1200;
+
+  const handleNavClick = (href: string) => {
+    setActiveSection(href);
+    clickLockRef.current = { href, until: Date.now() + CLICK_LOCK_MS };
+  };
 
   // Header background + active section, from one scroll handler.
   // The DOM is queried on every tick, so sections that mount late (client-only
@@ -48,6 +57,12 @@ export default function Header() {
       // A plain route link stays active for the whole page — no #section to compare scroll against.
       if (routeMatch) {
         setActiveSection(routeMatch.href);
+        return;
+      }
+
+      const lock = clickLockRef.current;
+      if (lock && Date.now() < lock.until) {
+        setActiveSection(lock.href);
         return;
       }
 
@@ -231,6 +246,7 @@ export default function Header() {
                 <li key={link.href} className="relative group">
                   <a
                     href={link.href}
+                    onClick={() => handleNavClick(link.href)}
                     className={`relative flex items-center gap-1 px-3 py-2 text-base font-bold transition-colors rounded-lg ${
                       isActive
                         ? 'text-red-600 bg-red-50'
@@ -254,6 +270,7 @@ export default function Header() {
                           <li key={child.href}>
                             <a
                               href={child.href}
+                              onClick={() => handleNavClick(child.href)}
                               className={`block px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
                                 activeSection === child.href
                                   ? 'text-red-600 bg-red-50'
@@ -373,7 +390,10 @@ export default function Header() {
                     <motion.div key={link.label} {...itemMotion}>
                       <a
                         href={link.href}
-                        onClick={() => setMenuOpen(false)}
+                        onClick={() => {
+                          handleNavClick(link.href);
+                          setMenuOpen(false);
+                        }}
                         aria-current={isActive ? 'true' : undefined}
                         className={`group relative flex items-center gap-3 rounded-2xl px-3 py-2.5 text-[16px] font-bold tracking-tight transition-all duration-300 ${
                           isActive
@@ -414,7 +434,10 @@ export default function Header() {
                           <a
                             key={child.href}
                             href={child.href}
-                            onClick={() => setMenuOpen(false)}
+                            onClick={() => {
+                              handleNavClick(child.href);
+                              setMenuOpen(false);
+                            }}
                             aria-current={childActive ? 'true' : undefined}
                             className={`flex items-center gap-2.5 rounded-xl pl-9 pr-3 py-2 -mt-1 text-sm font-semibold transition-all duration-300 ${
                               childActive
