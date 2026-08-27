@@ -4,19 +4,25 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Logo from '@/components/ui/logo';
-import { Menu, X, Phone, ArrowUpRight, Home } from 'lucide-react';
+import { Menu, X, Phone, ArrowUpRight, Home, ChevronDown, CornerDownRight } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 const NAV_BREAKPOINT = 768;
 
-const navLinks = [
-  { href: '/#dienstleistungen', label: 'Dienstleistungen' },
-  { href: '/#vorher-nachher', label: 'Vorher / Nachher' },
-  { href: '/#occasionen', label: 'Occasionen' },
-  { href: '/#termin', label: 'Termin buchen' },
-  { href: '/#kontakt', label: 'Kontakt' },
-  { href: '/karriere', label: 'Karriere' },
+const navLinks: { href: string; label: string; children: { href: string; label: string }[] }[] = [
+  {
+    href: '/#dienstleistungen',
+    label: 'Dienstleistungen',
+    children: [{ href: '/#vorher-nachher', label: 'Vorher / Nachher' }],
+  },
+  { href: '/#occasionen', label: 'Occasionen', children: [] },
+  { href: '/#termin', label: 'Termin buchen', children: [] },
+  { href: '/#kontakt', label: 'Kontakt', children: [{ href: '/karriere', label: 'Karriere' }] },
 ];
+
+// Flat list of every section link (parents + children) — used for scroll-spy,
+// since the viewport can land on a nested section the top nav doesn't show directly.
+const allLinks = navLinks.flatMap((link) => [link, ...link.children]);
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -34,7 +40,7 @@ export default function Header() {
       // The last section whose top has passed the 40% line is the one being read.
       const line = window.innerHeight * 0.4;
       let current = '';
-      for (const link of navLinks) {
+      for (const link of allLinks) {
         const el = document.getElementById(link.href.split('#')[1]);
         if (!el) continue;
         const rect = el.getBoundingClientRect();
@@ -111,7 +117,7 @@ export default function Header() {
     <>
       <header
         className={`
-          fixed top-0 left-0 w-full z-50 overflow-hidden
+          fixed top-0 left-0 w-full z-50
           transition-[box-shadow,border-color] duration-300
           ${scrolled
             ? 'border-b border-slate-200/80 shadow-sm'
@@ -141,12 +147,18 @@ export default function Header() {
           padding: 'clamp(0.75rem, 0.5rem + 0.5vw, 1rem) clamp(1rem, 0.429rem + 2.857vw, 3rem)',
         }}
       >
-        {/* Logo + home/back-to-top icon, grouped so the outer row's justify-between still treats
-            this as one block (nav-hidden-on-mobile / burger-hidden-on-desktop stays unaffected). */}
-        <div className="flex items-center gap-1">
-          <Link href="/" aria-label="Startseite">
-            <Logo />
-          </Link>
+        <Link href="/" aria-label="Startseite">
+          <Logo />
+        </Link>
+
+        {/* Desktop Nav */}
+        <nav
+          className="hidden items-center gap-2"
+          style={{
+            display: 'var(--nav-display, none)',
+          }}
+        >
+          <style>{`@media(min-width:${NAV_BREAKPOINT}px){:root{--nav-display:flex}}`}</style>
           <a
             href="#"
             onClick={(e) => {
@@ -154,7 +166,7 @@ export default function Header() {
               window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
             }}
             aria-label="Zum Seitenanfang"
-            className="relative p-2 rounded-xl text-red-600 hover:bg-red-50 transition-colors"
+            className="relative p-2.5 rounded-xl text-red-600 hover:bg-red-50 transition-colors"
           >
             {!reduceMotion && (
               <motion.span
@@ -164,32 +176,25 @@ export default function Header() {
                 transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
               />
             )}
-            <Home className="relative w-5 h-5" />
+            <Home className="relative w-6 h-6" />
           </a>
-        </div>
-
-        {/* Desktop Nav */}
-        <nav
-          className="hidden items-center"
-          style={{
-            display: 'var(--nav-display, none)',
-          }}
-        >
-          <style>{`@media(min-width:${NAV_BREAKPOINT}px){:root{--nav-display:flex}}`}</style>
           <ul className="flex items-center gap-1">
             {navLinks.map((link) => {
-              const isActive = activeSection === link.href;
+              const children = link.children;
+              const isActive =
+                activeSection === link.href || children.some((c) => c.href === activeSection);
               return (
-                <li key={link.href}>
+                <li key={link.href} className="relative group">
                   <a
                     href={link.href}
-                    className={`relative px-3 py-2 text-base font-bold transition-colors rounded-lg ${
+                    className={`relative flex items-center gap-1 px-3 py-2 text-base font-bold transition-colors rounded-lg ${
                       isActive
                         ? 'text-red-600 bg-red-50'
                         : 'text-black hover:text-red-600 hover:bg-slate-100'
                     }`}
                   >
                     {link.label}
+                    {children.length > 0 && <ChevronDown className="w-3.5 h-3.5" />}
                     {/* aktif bölüm göstergesi */}
                     <span
                       className={`absolute left-3 right-3 -bottom-0.5 h-[3px] rounded-full bg-red-600 origin-left transition-transform duration-300 ${
@@ -197,6 +202,27 @@ export default function Header() {
                       }`}
                     />
                   </a>
+
+                  {children.length > 0 && (
+                    <div className="absolute left-0 top-full pt-2 hidden group-hover:block group-focus-within:block">
+                      <ul className="min-w-[200px] rounded-xl border border-slate-200 bg-white shadow-lg p-1.5">
+                        {children.map((child) => (
+                          <li key={child.href}>
+                            <a
+                              href={child.href}
+                              className={`block px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                                activeSection === child.href
+                                  ? 'text-red-600 bg-red-50'
+                                  : 'text-slate-700 hover:text-red-600 hover:bg-slate-100'
+                              }`}
+                            >
+                              {child.label}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </li>
               );
             })}
@@ -298,6 +324,7 @@ export default function Header() {
               <div className="relative flex flex-col gap-1 mt-3">
                 {navLinks.map((link, idx) => {
                   const isActive = activeSection === link.href;
+                  const children = link.children;
                   return (
                     <motion.div key={link.label} {...itemMotion}>
                       <a
@@ -336,6 +363,26 @@ export default function Header() {
                           }`}
                         />
                       </a>
+
+                      {children.map((child) => {
+                        const childActive = activeSection === child.href;
+                        return (
+                          <a
+                            key={child.href}
+                            href={child.href}
+                            onClick={() => setMenuOpen(false)}
+                            aria-current={childActive ? 'true' : undefined}
+                            className={`flex items-center gap-2.5 rounded-xl pl-9 pr-3 py-2 -mt-1 text-sm font-semibold transition-all duration-300 ${
+                              childActive
+                                ? 'text-red-600 bg-red-50'
+                                : 'text-slate-500 hover:text-red-600 hover:bg-white/60'
+                            }`}
+                          >
+                            <CornerDownRight className="w-3.5 h-3.5 shrink-0" />
+                            <span>{child.label}</span>
+                          </a>
+                        );
+                      })}
                     </motion.div>
                   );
                 })}
