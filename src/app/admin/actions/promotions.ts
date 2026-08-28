@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { runMutation, swapSortOrder } from './db-helpers';
 
 export async function savePromotion(formData: FormData) {
   const id = formData.get('id') as string | null;
@@ -66,53 +67,25 @@ export async function savePromotion(formData: FormData) {
 }
 
 export async function deletePromotion(id: string) {
-  const supabase = await createClient();
-
-  const { error } = await supabase
-    .from('promotions')
-    .delete()
-    .eq('id', id);
-
-  if (error) {
-    console.error('Error deleting promotion:', error);
-    return { error: 'Fehler beim Löschen der Aktion.' };
-  }
-
-  revalidatePath('/admin/promotions');
-  revalidatePath('/');
-  return { success: true };
+  return runMutation(
+    (s) => s.from('promotions').delete().eq('id', id),
+    'Fehler beim Löschen der Aktion.',
+    ['/admin/promotions', '/']
+  );
 }
 
 export async function reorderPromotion(idA: string, orderA: number, idB: string, orderB: number) {
-  const supabase = await createClient();
-
-  const { error: errA } = await supabase.from('promotions').update({ sort_order: orderB }).eq('id', idA);
-  const { error: errB } = await supabase.from('promotions').update({ sort_order: orderA }).eq('id', idB);
-
-  if (errA || errB) {
-    console.error('Error reordering promotions:', errA || errB);
-    return { error: 'Fehler beim Ändern der Reihenfolge.' };
-  }
-
-  revalidatePath('/admin/promotions');
-  revalidatePath('/');
-  return { success: true };
+  return swapSortOrder(
+    'promotions', idA, orderA, idB, orderB,
+    'Fehler beim Ändern der Reihenfolge.',
+    ['/admin/promotions', '/']
+  );
 }
 
 export async function togglePromotionActive(id: string, is_active: boolean) {
-  const supabase = await createClient();
-
-  const { error } = await supabase
-    .from('promotions')
-    .update({ is_active })
-    .eq('id', id);
-
-  if (error) {
-    console.error('Error toggling promotion state:', error);
-    return { error: 'Fehler beim Aktualisieren des Aktionsstatus.' };
-  }
-
-  revalidatePath('/admin/promotions');
-  revalidatePath('/');
-  return { success: true };
+  return runMutation(
+    (s) => s.from('promotions').update({ is_active }).eq('id', id),
+    'Fehler beim Aktualisieren des Aktionsstatus.',
+    ['/admin/promotions', '/']
+  );
 }

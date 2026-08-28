@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { runMutation, swapSortOrder } from './db-helpers';
 
 export async function saveJob(formData: FormData) {
   const id = formData.get('id') as string | null;
@@ -64,47 +65,25 @@ export async function saveJob(formData: FormData) {
 }
 
 export async function deleteJob(id: string) {
-  const supabase = await createClient();
-
-  const { error } = await supabase.from('job_openings').delete().eq('id', id);
-
-  if (error) {
-    console.error('Error deleting job opening:', error);
-    return { error: 'Fehler beim Löschen der Stelle.' };
-  }
-
-  revalidatePath('/admin/jobs');
-  revalidatePath('/karriere');
-  return { success: true };
+  return runMutation(
+    (s) => s.from('job_openings').delete().eq('id', id),
+    'Fehler beim Löschen der Stelle.',
+    ['/admin/jobs', '/karriere']
+  );
 }
 
 export async function reorderJob(idA: string, orderA: number, idB: string, orderB: number) {
-  const supabase = await createClient();
-
-  const { error: errA } = await supabase.from('job_openings').update({ sort_order: orderB }).eq('id', idA);
-  const { error: errB } = await supabase.from('job_openings').update({ sort_order: orderA }).eq('id', idB);
-
-  if (errA || errB) {
-    console.error('Error reordering job openings:', errA || errB);
-    return { error: 'Fehler beim Ändern der Reihenfolge.' };
-  }
-
-  revalidatePath('/admin/jobs');
-  revalidatePath('/karriere');
-  return { success: true };
+  return swapSortOrder(
+    'job_openings', idA, orderA, idB, orderB,
+    'Fehler beim Ändern der Reihenfolge.',
+    ['/admin/jobs', '/karriere']
+  );
 }
 
 export async function toggleJobActive(id: string, is_active: boolean) {
-  const supabase = await createClient();
-
-  const { error } = await supabase.from('job_openings').update({ is_active }).eq('id', id);
-
-  if (error) {
-    console.error('Error toggling job opening state:', error);
-    return { error: 'Fehler beim Aktualisieren des Status.' };
-  }
-
-  revalidatePath('/admin/jobs');
-  revalidatePath('/karriere');
-  return { success: true };
+  return runMutation(
+    (s) => s.from('job_openings').update({ is_active }).eq('id', id),
+    'Fehler beim Aktualisieren des Status.',
+    ['/admin/jobs', '/karriere']
+  );
 }

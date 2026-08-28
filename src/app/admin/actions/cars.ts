@@ -2,6 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server';
 import { revalidatePath } from 'next/cache';
+import { runMutation } from './db-helpers';
 
 export async function saveCar(formData: FormData) {
   const id = formData.get('id') as string | null;
@@ -62,37 +63,17 @@ export async function saveCar(formData: FormData) {
 }
 
 export async function deleteCar(id: string) {
-  const supabase = await createClient();
-
-  const { error } = await supabase
-    .from('cars_for_sale')
-    .delete()
-    .eq('id', id);
-
-  if (error) {
-    console.error('Error deleting car:', error);
-    return { error: 'Fehler beim Löschen des Fahrzeugs.' };
-  }
-
-  revalidatePath('/admin/cars');
-  revalidatePath('/');
-  return { success: true };
+  return runMutation(
+    (s) => s.from('cars_for_sale').delete().eq('id', id),
+    'Fehler beim Löschen des Fahrzeugs.',
+    ['/admin/cars', '/']
+  );
 }
 
 export async function toggleCarActive(id: string, is_active: boolean) {
-  const supabase = await createClient();
-
-  const { error } = await supabase
-    .from('cars_for_sale')
-    .update({ is_active })
-    .eq('id', id);
-
-  if (error) {
-    console.error('Error toggling car state:', error);
-    return { error: 'Fehler beim Aktualisieren des Fahrzeugstatus.' };
-  }
-
-  revalidatePath('/admin/cars');
-  revalidatePath('/');
-  return { success: true };
+  return runMutation(
+    (s) => s.from('cars_for_sale').update({ is_active }).eq('id', id),
+    'Fehler beim Aktualisieren des Fahrzeugstatus.',
+    ['/admin/cars', '/']
+  );
 }
