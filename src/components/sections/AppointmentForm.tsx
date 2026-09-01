@@ -288,11 +288,11 @@ export default function AppointmentForm() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="relative bg-white/25 backdrop-blur-md border border-slate-200/80 hover:bg-white rounded-3xl shadow-sm transition-all duration-300"
+            className="relative bg-white/45 backdrop-blur-md border-2 border-red-500 hover:border-red-600 rounded-3xl shadow-lg shadow-red-900/5 transition-all duration-300"
             style={{ padding: 'clamp(1.5rem, 1.25rem + 0.8vw, 2.5rem)' }}
           >
-            {/* SAZCAR Minibus Van Mascot driving infinitely across full length of email form card */}
-            <div className="absolute -top-5 sm:-top-7 left-0 right-0 overflow-hidden h-14 pointer-events-none z-20">
+            {/* SAZCAR Minibus Van Mascot driving infinitely ON TOP of the red border line */}
+            <div className="absolute -top-[30px] sm:-top-[36px] left-0 right-0 overflow-hidden h-16 pointer-events-none z-20">
               <style>{`
                 @keyframes vanDriveAcross {
                   0% { transform: translateX(-100px); }
