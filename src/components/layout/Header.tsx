@@ -14,8 +14,12 @@ const navLinks: { href: string; label: string; children: { href: string; label: 
   {
     href: '/#dienstleistungen',
     label: 'Dienstleistungen',
-    children: [{ href: '/#vorher-nachher', label: 'Vorher / Nachher' }],
+    children: [
+      { href: '/#hagelschaden', label: 'Hagelschaden-Zentrum' },
+      { href: '/#vorher-nachher', label: 'Vorher / Nachher' },
+    ],
   },
+  { href: '/#hagelschaden', label: 'Hagelschaden', children: [] },
   { href: '/#occasionen', label: 'Occasionen', children: [] },
   { href: '/#termin', label: 'Termin buchen', children: [] },
   { href: '/#kontakt', label: 'Kontakt', children: [{ href: '/karriere', label: 'Karriere' }] },

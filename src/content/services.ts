@@ -11,14 +11,17 @@ export const services: ServiceItem[] = [
   {
     id: 'hagelschaden-instandsetzung',
     title: 'Hagelschaden & Unwetterschaden',
-    shortDescription: 'Sanfte Dellenentfernung (Drücktechnik), Glasschaden-Austausch und 100% Versicherungsservice.',
-    longDescription: 'Nach dem Hagelunwetter in der Region reparieren wir Ihr Fahrzeug schnell, fachgerecht und werterhaltend. Von sanftem Drücken ohne Nachlackieren bis zur direkten Schadenabwicklung mit der Schweizer Kaskoversicherung übernehmen wir alles.',
+    shortDescription: 'Spezialisierter Hagelservice: Drücktechnik (PDR), Ziehtechnik, Scheibenaustausch mit ADAS-Kalibrierung & 100% Kaskoservice.',
+    longDescription: 'Als erfahrener Carrosserie- & Spenglerfachbetrieb reparieren wir Hagelschäden sanft, präzise und werterhaltend. Mit zertifizierter Drücktechnik (ohne Nachlackieren), Klebezugverfahren und kompletter Direktabrechnung mit Ihrer Schweizer Kaskoversicherung übernehmen wir den gesamten Ablauf für Sie.',
     iconName: 'CloudRain',
     features: [
-      'Sanftes Ausbeulen & Drücktechnik (ohne Nachlackieren)',
-      'Austausch beschädigter Autogläser & Beleuchtung',
-      'Direkte Abwicklung mit Ihrer Schweizer Kaskoversicherung',
-      'Ersatzwagen auf Wunsch für Ihre Mobilität'
+      'PDR-Drücktechnik (Sanftes Herausmassieren von innen ohne Lackschaden)',
+      'Klebetechnik / Ziehtechnik (für unzugängliche Dachholme & Säulen)',
+      'Induktions- & Spannungsausgleich bei tiefen Einschlägen',
+      'Konventionelle Spengler- & Neulackierung bei gerissenem Lack',
+      'Scheibenaustausch & Kamera- / ADAS-Assistenzsystem-Kalibrierung',
+      '100% direkte Schadenabwicklung mit allen Schweizer Kaskoversicherungen',
+      'Kostenloser Ersatzwagen & Mobilitätsgarantie'
     ]
   },
   {
