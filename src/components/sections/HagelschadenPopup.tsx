@@ -7,16 +7,14 @@ import { CloudRain, ShieldCheck, Car, X, ArrowRight, Wrench, Sparkles, PhoneCall
 import { PROMO_CTA_EVENT } from './PromoBadge';
 
 const HAGEL_SERVICE_NAME = 'Hagelschaden & Unwetterschaden';
-const SEEN_KEY = 'sazcar_hagelschaden_popup_seen';
+const SEEN_KEY = 'sazcar_hagelschaden_popup_seen_v2';
 
 export default function HagelschadenPopup() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    // Show once per visitor, ever (not once per reload).
-    // localStorage can throw (Safari cookie-blocking, privacy extensions, in-app
-    // webviews) — fall back to always showing rather than crashing the page.
+    // Show strictly ONCE per visitor ever
     let seen = false;
     try {
       seen = !!localStorage.getItem(SEEN_KEY);
@@ -28,7 +26,7 @@ export default function HagelschadenPopup() {
       try {
         localStorage.setItem(SEEN_KEY, '1');
       } catch {}
-    }, 1200);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 

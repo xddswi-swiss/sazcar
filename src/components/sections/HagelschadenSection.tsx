@@ -150,30 +150,40 @@ export default function HagelschadenSection() {
   return (
     <section
       id="hagelschaden"
-      className="relative w-full overflow-hidden bg-slate-900 text-white"
+      className="relative w-full overflow-hidden bg-slate-50 text-slate-800"
       style={{
         padding: 'clamp(4rem, 3rem + 4vw, 7.5rem) clamp(1rem, 0.429rem + 2.857vw, 3rem)',
       }}
     >
-      {/* Background Glows & Accent Watermark */}
+      {/* Background Sketch Illustration (Watermark style, multiplied to blend with slate-50) */}
       <div
-        className="absolute top-0 right-1/4 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none"
+        className="absolute inset-0 z-0 pointer-events-none select-none opacity-[0.25] sm:opacity-[0.35] md:opacity-[0.45] mix-blend-multiply"
         aria-hidden="true"
-      />
-      <div
-        className="absolute bottom-0 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
+      >
+        <Image
+          src="/services-bg.jpg"
+          alt="Services Sketch Background"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+      </div>
 
       <div className="mx-auto relative z-10" style={{ maxWidth: '1200px' }}>
         {/* Section Header */}
         <div className="text-left" style={{ marginBottom: 'clamp(2.5rem, 2rem + 2vw, 4.5rem)' }}>
-          <div className="inline-flex items-center gap-2 bg-red-950/80 border border-red-800 text-red-400 font-bold uppercase tracking-widest rounded-full px-4 py-1.5 text-xs mb-4">
-            <CloudRain className="w-4 h-4 text-red-500 animate-bounce" />
+          <span
+            className="inline-block bg-red-50 text-red-600 border border-red-100 font-bold uppercase tracking-widest rounded-full"
+            style={{
+              fontSize: 'clamp(0.625rem, 0.6rem + 0.1vw, 0.75rem)',
+              padding: '0.375rem 1rem',
+              marginBottom: 'clamp(0.75rem, 0.5rem + 0.5vw, 1.25rem)',
+            }}
+          >
             Hagelschaden-Zentrum • Region Schöfflisdorf
-          </div>
+          </span>
           <h2
-            className="font-black tracking-tight text-white leading-tight"
+            className="font-black tracking-tight text-slate-900 leading-tight"
             style={{
               fontSize: 'clamp(1.75rem, 1.393rem + 1.786vw, 3.25rem)',
             }}
@@ -181,7 +191,7 @@ export default function HagelschadenSection() {
             Spezialisierte Hagelschaden-Reparatur & Verfahren
           </h2>
           <p
-            className="text-slate-300 max-w-3xl mt-4 leading-relaxed font-medium"
+            className="text-slate-600 max-w-3xl mt-4 leading-relaxed font-medium"
             style={{
               fontSize: 'clamp(0.9375rem, 0.88rem + 0.3vw, 1.125rem)',
             }}
@@ -191,48 +201,88 @@ export default function HagelschadenSection() {
         </div>
 
         {/* Grid of 6 Detailed Technique Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          style={{ gap: 'clamp(1rem, 0.75rem + 0.625vw, 1.5rem)' }}
+        >
           {techniques.map((tech, idx) => {
             const IconComponent = tech.icon;
+            const isBigCard = idx === 0 || idx === 3 || idx === 5;
             return (
               <motion.div
                 key={tech.id}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className="bg-slate-800/80 backdrop-blur-md border border-slate-700/80 hover:border-red-500/80 rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 shadow-xl hover:shadow-2xl group hover:-translate-y-1"
+                transition={{ duration: 0.5, delay: idx * 0.05, ease: 'easeOut' }}
+                className={`
+                  group relative border rounded-3xl overflow-hidden
+                  transition-all duration-300 shadow-sm hover:shadow-md
+                  flex flex-col justify-between
+                  ${isBigCard ? 'card-tint-red' : 'bg-white/45 border-slate-300 hover:border-red-400 hover:bg-white'}
+                `}
+                style={{
+                  padding: 'clamp(1.5rem, 1.25rem + 0.8vw, 2.25rem)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                }}
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between gap-2">
-                    <div className="p-3 bg-red-600/20 text-red-400 rounded-2xl border border-red-500/30 group-hover:bg-red-600 group-hover:text-white transition-all">
-                      <IconComponent className="w-6 h-6" />
+                    <div className="p-3 bg-red-50 text-red-600 rounded-2xl w-fit shrink-0 group-hover:bg-red-600 group-hover:text-white transition-all duration-300 border border-red-100">
+                      <IconComponent className="w-5 h-5" />
                     </div>
-                    <span className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-amber-400 bg-amber-950/60 border border-amber-800/80 px-2.5 py-1 rounded-full">
+                    <span
+                      className="inline-block bg-red-50 text-red-600 border border-red-100 font-bold uppercase tracking-widest rounded-full"
+                      style={{
+                        fontSize: 'clamp(0.625rem, 0.6rem + 0.1vw, 0.75rem)',
+                        padding: '0.25rem 0.75rem',
+                      }}
+                    >
                       {tech.badge}
                     </span>
                   </div>
 
                   <div>
-                    <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight group-hover:text-red-400 transition-colors">
+                    <h3
+                      className="font-bold text-slate-900 tracking-tight group-hover:text-red-600 transition-colors"
+                      style={{
+                        fontSize: 'clamp(1rem, 0.95rem + 0.2vw, 1.25rem)',
+                      }}
+                    >
                       {tech.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-300 mt-2 leading-relaxed font-normal">
+                    <p
+                      className="text-slate-600 mt-2"
+                      style={{
+                        fontSize: 'clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem)',
+                        lineHeight: 1.6,
+                      }}
+                    >
                       {tech.description}
                     </p>
                   </div>
 
-                  <ul className="space-y-2 border-t border-slate-700/60 pt-4 text-xs sm:text-sm text-slate-300">
+                  <ul
+                    className="grid gap-x-4 gap-y-2.5 border-t border-slate-100 pt-5 grid-cols-1"
+                    style={{
+                      marginTop: 'clamp(1.25rem, 1rem + 0.5vw, 1.75rem)',
+                    }}
+                  >
                     {tech.details.map((detail) => (
-                      <li key={detail} className="flex items-start gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                      <li
+                        key={detail}
+                        className="flex items-start gap-2 text-slate-700 font-medium"
+                        style={{ fontSize: 'clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem)' }}
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-600 shrink-0 mt-1.5" />
                         <span>{detail}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-700/40 flex items-center justify-between text-xs font-bold text-red-400">
+                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-red-600">
                   <span>{tech.highlight}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -242,27 +292,48 @@ export default function HagelschadenSection() {
         </div>
 
         {/* Process Step-by-Step Section */}
-        <div className="mt-16 sm:mt-20 bg-slate-800/50 border border-slate-700/80 rounded-3xl p-6 sm:p-10">
+        <div
+          className="mt-16 sm:mt-20 group relative border rounded-3xl overflow-hidden bg-white/45 border-slate-300 shadow-sm"
+          style={{
+            padding: 'clamp(1.5rem, 1.25rem + 0.8vw, 2.5rem)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+          }}
+        >
           <div className="text-left mb-8">
-            <span className="text-xs font-bold uppercase tracking-widest text-red-400">
+            <span
+              className="inline-block bg-red-50 text-red-600 border border-red-100 font-bold uppercase tracking-widest rounded-full mb-2"
+              style={{
+                fontSize: 'clamp(0.625rem, 0.6rem + 0.1vw, 0.75rem)',
+                padding: '0.375rem 1rem',
+              }}
+            >
               Einfach & Transparent
             </span>
-            <h3 className="text-2xl sm:text-3xl font-black text-white mt-1">
+            <h3
+              className="font-black text-slate-900 tracking-tight"
+              style={{
+                fontSize: 'clamp(1.25rem, 1.1rem + 0.5vw, 1.75rem)',
+              }}
+            >
               Der Ablauf bei Ihrem Hagelschaden
             </h3>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {processSteps.map((item) => (
               <div
                 key={item.step}
-                className="bg-slate-900/80 border border-slate-700/60 p-5 rounded-2xl relative space-y-2"
+                className="bg-white border border-slate-200/80 p-5 rounded-2xl relative space-y-2 shadow-2xs"
               >
-                <span className="text-3xl font-black text-red-600/80 block">
+                <span className="text-2xl font-black text-red-600 block">
                   {item.step}
                 </span>
-                <h4 className="text-base font-bold text-white">{item.title}</h4>
-                <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                <h4 className="text-sm font-bold text-slate-900">{item.title}</h4>
+                <p
+                  className="text-slate-600 leading-relaxed"
+                  style={{ fontSize: 'clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem)' }}
+                >
                   {item.text}
                 </p>
               </div>
@@ -271,7 +342,7 @@ export default function HagelschadenSection() {
         </div>
 
         {/* CTA Bar */}
-        <div className="mt-12 bg-gradient-to-r from-red-600 to-amber-600 rounded-3xl p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+        <div className="mt-12 bg-gradient-to-r from-red-600 to-red-700 rounded-3xl p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
           <div className="space-y-1.5 text-center md:text-left">
             <h3 className="text-xl sm:text-2xl font-black tracking-tight">
               Hagelschaden jetzt melden & Wunschtermin sichern!

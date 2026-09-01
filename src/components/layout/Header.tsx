@@ -181,27 +181,13 @@ export default function Header() {
             : 'border-b border-transparent'}
         `}
       >
-        {/* Background Image Watermark (Doesn't affect header height, stays clipped) */}
-        <div className="absolute inset-0 z-[-1] pointer-events-none select-none transition-all duration-300">
-          <Image
-            src="/header-bg.png"
-            alt="Header Background Watermark"
-            fill
-            className="object-cover object-center"
-            priority
-          />
-          {/* Overlay to keep navigation links highly legible */}
-          <div
-            className={`absolute inset-0 transition-colors duration-300 backdrop-blur-xs
-              ${scrolled ? 'bg-white/90' : 'bg-white/60'}
-            `}
-          />
-        </div>
+        {/* Temporary Red Background Test */}
+        <div className="absolute inset-0 z-[-1] pointer-events-none select-none bg-red-600" />
       <div
         className="mx-auto flex items-center justify-between"
         style={{
           maxWidth: '1280px',
-          padding: 'clamp(0.75rem, 0.5rem + 0.5vw, 1rem) clamp(1rem, 0.429rem + 2.857vw, 3rem)',
+          padding: '0.1rem clamp(1rem, 0.429rem + 2.857vw, 3rem)',
         }}
       >
         <div className="flex items-center gap-1">
@@ -239,7 +225,7 @@ export default function Header() {
             href="/"
             onClick={handleHomeClick}
             aria-label="Zum Seitenanfang"
-            className="relative p-2.5 rounded-xl text-red-600 hover:bg-red-50 transition-colors"
+            className="relative p-2.5 rounded-xl text-white hover:bg-white/20 transition-colors"
           >
             {!reduceMotion && (
               <motion.span
@@ -261,20 +247,14 @@ export default function Header() {
                   <a
                     href={link.href}
                     onClick={() => handleNavClick(link.href)}
-                    className={`relative flex items-center gap-1 px-3 py-2 text-base font-bold transition-colors rounded-lg ${
+                    className={`relative flex items-center gap-1 px-3 py-1 text-base font-extrabold transition-colors rounded-lg ${
                       isActive
-                        ? 'text-red-600 bg-red-50'
-                        : 'text-black hover:text-red-600 hover:bg-slate-100'
+                        ? 'text-red-600 bg-white shadow-2xs'
+                        : 'text-white hover:text-white hover:bg-white/20'
                     }`}
                   >
                     {link.label}
                     {children.length > 0 && <ChevronDown className="w-3.5 h-3.5" />}
-                    {/* aktif bölüm göstergesi */}
-                    <span
-                      className={`absolute left-3 right-3 -bottom-0.5 h-[3px] rounded-full bg-red-600 origin-left transition-transform duration-300 ${
-                        isActive ? 'scale-x-100' : 'scale-x-0'
-                      }`}
-                    />
                   </a>
 
                   {children.length > 0 && (
