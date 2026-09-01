@@ -1,7 +1,6 @@
 import Header from '@/components/layout/Header';
 import Hero from '@/components/sections/Hero';
 import Services from '@/components/sections/Services';
-import HagelschadenSection from '@/components/sections/HagelschadenSection';
 import BeforeAfter from '@/components/sections/BeforeAfter';
 import CarsShowcase from '@/components/sections/CarsShowcase';
 import AppointmentForm from '@/components/sections/AppointmentForm';
@@ -77,7 +76,6 @@ export default async function Home() {
       <main className="flex-1 flex flex-col">
         <Hero promotions={activePromotions || []} />
         <Services />
-        <HagelschadenSection />
         <BeforeAfter />
         <CarsShowcase />
         <AppointmentForm />

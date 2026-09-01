@@ -167,18 +167,6 @@ export default function Services() {
                     </li>
                   ))}
                 </ul>
-
-                {service.id === 'hagelschaden-instandsetzung' && (
-                  <div className="mt-4 pt-3 border-t border-slate-200/80">
-                    <a
-                      href="#hagelschaden"
-                      className="inline-flex items-center gap-1.5 font-bold text-red-600 hover:text-red-700 text-xs sm:text-sm transition-colors group"
-                    >
-                      <span>Für detaillierte Infos & Techniken</span>
-                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </a>
-                  </div>
-                )}
               </motion.div>
             );
           })}

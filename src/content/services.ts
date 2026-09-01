@@ -9,22 +9,6 @@ export interface ServiceItem {
 
 export const services: ServiceItem[] = [
   {
-    id: 'hagelschaden-instandsetzung',
-    title: 'Hagelschaden & Unwetterschaden',
-    shortDescription: 'Spezialisierter Hagelservice: Drücktechnik (PDR), Ziehtechnik, Scheibenaustausch mit ADAS-Kalibrierung & 100% Kaskoservice.',
-    longDescription: 'Als erfahrener Carrosserie- & Spenglerfachbetrieb reparieren wir Hagelschäden sanft, präzise und werterhaltend. Mit zertifizierter Drücktechnik (ohne Nachlackieren), Klebezugverfahren und kompletter Direktabrechnung mit Ihrer Schweizer Kaskoversicherung übernehmen wir den gesamten Ablauf für Sie.',
-    iconName: 'CloudRain',
-    features: [
-      'PDR-Drücktechnik (Sanftes Herausmassieren von innen ohne Lackschaden)',
-      'Klebetechnik / Ziehtechnik (für unzugängliche Dachholme & Säulen)',
-      'Induktions- & Spannungsausgleich bei tiefen Einschlägen',
-      'Konventionelle Spengler- & Neulackierung bei gerissenem Lack',
-      'Scheibenaustausch & Kamera- / ADAS-Assistenzsystem-Kalibrierung',
-      '100% direkte Schadenabwicklung mit allen Schweizer Kaskoversicherungen',
-      'Kostenloser Ersatzwagen & Mobilitätsgarantie'
-    ]
-  },
-  {
     id: 'karosserie-spenglerarbeiten',
     title: 'Karosserie & Spenglerarbeiten',
     shortDescription: 'Professionelle Unfallinstandsetzung, Karosseriearbeiten und sanfte Dellenbehebung bei Hagelschaden.',

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CloudRain, ShieldCheck, Car, X, ArrowRight, Wrench, Sparkles, PhoneCall } from 'lucide-react';
 import { PROMO_CTA_EVENT } from './PromoBadge';
@@ -9,6 +10,7 @@ const HAGEL_SERVICE_NAME = 'Hagelschaden & Unwetterschaden';
 const DISMISS_KEY = 'sazcar_hagelschaden_popup_dismissed';
 
 export default function HagelschadenPopup() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -32,15 +34,14 @@ export default function HagelschadenPopup() {
     const formElement = document.getElementById('termin');
     if (formElement) {
       formElement.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      router.push('/#termin');
     }
   };
 
   const handleMoreInfo = () => {
     handleClose();
-    const element = document.getElementById('hagelschaden');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    router.push('/hagelschaden');
   };
 
   return (
