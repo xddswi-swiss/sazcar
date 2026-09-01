@@ -8,7 +8,7 @@ import Logo from '@/components/ui/logo';
 import { Menu, X, Phone, ArrowUpRight, Home, ChevronDown, CornerDownRight } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
-const NAV_BREAKPOINT = 768;
+const NAV_BREAKPOINT = 1024;
 
 const navLinks: { href: string; label: string; children: { href: string; label: string }[] }[] = [
   {
@@ -45,6 +45,20 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState(
     () => allLinks.find((link) => !link.href.includes('#') && link.href === pathname)?.href ?? ''
   );
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    if (!openDropdown) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('[data-nav-item]')) {
+        setOpenDropdown(null);
+      }
+    };
+    window.addEventListener('click', handleClickOutside);
+    return () => window.removeEventListener('click', handleClickOutside);
+  }, [openDropdown]);
   // Set (with a timestamp) when a nav link is clicked, so the smooth-scroll animation's
   // in-between frames can't flicker the highlight back to the section being left.
   const clickLockRef = useRef<{ href: string; until: number } | null>(null);
@@ -237,34 +251,47 @@ export default function Header() {
             )}
             <Home className="relative w-6 h-6" />
           </a>
-          <ul className="flex items-center gap-1">
+          <ul className="flex items-center gap-0.5 xl:gap-1">
             {navLinks.map((link) => {
               const children = link.children;
               const isActive =
                 activeSection === link.href || children.some((c) => c.href === activeSection);
+              const isOpen = openDropdown === link.href;
+
               return (
-                <li key={link.href} className="relative group">
+                <li key={link.href} className="relative group" data-nav-item>
                   <a
                     href={link.href}
-                    onClick={() => handleNavClick(link.href)}
-                    className={`relative flex items-center gap-1 px-3 py-1 text-base font-extrabold transition-colors rounded-lg ${
+                    onClick={(e) => {
+                      if (children.length > 0) {
+                        e.preventDefault();
+                        setOpenDropdown(isOpen ? null : link.href);
+                      } else {
+                        handleNavClick(link.href);
+                        setOpenDropdown(null);
+                      }
+                    }}
+                    className={`relative flex items-center gap-1 px-2.5 xl:px-3 py-1 text-sm xl:text-base font-extrabold transition-colors rounded-lg ${
                       isActive
                         ? 'text-red-600 bg-white shadow-2xs'
                         : 'text-white hover:text-white hover:bg-white/20'
                     }`}
                   >
                     {link.label}
-                    {children.length > 0 && <ChevronDown className="w-3.5 h-3.5" />}
+                    {children.length > 0 && <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />}
                   </a>
 
                   {children.length > 0 && (
-                    <div className="absolute left-0 top-full pt-2 hidden group-hover:block group-focus-within:block">
+                    <div className={`absolute left-0 top-full pt-2 z-50 ${isOpen ? 'block' : 'hidden group-hover:block group-focus-within:block'}`}>
                       <ul className="min-w-[200px] rounded-xl border border-slate-200 bg-white shadow-lg p-1.5">
                         {children.map((child) => (
                           <li key={child.href}>
                             <a
                               href={child.href}
-                              onClick={() => handleNavClick(child.href)}
+                              onClick={() => {
+                                handleNavClick(child.href);
+                                setOpenDropdown(null);
+                              }}
                               className={`block px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
                                 activeSection === child.href
                                   ? 'text-red-600 bg-red-50'
@@ -286,15 +313,15 @@ export default function Header() {
           {/* Call CTA */}
           <a
             href="tel:+41434228676"
-            className="ml-4 flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold text-sm px-4 py-2 rounded-xl transition-all shadow-sm shadow-red-900/10"
+            className="ml-2 xl:ml-4 flex items-center gap-1.5 xl:gap-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs xl:text-sm px-3 xl:px-4 py-2 rounded-xl transition-all shadow-sm shadow-red-900/10 shrink-0"
           >
-            <Phone className="w-4 h-4" />
+            <Phone className="w-3.5 h-3.5 xl:w-4 xl:h-4" />
             <span>Jetzt anrufen</span>
           </a>
         </nav>
 
         {/* Mobile Home button + Mobile hamburger button */}
-        <div className="flex items-center gap-1.5 md:hidden relative z-50">
+        <div className="flex items-center gap-1.5 lg:hidden relative z-50">
           <a
             href="/"
             onClick={handleHomeClick}
@@ -335,7 +362,7 @@ export default function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMenuOpen(false)}
-              className="fixed inset-0 z-40 md:hidden"
+              className="fixed inset-0 z-40 lg:hidden"
               style={{
                 background:
                   'radial-gradient(120% 80% at 100% 0%, rgba(220,38,38,0.20) 0%, rgba(15,23,42,0.34) 55%, rgba(15,23,42,0.44) 100%)',
@@ -349,7 +376,7 @@ export default function Header() {
                 transformOrigin: 'top right',
                 // same horizontal padding as the header row, so the card lines up with the burger
                 right: 'clamp(1rem, 0.429rem + 2.857vw, 3rem)',
-                maxHeight: 'calc(100svh - 6rem)',
+                maxHeight: 'calc(100vh - 5.5rem)',
                 background:
                   'linear-gradient(160deg, rgba(255,255,255,0.78) 0%, rgba(254,226,226,0.52) 45%, rgba(254,202,202,0.55) 100%)',
                 backdropFilter: 'blur(28px) saturate(180%)',
@@ -357,7 +384,7 @@ export default function Header() {
                 boxShadow:
                   '0 28px 70px -20px rgba(15,23,42,0.4), 0 14px 34px -14px rgba(220,38,38,0.65), inset 0 1px 0 rgba(255,255,255,0.9)',
               }}
-              className="fixed top-[4.75rem] z-50 w-[min(82vw,300px)] overflow-y-auto rounded-[22px] border border-red-200/70 p-4 flex flex-col md:hidden"
+              className="fixed top-[4.75rem] z-50 w-[min(88vw,340px)] overflow-y-auto rounded-[22px] border border-red-200/70 p-4 flex flex-col lg:hidden"
             >
               {/* Cam üzerinde ışık huzmesi */}
               <div

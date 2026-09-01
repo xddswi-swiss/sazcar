@@ -8,6 +8,10 @@ export default function ScrollToTopCar() {
   const [isZooming, setIsZooming] = useState(false);
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
     const handleScroll = () => {
       if (window.scrollY > 80) {
         setIsVisible(true);

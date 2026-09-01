@@ -43,7 +43,7 @@ export default function Logo({ className, variant = 'default' }: LogoProps) {
             className={
               inverted
                 ? 'h-10 sm:h-12 w-auto object-contain block max-w-full'
-                : 'h-16 sm:h-24 w-auto object-contain block max-w-none'
+                : 'h-14 md:h-16 lg:h-18 xl:h-24 w-auto object-contain block max-w-none'
             }
             onError={() => setHasError(true)}
           />

@@ -41,9 +41,8 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
 
       {/* Content Container (Left-aligned Layout) */}
       <div
-        className="relative z-10 w-full text-left"
+        className="relative z-10 w-full text-left pt-24 md:pt-28 lg:pt-32 xl:pt-40 pb-12 md:pb-16 xl:pb-24 px-4 sm:px-6 md:px-8 xl:px-16"
         style={{
-          padding: 'clamp(7rem, 5rem + 6vw, 11rem) clamp(1.5rem, 0.786rem + 3.571vw, 4rem)',
           maxWidth: '1000px',
           marginInline: 'auto',
         }}
@@ -53,12 +52,11 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="inline-flex items-center gap-2 px-3.5 py-1 bg-white border border-slate-200 shadow-xs rounded-full mb-6"
+          className="inline-flex items-center gap-2 px-3.5 py-1 bg-white border border-slate-200 shadow-xs rounded-full mb-5 md:mb-6"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
           <span 
-            className="font-bold tracking-widest text-slate-500 uppercase"
-            style={{ fontSize: 'clamp(0.625rem, 0.6rem + 0.1vw, 0.75rem)' }}
+            className="font-bold tracking-widest text-slate-500 uppercase text-[10px] md:text-xs"
           >
             Premium Automotive Studio
           </span>
@@ -69,10 +67,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="font-black tracking-tight text-slate-900 leading-[1.05]"
-          style={{
-            fontSize: 'clamp(2.25rem, 1.34rem + 4.54vw, 4.5rem)',
-          }}
+          className="font-black tracking-tight text-slate-900 leading-[1.08] text-3xl md:text-[2.35rem] lg:text-[2.75rem] xl:text-[4.5rem]"
         >
           Ihre Carrosserie & <br />
           <span className="text-red-600">Autogarage</span>{" "}
