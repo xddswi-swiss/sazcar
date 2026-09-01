@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   title: 'SAZCAR GMBH | Autogarage & Carrosserie Schöfflisdorf • Tel: 043 422 86 76',
   description: 'Ihr Spezialist für Hagelschaden-Reparatur (Drücktechnik), Karosseriearbeiten, Autolackierung, Glasschaden & Autoservice in Schöfflisdorf. 100% Kaskoservice. Tel: 043 422 86 76',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://sazcar.ch'),
+  alternates: {
+    canonical: 'https://sazcar.ch',
+  },
   openGraph: {
     title: 'SAZCAR GMBH | Autogarage & Carrosserie Schöfflisdorf • Tel: 043 422 86 76',
     description: 'Spezialist für Hagelschaden-Reparatur (Drücktechnik), Karosserie, Lackierung & Autoservice in Schöfflisdorf. 100% Direktabrechnung mit Kaskoversicherungen. Tel: 043 422 86 76',
@@ -23,7 +26,13 @@ export const metadata: Metadata = {
     siteName: 'SAZCAR GMBH',
     images: [
       {
-        url: '/og-image.png',
+        url: 'https://sazcar.ch/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'SAZCAR GMBH Autogarage & Carrosserie Schöfflisdorf Tel 043 422 86 76',
+      },
+      {
+        url: 'https://www.sazcar.ch/og-image.png',
         width: 1200,
         height: 630,
         alt: 'SAZCAR GMBH Autogarage & Carrosserie Schöfflisdorf Tel 043 422 86 76',
@@ -36,7 +45,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'SAZCAR GMBH | Autogarage & Carrosserie Schöfflisdorf • Tel: 043 422 86 76',
     description: 'Spezialist für Hagelschaden-Reparatur, Karosserie, Lackierung & Autoservice in Schöfflisdorf. Tel: 043 422 86 76',
-    images: ['/og-image.png'],
+    images: ['https://sazcar.ch/og-image.png'],
   },
 };
 
