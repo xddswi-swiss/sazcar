@@ -295,9 +295,9 @@ export default function AppointmentForm() {
             <div className="absolute -top-[30px] sm:-top-[36px] left-0 right-0 overflow-hidden h-16 pointer-events-none z-20">
               <style>{`
                 @keyframes vanDriveAcross {
-                  0% { transform: translateX(-80px); opacity: 0; }
-                  6% { opacity: 1; }
-                  85% { opacity: 1; }
+                  0% { transform: translateX(-40px); opacity: 0; }
+                  20% { opacity: 1; }
+                  80% { opacity: 1; }
                   100% { transform: translateX(calc(100% + 20px)); opacity: 0; }
                 }
                 .animate-van-drive-slow {
