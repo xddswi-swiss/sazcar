@@ -291,15 +291,21 @@ export default function AppointmentForm() {
             className="relative bg-white/25 backdrop-blur-md border border-slate-200/80 hover:bg-white rounded-3xl shadow-sm transition-all duration-300"
             style={{ padding: 'clamp(1.5rem, 1.25rem + 0.8vw, 2.5rem)' }}
           >
-            {/* SAZCAR Minibus Van Mascot driving infinitely across top edge of email form card */}
-            <div className="absolute -top-5 sm:-top-7 inset-x-0 overflow-hidden h-12 pointer-events-none z-20">
-              <motion.div
-                animate={{ x: ['-20%', '105%'] }}
-                transition={{ duration: 7, repeat: Infinity, ease: 'linear' }}
-                className="w-fit"
-              >
+            {/* SAZCAR Minibus Van Mascot driving infinitely across full length of email form card */}
+            <div className="absolute -top-5 sm:-top-7 left-0 right-0 overflow-hidden h-14 pointer-events-none z-20">
+              <style>{`
+                @keyframes vanDriveAcross {
+                  0% { transform: translateX(-100px); }
+                  100% { transform: translateX(calc(100% + 40px)); }
+                }
+                .animate-van-drive-slow {
+                  animation: vanDriveAcross 45s linear infinite !important;
+                  will-change: transform;
+                }
+              `}</style>
+              <div className="w-full animate-van-drive-slow">
                 <SazcarVanMascot isDriving={true} className="scale-110 sm:scale-125" />
-              </motion.div>
+              </div>
             </div>
             {error && (
               <div className="flex items-start gap-2.5 p-3.5 mb-5 rounded-2xl bg-red-50 text-red-700 border border-red-100 text-xs">
