@@ -26,13 +26,17 @@ export const metadata: Metadata = {
     siteName: 'SAZCAR GMBH',
     images: [
       {
-        url: 'https://sazcar.ch/og-image.png',
+        url: 'https://sazcar.ch/og-image.jpg',
+        secureUrl: 'https://sazcar.ch/og-image.jpg',
+        type: 'image/jpeg',
         width: 1200,
         height: 630,
         alt: 'SAZCAR GMBH Autogarage & Carrosserie Schöfflisdorf Tel 043 422 86 76',
       },
       {
-        url: 'https://www.sazcar.ch/og-image.png',
+        url: 'https://sazcar.ch/og-image.png',
+        secureUrl: 'https://sazcar.ch/og-image.png',
+        type: 'image/png',
         width: 1200,
         height: 630,
         alt: 'SAZCAR GMBH Autogarage & Carrosserie Schöfflisdorf Tel 043 422 86 76',
@@ -45,7 +49,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'SAZCAR GMBH | Autogarage & Carrosserie Schöfflisdorf • Tel: 043 422 86 76',
     description: 'Spezialist für Hagelschaden-Reparatur, Karosserie, Lackierung & Autoservice in Schöfflisdorf. Tel: 043 422 86 76',
-    images: ['https://sazcar.ch/og-image.png'],
+    images: ['https://sazcar.ch/og-image.jpg'],
   },
 };
 
