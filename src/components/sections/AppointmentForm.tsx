@@ -295,12 +295,14 @@ export default function AppointmentForm() {
             <div className="absolute -top-[30px] sm:-top-[36px] left-0 right-0 overflow-hidden h-16 pointer-events-none z-20">
               <style>{`
                 @keyframes vanDriveAcross {
-                  0% { transform: translateX(-100px); }
-                  100% { transform: translateX(calc(100% + 40px)); }
+                  0% { transform: translateX(-80px); opacity: 0; }
+                  6% { opacity: 1; }
+                  85% { opacity: 1; }
+                  100% { transform: translateX(calc(100% + 20px)); opacity: 0; }
                 }
                 .animate-van-drive-slow {
                   animation: vanDriveAcross 45s linear infinite !important;
-                  will-change: transform;
+                  will-change: transform, opacity;
                 }
               `}</style>
               <div className="w-full animate-van-drive-slow">
