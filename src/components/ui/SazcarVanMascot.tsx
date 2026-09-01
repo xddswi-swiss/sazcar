@@ -2,15 +2,48 @@
 
 import React from 'react';
 
-export default function SazcarVanMascot({ className = '' }: { className?: string }) {
+interface SazcarVanMascotProps {
+  className?: string;
+  isDriving?: boolean;
+}
+
+export default function SazcarVanMascot({ className = '', isDriving = false }: SazcarVanMascotProps) {
   return (
-    <div className={`relative select-none pointer-events-none group-hover:translate-x-1 transition-transform duration-300 ${className}`}>
+    <div className={`relative select-none pointer-events-none ${isDriving ? 'animate-pulse-subtle' : 'group-hover:translate-x-1 transition-transform duration-300'} ${className}`}>
       <svg
         viewBox="0 0 120 60"
-        className="w-16 h-8 sm:w-20 sm:h-10 drop-shadow-md overflow-visible"
+        className={`w-16 h-8 sm:w-20 sm:h-10 drop-shadow-md overflow-visible ${isDriving ? 'animate-bounce-short' : ''}`}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
+        <style>{`
+          @keyframes micro-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-1.5px); }
+          }
+          @keyframes smoke-puff {
+            0% { opacity: 0.8; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(-12px, -8px) scale(2.2); }
+          }
+          .animate-bounce-short {
+            animation: micro-bounce 0.22s infinite ease-in-out;
+          }
+          .smoke-1 {
+            animation: smoke-puff 0.8s infinite ease-out;
+          }
+          .smoke-2 {
+            animation: smoke-puff 0.8s 0.4s infinite ease-out;
+          }
+        `}</style>
+
+        {/* Exhaust smoke puffs when driving */}
+        {isDriving && (
+          <g>
+            <circle cx="6" cy="44" r="2.5" fill="rgba(200, 200, 200, 0.7)" className="smoke-1" />
+            <circle cx="4" cy="43" r="2" fill="rgba(220, 220, 220, 0.6)" className="smoke-2" />
+          </g>
+        )}
+
         {/* Shadow under wheels */}
         <ellipse cx="60" cy="54" rx="45" ry="4" fill="rgba(0,0,0,0.15)" />
 
