@@ -293,26 +293,35 @@ export default function Header() {
           </a>
         </nav>
 
-        {/* Mobile hamburger button */}
-        <button
-          type="button"
-          onClick={() => setMenuOpen((v) => !v)}
-          className={`relative z-50 p-2.5 rounded-xl transition-colors md:hidden ${
-            menuOpen ? 'text-white bg-red-600 shadow-md shadow-red-900/25' : 'text-slate-800 hover:bg-slate-100'
-          }`}
-          aria-label={menuOpen ? 'Menü schliessen' : 'Menü öffnen'}
-          aria-expanded={menuOpen}
-          style={{ display: 'var(--burger-display, block)' }}
-        >
-          <style>{`@media(min-width:${NAV_BREAKPOINT}px){:root{--burger-display:none}}`}</style>
-          <motion.span
-            className="block"
-            animate={{ rotate: menuOpen ? 90 : 0 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 22 }}
+        {/* Mobile Home button + Mobile hamburger button */}
+        <div className="flex items-center gap-1.5 md:hidden relative z-50">
+          <a
+            href="/"
+            onClick={handleHomeClick}
+            aria-label="Startseite"
+            className="p-2 text-white hover:bg-white/20 rounded-xl transition-all flex items-center justify-center"
           >
-            {menuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
-          </motion.span>
-        </button>
+            <Home className="w-6 h-6 text-white" />
+          </a>
+
+          <button
+            type="button"
+            onClick={() => setMenuOpen((v) => !v)}
+            className={`p-2.5 rounded-xl transition-colors ${
+              menuOpen ? 'text-white bg-red-600 shadow-md shadow-red-900/25' : 'text-white hover:bg-white/20'
+            }`}
+            aria-label={menuOpen ? 'Menü schliessen' : 'Menü öffnen'}
+            aria-expanded={menuOpen}
+          >
+            <motion.span
+              className="block"
+              animate={{ rotate: menuOpen ? 90 : 0 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 22 }}
+            >
+              {menuOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+            </motion.span>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -377,6 +386,48 @@ export default function Header() {
 
               {/* Büyük Tipografili Linkler (High contrast active indicator) */}
               <div className="relative flex flex-col gap-1 mt-3">
+                {/* Startseite (Home) link */}
+                <motion.div {...itemMotion}>
+                  <a
+                    href="/"
+                    onClick={(e) => {
+                      handleHomeClick(e);
+                      setMenuOpen(false);
+                    }}
+                    className={`group relative flex items-center gap-3 rounded-2xl px-3 py-2.5 text-[16px] font-bold tracking-tight transition-all duration-300 ${
+                      pathname === '/' && activeSection === ''
+                        ? 'text-white'
+                        : 'text-black hover:text-red-600 hover:bg-white/60 hover:translate-x-1'
+                    }`}
+                    style={
+                      pathname === '/' && activeSection === ''
+                        ? {
+                            background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 60%, #b91c1c 100%)',
+                            boxShadow: '0 10px 22px -12px rgba(220,38,38,0.85)',
+                          }
+                        : undefined
+                    }
+                  >
+                    <span
+                      className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg text-[11px] font-mono font-semibold transition-colors ${
+                        pathname === '/' && activeSection === ''
+                          ? 'bg-white/25 text-white'
+                          : 'bg-white/70 text-slate-400 group-hover:bg-red-50 group-hover:text-red-500'
+                      }`}
+                    >
+                      <Home className="w-4 h-4" />
+                    </span>
+                    <span className="flex-1">Startseite</span>
+                    <ArrowUpRight
+                      className={`w-[18px] h-[18px] shrink-0 transition-all duration-300 ${
+                        pathname === '/' && activeSection === ''
+                          ? 'opacity-100 translate-x-0 text-white'
+                          : 'opacity-0 -translate-x-2 text-red-600 group-hover:opacity-100 group-hover:translate-x-0'
+                      }`}
+                    />
+                  </a>
+                </motion.div>
+
                 {navLinks.map((link, idx) => {
                   const isActive = activeSection === link.href;
                   const children = link.children;
