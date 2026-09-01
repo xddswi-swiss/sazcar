@@ -14,12 +14,20 @@ export default function HagelschadenPopup() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    // Show once per visitor, ever (not once per reload)
-    if (localStorage.getItem(SEEN_KEY)) return;
+    // Show once per visitor, ever (not once per reload).
+    // localStorage can throw (Safari cookie-blocking, privacy extensions, in-app
+    // webviews) — fall back to always showing rather than crashing the page.
+    let seen = false;
+    try {
+      seen = !!localStorage.getItem(SEEN_KEY);
+    } catch {}
+    if (seen) return;
 
     const timer = setTimeout(() => {
       setIsOpen(true);
-      localStorage.setItem(SEEN_KEY, '1');
+      try {
+        localStorage.setItem(SEEN_KEY, '1');
+      } catch {}
     }, 1200);
     return () => clearTimeout(timer);
   }, []);
