@@ -13,14 +13,30 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Autogarage & Carrosserie | Ihr Partner in der Schweiz',
-  description: 'Professionelle Karosseriearbeiten, Fahrzeuglackierung, Autoservice und MFK-Vorbereitung für alle Marken. Jetzt Termin online buchen.',
-  metadataBase: new URL('https://autogarage.ch'),
+  title: 'SAZCAR GMBH | Autogarage & Carrosserie Schöfflisdorf',
+  description: 'Ihr Spezialist für Hagelschaden-Reparatur (Drücktechnik), Karosseriearbeiten, Autolackierung, Glasschaden & Autoservice in Schöfflisdorf. 100% Kaskoservice.',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://sazcar.ch'),
   openGraph: {
-    title: 'Autogarage & Carrosserie | Ihr Partner in der Schweiz',
-    description: 'Professionelle Karosseriearbeiten, Fahrzeuglackierung, Autoservice und MFK-Vorbereitung für alle Marken.',
+    title: 'SAZCAR GMBH | Autogarage & Carrosserie Schöfflisdorf',
+    description: 'Spezialist für Hagelschaden-Reparatur (Drücktechnik), Karosserie, Lackierung & Autoservice in Schöfflisdorf. 100% Direktabrechnung mit allen Kaskoversicherungen.',
+    url: 'https://sazcar.ch',
+    siteName: 'SAZCAR GMBH',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'SAZCAR GMBH Autogarage & Carrosserie Schöfflisdorf',
+      },
+    ],
     locale: 'de_CH',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SAZCAR GMBH | Autogarage & Carrosserie Schöfflisdorf',
+    description: 'Spezialist für Hagelschaden-Reparatur, Karosserie, Lackierung & Autoservice in Schöfflisdorf.',
+    images: ['/og-image.jpg'],
   },
 };
 
