@@ -4,6 +4,7 @@ import React, { useState, useTransition, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import SazcarVanMascot from '@/components/ui/SazcarVanMascot';
 import { uploadImage } from '@/app/actions/upload';
 import { services } from '@/content/services';
 import { PROMO_CTA_EVENT } from './PromoBadge';
@@ -287,9 +288,13 @@ export default function AppointmentForm() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="bg-white/25 backdrop-blur-md border border-slate-200/80 hover:bg-white rounded-3xl shadow-sm transition-all duration-300"
+            className="relative bg-white/25 backdrop-blur-md border border-slate-200/80 hover:bg-white rounded-3xl shadow-sm transition-all duration-300"
             style={{ padding: 'clamp(1.5rem, 1.25rem + 0.8vw, 2.5rem)' }}
           >
+            {/* SAZCAR Minibus Van Mascot sitting on top edge of email form card */}
+            <div className="absolute -top-5 right-6 sm:-top-7 sm:right-8 z-20 pointer-events-none">
+              <SazcarVanMascot className="scale-110 sm:scale-125" />
+            </div>
             {error && (
               <div className="flex items-start gap-2.5 p-3.5 mb-5 rounded-2xl bg-red-50 text-red-700 border border-red-100 text-xs">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />

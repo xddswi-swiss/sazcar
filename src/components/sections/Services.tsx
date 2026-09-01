@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { services } from '@/content/services';
 import { motion } from 'framer-motion';
+import SazcarVanMascot from '@/components/ui/SazcarVanMascot';
 import {
   Wrench,
   Paintbrush,
@@ -122,6 +123,11 @@ export default function Services() {
                   WebkitBackdropFilter: 'blur(16px)',
                 }}
               >
+                {/* SAZCAR Minibus Van Mascot on top-right corner */}
+                <div className="absolute top-3 right-4 z-20 pointer-events-none">
+                  <SazcarVanMascot />
+                </div>
+
                 <div className="space-y-4">
                   {/* Icon + Title */}
                   <div className="flex items-center gap-3">
