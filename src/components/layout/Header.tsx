@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Logo from '@/components/ui/logo';
 import { Menu, X, Phone, ArrowUpRight, Home, ChevronDown, CornerDownRight } from 'lucide-react';
@@ -39,6 +39,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const reduceMotion = useReducedMotion();
   const pathname = usePathname();
+  const router = useRouter();
   // Plain route links (no #section, e.g. /karriere) have no scroll position to spy on —
   // they're active whenever the current page matches, regardless of scroll.
   const [activeSection, setActiveSection] = useState(
@@ -52,6 +53,16 @@ export default function Header() {
   const handleNavClick = (href: string) => {
     setActiveSection(href);
     clickLockRef.current = { href, until: Date.now() + CLICK_LOCK_MS };
+  };
+
+  // On the home page, scroll to top; on any other route, navigate home first.
+  const handleHomeClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (pathname === '/') {
+      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    } else {
+      router.push('/');
+    }
   };
 
   // Header background + active section, from one scroll handler.
@@ -198,11 +209,8 @@ export default function Header() {
             <Logo />
           </Link>
           <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
-            }}
+            href="/"
+            onClick={handleHomeClick}
             aria-label="Zum Seitenanfang"
             className="relative p-2 rounded-xl text-red-600 hover:bg-red-50 transition-colors"
             style={{ display: 'var(--burger-display, block)' }}
@@ -228,11 +236,8 @@ export default function Header() {
         >
           <style>{`@media(min-width:${NAV_BREAKPOINT}px){:root{--nav-display:flex}}`}</style>
           <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
-            }}
+            href="/"
+            onClick={handleHomeClick}
             aria-label="Zum Seitenanfang"
             className="relative p-2.5 rounded-xl text-red-600 hover:bg-red-50 transition-colors"
           >
