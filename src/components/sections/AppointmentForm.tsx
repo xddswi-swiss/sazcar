@@ -389,10 +389,10 @@ export default function AppointmentForm() {
                         onClick={() => handleServiceToggle(srv.title)}
                         className={`text-left p-3 rounded-2xl border text-xs font-bold transition-all duration-300 relative overflow-hidden ${buttonStyle}`}
                       >
-                        <div className="flex items-center justify-between gap-1">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 items-start">
                           <span>{srv.title}</span>
                           {isHagel && !isSelected && (
-                            <span className="shrink-0 px-1.5 py-0.5 rounded-md bg-red-600 text-white text-[9px] font-black uppercase tracking-wider animate-bounce">
+                            <span className="mt-1 sm:mt-0 shrink-0 px-1.5 py-0.5 rounded-md bg-red-600 text-white text-[9px] font-black uppercase tracking-wider animate-bounce">
                               Aktuell
                             </span>
                           )}
