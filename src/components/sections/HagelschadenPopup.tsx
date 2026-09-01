@@ -7,14 +7,19 @@ import { CloudRain, ShieldCheck, Car, X, ArrowRight, Wrench, Sparkles, PhoneCall
 import { PROMO_CTA_EVENT } from './PromoBadge';
 
 const HAGEL_SERVICE_NAME = 'Hagelschaden & Unwetterschaden';
-const DISMISS_KEY = 'sazcar_hagelschaden_popup_dismissed';
+
+// Track if popup has already shown during this hard page load instance
+let hasShownOnThisPageLoad = false;
 
 export default function HagelschadenPopup() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    // Show popup on every page load after 1.2s
+    // Only show once per hard page load / reload (not on client-side route changes)
+    if (hasShownOnThisPageLoad) return;
+    hasShownOnThisPageLoad = true;
+
     const timer = setTimeout(() => {
       setIsOpen(true);
     }, 1200);
