@@ -10,6 +10,7 @@ import {
   ClipboardCheck,
   CircleDot,
   Sparkles,
+  CloudRain,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -20,6 +21,7 @@ const iconMap: Record<string, LucideIcon> = {
   ClipboardCheck,
   CircleDot,
   Sparkles,
+  CloudRain,
 };
 
 const bentoStyles = [

@@ -9,6 +9,19 @@ export interface ServiceItem {
 
 export const services: ServiceItem[] = [
   {
+    id: 'hagelschaden-instandsetzung',
+    title: 'Hagelschaden & Unwetterschaden',
+    shortDescription: 'Sanfte Dellenentfernung (Drücktechnik), Glasschaden-Austausch und 100% Versicherungsservice.',
+    longDescription: 'Nach dem Hagelunwetter in der Region reparieren wir Ihr Fahrzeug schnell, fachgerecht und werterhaltend. Von sanftem Drücken ohne Nachlackieren bis zur direkten Schadenabwicklung mit der Schweizer Kaskoversicherung übernehmen wir alles.',
+    iconName: 'CloudRain',
+    features: [
+      'Sanftes Ausbeulen & Drücktechnik (ohne Nachlackieren)',
+      'Austausch beschädigter Autogläser & Beleuchtung',
+      'Direkte Abwicklung mit Ihrer Schweizer Kaskoversicherung',
+      'Ersatzwagen auf Wunsch für Ihre Mobilität'
+    ]
+  },
+  {
     id: 'karosserie-spenglerarbeiten',
     title: 'Karosserie & Spenglerarbeiten',
     shortDescription: 'Professionelle Unfallinstandsetzung, Karosseriearbeiten und sanfte Dellenbehebung bei Hagelschaden.',

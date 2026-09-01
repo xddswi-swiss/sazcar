@@ -4,6 +4,7 @@ import Services from '@/components/sections/Services';
 import BeforeAfter from '@/components/sections/BeforeAfter';
 import CarsShowcase from '@/components/sections/CarsShowcase';
 import AppointmentForm from '@/components/sections/AppointmentForm';
+import HagelschadenPopup from '@/components/sections/HagelschadenPopup';
 import Footer from '@/components/layout/Footer';
 import { createClient } from '@/utils/supabase/server';
 
@@ -79,6 +80,9 @@ export default async function Home() {
         <CarsShowcase />
         <AppointmentForm />
       </main>
+
+      {/* Hagelschaden Emergency Popup */}
+      <HagelschadenPopup />
 
       {/* Footer */}
       <Footer />

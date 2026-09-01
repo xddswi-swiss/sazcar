@@ -354,18 +354,30 @@ export default function AppointmentForm() {
                 <div className="grid grid-cols-2 gap-2">
                   {services.map((srv) => {
                     const isSelected = selectedServices.includes(srv.title);
+                    const isHagel = srv.id === 'hagelschaden-instandsetzung' || srv.title.includes('Hagelschaden');
+
+                    let buttonStyle = 'bg-white/20 backdrop-blur-xs border-slate-300 text-slate-700 hover:border-slate-400 hover:bg-white';
+                    if (isSelected) {
+                      buttonStyle = 'bg-red-600 border-red-600 text-white shadow-xs';
+                    } else if (isHagel) {
+                      buttonStyle = 'bg-red-50/90 border-red-500 text-red-700 animate-pulse ring-2 ring-red-500/40 shadow-sm font-extrabold';
+                    }
+
                     return (
                       <button
                         key={srv.id}
                         type="button"
                         onClick={() => handleServiceToggle(srv.title)}
-                        className={`text-left p-3 rounded-2xl border text-xs font-bold transition-all duration-300 ${
-                          isSelected
-                            ? 'bg-red-600 border-red-600 text-white shadow-xs'
-                            : 'bg-white/20 backdrop-blur-xs border-slate-300 text-slate-700 hover:border-slate-400 hover:bg-white'
-                        }`}
+                        className={`text-left p-3 rounded-2xl border text-xs font-bold transition-all duration-300 relative overflow-hidden ${buttonStyle}`}
                       >
-                        {srv.title}
+                        <div className="flex items-center justify-between gap-1">
+                          <span>{srv.title}</span>
+                          {isHagel && !isSelected && (
+                            <span className="shrink-0 px-1.5 py-0.5 rounded-md bg-red-600 text-white text-[9px] font-black uppercase tracking-wider animate-bounce">
+                              Aktuell
+                            </span>
+                          )}
+                        </div>
                       </button>
                     );
                   })}
