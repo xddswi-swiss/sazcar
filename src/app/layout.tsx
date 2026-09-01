@@ -13,12 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'SAZCAR GMBH | Autogarage & Carrosserie Schöfflisdorf',
-  description: 'Ihr Spezialist für Hagelschaden-Reparatur (Drücktechnik), Karosseriearbeiten, Autolackierung, Glasschaden & Autoservice in Schöfflisdorf. 100% Kaskoservice.',
+  title: 'SAZCAR GMBH | Autogarage & Carrosserie Schöfflisdorf • Tel: 043 422 86 76',
+  description: 'Ihr Spezialist für Hagelschaden-Reparatur (Drücktechnik), Karosseriearbeiten, Autolackierung, Glasschaden & Autoservice in Schöfflisdorf. 100% Kaskoservice. Tel: 043 422 86 76',
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://sazcar.ch'),
   openGraph: {
-    title: 'SAZCAR GMBH | Autogarage & Carrosserie Schöfflisdorf',
-    description: 'Spezialist für Hagelschaden-Reparatur (Drücktechnik), Karosserie, Lackierung & Autoservice in Schöfflisdorf. 100% Direktabrechnung mit allen Kaskoversicherungen.',
+    title: 'SAZCAR GMBH | Autogarage & Carrosserie Schöfflisdorf • Tel: 043 422 86 76',
+    description: 'Spezialist für Hagelschaden-Reparatur (Drücktechnik), Karosserie, Lackierung & Autoservice in Schöfflisdorf. 100% Direktabrechnung mit Kaskoversicherungen. Tel: 043 422 86 76',
     url: 'https://sazcar.ch',
     siteName: 'SAZCAR GMBH',
     images: [
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'SAZCAR GMBH Autogarage & Carrosserie Schöfflisdorf',
+        alt: 'SAZCAR GMBH Autogarage & Carrosserie Schöfflisdorf Tel 043 422 86 76',
       },
     ],
     locale: 'de_CH',
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SAZCAR GMBH | Autogarage & Carrosserie Schöfflisdorf',
-    description: 'Spezialist für Hagelschaden-Reparatur, Karosserie, Lackierung & Autoservice in Schöfflisdorf.',
+    title: 'SAZCAR GMBH | Autogarage & Carrosserie Schöfflisdorf • Tel: 043 422 86 76',
+    description: 'Spezialist für Hagelschaden-Reparatur, Karosserie, Lackierung & Autoservice in Schöfflisdorf. Tel: 043 422 86 76',
     images: ['/og-image.jpg'],
   },
 };
