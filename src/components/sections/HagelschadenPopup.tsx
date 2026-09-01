@@ -35,6 +35,14 @@ export default function HagelschadenPopup() {
     }
   };
 
+  const handleMoreInfo = () => {
+    handleClose();
+    const element = document.getElementById('hagelschaden');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -159,8 +167,16 @@ export default function HagelschadenPopup() {
                   </button>
 
                   <button
+                    onClick={handleMoreInfo}
+                    className="w-full sm:w-auto px-5 py-4 text-sm sm:text-base font-bold text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded-2xl transition-colors cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <span>Für detaillierte Infos & Techniken</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+
+                  <button
                     onClick={handleClose}
-                    className="w-full sm:w-auto px-6 py-4 text-sm sm:text-base font-bold text-slate-500 hover:text-slate-700 transition-colors cursor-pointer"
+                    className="w-full sm:w-auto px-4 py-4 text-xs sm:text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
                   >
                     Später
                   </button>
