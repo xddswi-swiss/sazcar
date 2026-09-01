@@ -21,8 +21,14 @@ const navLinks: { href: string; label: string; children: { href: string; label: 
   },
   { href: '/hagelschaden', label: 'Hagelschaden', children: [] },
   { href: '/#occasionen', label: 'Occasionen', children: [] },
-  { href: '/#termin', label: 'Termin buchen', children: [] },
-  { href: '/#kontakt', label: 'Kontakt', children: [{ href: '/karriere', label: 'Karriere' }] },
+  {
+    href: '/#kontakt',
+    label: 'Kontakt',
+    children: [
+      { href: '/#termin', label: 'Termin buchen' },
+      { href: '/karriere', label: 'Karriere' },
+    ],
+  },
 ];
 
 // Flat list of every section link (parents + children) — used for scroll-spy,

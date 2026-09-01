@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { services } from '@/content/services';
 import { motion } from 'framer-motion';
 import {
@@ -167,6 +168,18 @@ export default function Services() {
                     </li>
                   ))}
                 </ul>
+
+                {service.id === 'hagelschaden-instandsetzung' && (
+                  <div className="mt-4 pt-3 border-t border-slate-200/80">
+                    <Link
+                      href="/hagelschaden"
+                      className="inline-flex items-center gap-1.5 font-bold text-red-600 hover:text-red-700 text-xs sm:text-sm transition-colors group"
+                    >
+                      <span>Alle Hagel-Techniken & 4-Schritte-Prozess ansehen</span>
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
+                )}
               </motion.div>
             );
           })}
