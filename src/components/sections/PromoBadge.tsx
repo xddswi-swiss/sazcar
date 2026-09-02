@@ -182,7 +182,7 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
             </span>
 
             <span className="font-extrabold uppercase text-[9px] sm:text-[10px] tracking-tight text-red-600 truncate">
-              SAZCAR MEISTERBETRIEB
+              MEISTERBETRIEB
             </span>
           </div>
 
