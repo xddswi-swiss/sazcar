@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { X, Fuel, Gauge, Calendar, Mail, ArrowUpRight } from 'lucide-react';
 import { formatCH } from '@/lib/utils';
@@ -36,12 +37,23 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
   return (
     <section
       id="occasionen"
-      className="relative w-full overflow-hidden bg-white text-slate-800"
+      className="relative w-full overflow-hidden bg-slate-900 text-slate-800"
       style={{
         padding: 'clamp(4rem, 3rem + 4vw, 7.5rem) clamp(1rem, 0.429rem + 2.857vw, 3rem)',
       }}
     >
-      <div className="mx-auto" style={{ maxWidth: '1200px' }}>
+      {/* Background Image (rotbg.jpg) */}
+      <div className="absolute inset-0 z-0 pointer-events-none select-none">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/rotbg.jpg"
+          alt="Occasionen Background"
+          className="w-full h-full object-cover object-center"
+          draggable={false}
+        />
+      </div>
+
+      <div className="mx-auto relative z-10" style={{ maxWidth: '1200px' }}>
         {/* Section Header */}
         <div className="text-left" style={{ marginBottom: 'clamp(2.5rem, 2rem + 2vw, 4.5rem)' }}>
           <h2
