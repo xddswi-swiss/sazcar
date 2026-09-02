@@ -920,25 +920,25 @@ function resizeRendererToDisplaySize(
 class App {
   container: HTMLElement;
   options: HyperspeedOptions;
-  renderer: THREE.WebGLRenderer;
-  composer: EffectComposer;
-  camera: THREE.PerspectiveCamera;
-  scene: THREE.Scene;
+  renderer!: THREE.WebGLRenderer;
+  composer!: EffectComposer;
+  camera!: THREE.PerspectiveCamera;
+  scene!: THREE.Scene;
   renderPass!: RenderPass;
   bloomPass!: EffectPass;
-  timer: THREE.Timer;
-  assets: Record<string, any>;
-  disposed: boolean;
-  road: Road;
-  leftCarLights: CarLights;
-  rightCarLights: CarLights;
-  leftSticks: LightsSticks;
-  fogUniforms: Record<string, { value: any }>;
-  fovTarget: number;
-  speedUpTarget: number;
-  speedUp: number;
-  timeOffset: number;
-  hasValidSize: boolean;
+  timer!: THREE.Timer;
+  assets!: Record<string, any>;
+  disposed: boolean = false;
+  road!: Road;
+  leftCarLights!: CarLights;
+  rightCarLights!: CarLights;
+  leftSticks!: LightsSticks;
+  fogUniforms!: Record<string, { value: any }>;
+  fovTarget!: number;
+  speedUpTarget!: number;
+  speedUp!: number;
+  timeOffset!: number;
+  hasValidSize: boolean = false;
 
   constructor(container: HTMLElement, options: HyperspeedOptions) {
     this.options = options;
