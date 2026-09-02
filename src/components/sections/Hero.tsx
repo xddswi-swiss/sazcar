@@ -34,6 +34,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
           src="/werkstatt-sketch-sazcar.jpg"
           alt="Werkstatt Sketch Background"
           fill
+          sizes="(min-width: 768px) 58vw, 100vw"
           className="object-contain object-center md:object-right"
           priority
         />
@@ -41,7 +42,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
 
       {/* Content Container (Left-aligned Layout) */}
       <div
-        className="relative z-10 w-full text-left pt-24 md:pt-28 lg:pt-32 xl:pt-40 pb-12 md:pb-16 xl:pb-24 px-4 sm:px-6 md:px-8 xl:px-16"
+        className="relative z-10 w-full text-left pt-24 md:pt-28 lg:pt-32 xl:pt-40 pb-12 md:pb-16 xl:pb-24 px-4 sm:px-6 md:px-8 xl:px-16 lg:-translate-x-[10.25rem]"
         style={{
           maxWidth: '1000px',
           marginInline: 'auto',
@@ -186,7 +187,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
             style={{
               left: '62%',
               top: '60%',
-              transform: 'translate(-50%, -50%)',
+              transform: 'translate(-50%, calc(-50% + 9.45rem))',
               width: 'clamp(220px, 18vw, 270px)',
               gap: 'clamp(0.75rem, 0.5rem + 0.5vw, 1rem)',
             }}
