@@ -86,7 +86,6 @@ export async function saveCar(formData: FormData) {
   }
 
   revalidatePath('/admin/cars');
-  revalidatePath('/occasionen/preview');
   revalidatePath('/');
   return { success: true };
 }
