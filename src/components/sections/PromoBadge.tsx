@@ -1,6 +1,7 @@
 'use client';
 
-import { Snowflake, Sun, Sparkles, Wrench, Tag, ArrowUpRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Snowflake, Sun, Sparkles, Wrench, Tag, ArrowUpRight, ShieldCheck, CheckCircle2, MapPin } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 // Fired when the CTA is clicked so AppointmentForm can pre-select the matching service.
@@ -66,6 +67,11 @@ function discountLine(promo: Promotion): string | null {
 
 export default function PromoBadge({ promotion }: { promotion: Promotion | null }) {
   const shouldReduceMotion = useReducedMotion();
+  const [isSunday, setIsSunday] = useState(false);
+
+  useEffect(() => {
+    setIsSunday(new Date().getDay() === 0);
+  }, []);
 
   // If there is an active promotion in Supabase DB, render the promotion card.
   if (promotion) {
@@ -164,9 +170,9 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
     <div className="relative group">
       <motion.div
         aria-hidden
-        className="absolute -inset-2 rounded-3xl bg-gradient-to-r from-red-500/20 via-rose-400/10 to-transparent blur-xl opacity-80 group-hover:opacity-100 transition-opacity"
-        animate={shouldReduceMotion ? undefined : { opacity: [0.5, 0.85, 0.5] }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute -inset-2 rounded-3xl bg-[conic-gradient(from_0deg,#ef4444_0%,#f43f5e_25%,#fda4af_50%,#f43f5e_75%,#ef4444_100%)] blur-xl opacity-70 group-hover:opacity-100 transition-opacity"
+        animate={shouldReduceMotion ? undefined : { rotate: [0, 360] }}
+        transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
       />
 
       <motion.div
@@ -175,42 +181,48 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
         transition={{ duration: 0.5 }}
         className="relative bg-white/95 backdrop-blur-xl border border-slate-200 shadow-xl shadow-slate-900/10 rounded-2xl p-4 sm:p-5 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-red-200 bg-gradient-to-br from-red-50/90 via-white to-rose-50/30"
       >
-        <div className="flex items-center justify-between gap-1.5 mb-3">
-          <span className="flex items-center justify-center rounded-xl shrink-0 shadow-xs bg-red-100/90 text-red-600 w-7 h-7 sm:w-8 sm:h-8">
-            <Wrench className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-          </span>
-
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 border font-extrabold text-[9px] sm:text-[10px] rounded-full shadow-2xs bg-emerald-50 text-emerald-700 border-emerald-300 shrink-0 whitespace-nowrap">
-            <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-            <span>HEUTE GEÖFFNET</span>
-          </span>
+        <div className="flex items-center justify-start mb-2">
+          {isSunday ? (
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 font-bold text-[10px] sm:text-xs rounded-full bg-slate-100 text-slate-700 border border-slate-200/60">
+              <span className="relative flex shrink-0 w-2 h-2 rounded-full bg-slate-400" />
+              <span>HEUTE GESCHLOSSEN</span>
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 font-bold text-[10px] sm:text-xs rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+              <span className="relative flex shrink-0 w-2 h-2">
+                <motion.span
+                  aria-hidden
+                  className="absolute inline-flex h-full w-full rounded-full bg-emerald-500"
+                  animate={{ scale: [1, 2.2, 1], opacity: [0.8, 0, 0.8] }}
+                  transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                />
+                <span className="relative inline-flex h-full w-full rounded-full bg-emerald-500" />
+              </span>
+              <span>HEUTE GEÖFFNET</span>
+            </span>
+          )}
         </div>
 
-        <h3 className="font-black text-slate-900 text-base sm:text-lg leading-snug tracking-tight">
-          Ihr Spezialist für Karosserie & Autoservice
-        </h3>
-
-        <p className="text-slate-600 font-semibold text-xs mt-1.5 leading-relaxed">
-          Professionelle Reparatur, Dellenentfernung & Fahrzeugwartung in Schöfflisdorf – präzise & zuverlässig.
+        <p className="text-slate-900 font-normal text-xs sm:text-sm mt-1 leading-relaxed text-left">
+          Professionelle Reparatur, Dellenentfernung & Fahrzeugwartung in Schöfflisdorf, präzise & zuverlässig.
         </p>
 
-        <div className="flex items-center gap-3 pt-2 text-[11px] font-bold text-slate-700">
+        <div className="flex items-center justify-start pt-2 text-[11px] font-medium text-slate-600">
           <span className="inline-flex items-center gap-1 text-red-600">
-            <ShieldCheck className="w-3.5 h-3.5" />
+            <ShieldCheck className="w-3.5 h-3.5 shrink-0" />
             <span>100% Schweizer Qualität</span>
           </span>
         </div>
 
         <a
-          href="#termin"
-          onClick={(e) => {
-            e.preventDefault();
-            document.getElementById('termin')?.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth' });
-          }}
-          className="mt-4 w-full inline-flex items-center justify-center gap-2 font-bold text-xs sm:text-sm py-2.5 px-4 rounded-xl shadow-md transition-all hover:scale-[1.02] active:scale-95 cursor-pointer bg-red-600 hover:bg-red-700 text-white"
+          href="https://www.google.com/maps/dir/?api=1&destination=SAZCAR+GMBH,+Unterdorfstrasse+14,+8165+Sch%C3%B6fflisdorf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-2.5 inline-flex items-center gap-1.5 font-normal text-xs sm:text-sm text-slate-900 hover:text-red-600 transition-colors cursor-pointer group"
         >
-          <span>Termin vereinbaren</span>
-          <ArrowUpRight className="w-4 h-4" />
+          <span>Route in Maps öffnen</span>
+          <MapPin className="w-3.5 h-3.5 text-red-600 shrink-0 group-hover:scale-110 transition-transform" />
+          <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 shrink-0" />
         </a>
       </motion.div>
     </div>
