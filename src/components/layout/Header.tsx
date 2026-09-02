@@ -429,7 +429,7 @@ export default function Header() {
                       handleHomeClick(e);
                       setMenuOpen(false);
                     }}
-                    className={`group relative flex items-center gap-3 rounded-2xl px-3 py-2.5 text-[16px] font-bold tracking-tight transition-all duration-300 ${
+                    className={`group relative flex items-center gap-3 rounded-2xl px-3 py-2.5 text-[16px] font-normal tracking-tight transition-all duration-300 ${
                       pathname === '/' && activeSection === ''
                         ? 'text-white'
                         : 'text-black hover:text-red-600 hover:bg-white/60 hover:translate-x-1'
@@ -444,7 +444,7 @@ export default function Header() {
                     }
                   >
                     <span
-                      className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg text-[11px] font-mono font-semibold transition-colors ${
+                      className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg text-[11px] font-mono font-normal transition-colors ${
                         pathname === '/' && activeSection === ''
                           ? 'bg-white/25 text-white'
                           : 'bg-white/70 text-slate-400 group-hover:bg-red-50 group-hover:text-red-500'
@@ -475,7 +475,7 @@ export default function Header() {
                           setMenuOpen(false);
                         }}
                         aria-current={isActive ? 'true' : undefined}
-                        className={`group relative flex items-center gap-3 rounded-2xl px-3 py-2.5 text-[16px] font-bold tracking-tight transition-all duration-300 ${
+                        className={`group relative flex items-center gap-3 rounded-2xl px-3 py-2.5 text-[16px] font-normal tracking-tight transition-all duration-300 ${
                           isActive
                             ? 'text-white'
                             : 'text-black hover:text-red-600 hover:bg-white/60 hover:translate-x-1'
@@ -490,7 +490,7 @@ export default function Header() {
                         }
                       >
                         <span
-                          className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg text-[11px] font-mono font-semibold transition-colors ${
+                          className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg text-[11px] font-mono font-normal transition-colors ${
                             isActive
                               ? 'bg-white/25 text-white'
                               : 'bg-white/70 text-slate-400 group-hover:bg-red-50 group-hover:text-red-500'
@@ -519,7 +519,7 @@ export default function Header() {
                               setMenuOpen(false);
                             }}
                             aria-current={childActive ? 'true' : undefined}
-                            className={`flex items-center gap-2.5 rounded-xl pl-9 pr-3 py-2 -mt-1 text-sm font-semibold transition-all duration-300 ${
+                            className={`flex items-center gap-2.5 rounded-xl pl-9 pr-3 py-2 -mt-1 text-sm font-normal transition-all duration-300 ${
                               childActive
                                 ? 'text-red-600 bg-red-50'
                                 : 'text-slate-500 hover:text-red-600 hover:bg-white/60'
@@ -539,7 +539,7 @@ export default function Header() {
               <motion.div {...itemMotion} className="relative mt-4 pt-4 border-t border-slate-900/10">
                 <a
                   href="tel:+41434228676"
-                  className="group relative flex items-center justify-center gap-2 w-full py-3.5 overflow-hidden rounded-2xl bg-slate-900 text-white font-bold transition-transform duration-300 active:scale-[0.98]"
+                  className="group relative flex items-center justify-center gap-2 w-full py-3.5 overflow-hidden rounded-2xl bg-slate-900 text-white font-normal transition-transform duration-300 active:scale-[0.98]"
                   style={{ boxShadow: '0 10px 26px -12px rgba(15,23,42,0.8)' }}
                 >
                   {/* hover parlaması */}

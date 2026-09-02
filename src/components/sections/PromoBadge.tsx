@@ -83,8 +83,8 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
       <div className="relative group">
         <motion.div
           aria-hidden
-          className={`absolute -inset-2 rounded-3xl bg-gradient-to-r ${theme.glow} blur-xl opacity-80 group-hover:opacity-100 transition-opacity`}
-          animate={shouldReduceMotion ? undefined : { opacity: [0.6, 0.9, 0.6] }}
+          className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${theme.glow} blur-md opacity-50 group-hover:opacity-80 transition-opacity`}
+          animate={shouldReduceMotion ? undefined : { opacity: [0.4, 0.7, 0.4] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
         />
 
@@ -103,12 +103,12 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
                 <Icon style={{ width: '55%', height: '55%' }} />
               </span>
 
-              <span className={`font-extrabold uppercase text-[10px] sm:text-xs tracking-wider ${theme.label}`}>
+              <span className={`font-normal uppercase text-[10px] sm:text-xs tracking-wider ${theme.label}`}>
                 AKTUELLES ANGEBOT
               </span>
             </div>
 
-            <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 border font-extrabold text-[10px] sm:text-xs rounded-full shadow-2xs ${theme.badge}`}>
+            <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 border font-normal text-[10px] sm:text-xs rounded-full shadow-2xs ${theme.badge}`}>
               <span className="relative flex shrink-0 w-2 h-2">
                 <motion.span
                   aria-hidden
@@ -138,12 +138,12 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
           </h3>
 
           {line && (
-            <p className="font-bold text-red-600 text-sm sm:text-base mt-1">
+            <p className="font-normal text-red-600 text-sm sm:text-base mt-1">
               {line}
             </p>
           )}
 
-          <p className="text-slate-500 font-medium text-xs mt-1.5 leading-relaxed">
+          <p className="text-slate-500 font-normal text-xs mt-1.5 leading-relaxed">
             Gültig vom {formatDate(promotion.start_date)} bis {formatDate(promotion.end_date)}
           </p>
 
@@ -170,9 +170,9 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
     <div className="relative group">
       <motion.div
         aria-hidden
-        className="absolute -inset-2 rounded-3xl bg-[conic-gradient(from_0deg,#ef4444_0%,#f43f5e_25%,#fda4af_50%,#f43f5e_75%,#ef4444_100%)] blur-xl opacity-70 group-hover:opacity-100 transition-opacity"
+        className="absolute inset-0 rounded-2xl bg-[conic-gradient(from_0deg,#ef4444_0%,#f43f5e_25%,#fda4af_50%,#f43f5e_75%,#ef4444_100%)] blur-md opacity-45 group-hover:opacity-75 transition-opacity"
         animate={shouldReduceMotion ? undefined : { rotate: [0, 360] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
       />
 
       <motion.div

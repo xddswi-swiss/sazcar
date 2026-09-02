@@ -1,8 +1,9 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Shield, Award, Clock, ArrowUpRight, MessageCircle } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import PromoBadge, { type Promotion } from './PromoBadge';
 
 const badges = [
@@ -11,7 +12,18 @@ const badges = [
   { icon: Award, text: 'MFK-Garantie' },
 ];
 
+const FLIP_WORDS = ['Profis', 'Meister', 'Partner', 'Spezialisten'];
+
 export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) {
+  const [wordIndex, setWordIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % FLIP_WORDS.length);
+    }, 2400);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section
       className="relative w-full flex items-center justify-center overflow-hidden bg-slate-50"
@@ -68,13 +80,27 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="font-black tracking-tight text-slate-900 leading-[1.08] text-3xl md:text-[2.35rem] lg:text-[2.75rem] xl:text-[4.5rem]"
+          className="font-black tracking-tight text-slate-900 leading-[1.1] text-2xl sm:text-3xl md:text-[2.15rem] lg:text-[2.55rem] xl:text-[3.25rem]"
         >
           Ihre Carrosserie & <br />
           <span className="text-red-600">Autogarage</span>{" "}
-          <span className="text-red-600/30">
-            Experten
-          </span> <br />
+          <span className="inline-block relative h-[1.12em] overflow-hidden align-bottom min-w-[190px] sm:min-w-[260px] md:min-w-[300px] xl:min-w-[350px]">
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={FLIP_WORDS[wordIndex]}
+                initial={{ y: 36, opacity: 0, filter: 'blur(10px)', rotateX: -60 }}
+                animate={{ y: 0, opacity: 1, filter: 'blur(0px)', rotateX: 0 }}
+                exit={{ y: -36, opacity: 0, filter: 'blur(10px)', rotateX: 60 }}
+                transition={{ duration: 0.45, ease: [0.23, 1, 0.32, 1] }}
+                className="absolute left-0 top-0 text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-rose-400 to-red-600 font-black tracking-tight whitespace-nowrap"
+                style={{
+                  filter: 'drop-shadow(0 4px 12px rgba(220, 38, 38, 0.35))',
+                }}
+              >
+                {FLIP_WORDS[wordIndex]}
+              </motion.span>
+            </AnimatePresence>
+          </span>{" "}<br />
           in Zürich Unterland
         </motion.h1>
 
@@ -83,7 +109,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
-          className="text-slate-700 max-w-[620px] ml-0 mr-auto font-bold bg-white/40 backdrop-blur-xs rounded-xl p-2"
+          className="text-slate-700 max-w-[620px] ml-0 mr-auto font-normal bg-white/40 backdrop-blur-xs rounded-xl p-2"
           style={{
             fontSize: 'clamp(0.875rem, 0.82rem + 0.28vw, 1.125rem)',
             marginTop: 'clamp(1.25rem, 1rem + 0.8vw, 2rem)',
@@ -161,7 +187,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
           transition={{ duration: 0.6, delay: 0.6 }}
           className="lg:hidden flex flex-col w-full"
           style={{
-            marginTop: 'clamp(1.5rem, 1rem + 2vw, 2.5rem)',
+            marginTop: 'clamp(0.25rem, 0.1rem + 0.5vw, 0.75rem)',
             gap: 'clamp(0.75rem, 0.5rem + 0.5vw, 1rem)',
           }}
         >
@@ -182,7 +208,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
             style={{
               left: '62%',
               top: '60%',
-              transform: 'translate(-50%, calc(-50% + 9.45rem))',
+              transform: 'translate(-50%, calc(-50% + 2.5rem))',
               width: 'clamp(220px, 18vw, 270px)',
               gap: 'clamp(0.75rem, 0.5rem + 0.5vw, 1rem)',
             }}
