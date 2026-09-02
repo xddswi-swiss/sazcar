@@ -175,20 +175,20 @@ export default function PromoBadge({ promotion }: { promotion: Promotion | null 
         transition={{ duration: 0.5 }}
         className="relative bg-white/95 backdrop-blur-xl border border-slate-200 shadow-xl shadow-slate-900/10 rounded-2xl p-4 sm:p-5 overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-red-200 bg-gradient-to-br from-red-50/90 via-white to-rose-50/30"
       >
-        <div className="flex items-center justify-between gap-2 mb-3">
-          <div className="flex items-center gap-2">
-            <span className="flex items-center justify-center rounded-xl shrink-0 shadow-xs bg-red-100/90 text-red-600 w-9 h-9">
-              <Wrench className="w-5 h-5" />
+        <div className="flex items-center justify-between gap-1.5 mb-3">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span className="flex items-center justify-center rounded-xl shrink-0 shadow-xs bg-red-100/90 text-red-600 w-7 h-7 sm:w-8 sm:h-8">
+              <Wrench className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </span>
 
-            <span className="font-extrabold uppercase text-[10px] sm:text-xs tracking-wider text-red-600">
+            <span className="font-extrabold uppercase text-[9px] sm:text-[10px] tracking-tight text-red-600 truncate">
               SAZCAR MEISTERBETRIEB
             </span>
           </div>
 
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 border font-extrabold text-[10px] sm:text-xs rounded-full shadow-2xs bg-emerald-50 text-emerald-700 border-emerald-200">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 border font-extrabold text-[9px] sm:text-[10px] rounded-full shadow-2xs bg-emerald-50 text-emerald-700 border-emerald-300 shrink-0 whitespace-nowrap">
             <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-            <span>GEOFFNET</span>
+            <span>HEUTE GEÖFFNET</span>
           </span>
         </div>
 
