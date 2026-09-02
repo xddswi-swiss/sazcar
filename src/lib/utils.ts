@@ -74,3 +74,5 @@ export function throttle<T extends (...args: any[]) => void>(func: T, limit: num
     }
   };
 }
+
+

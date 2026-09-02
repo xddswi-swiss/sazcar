@@ -1,14 +1,34 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { X, Fuel, Gauge, Calendar, Mail, ArrowUpRight } from 'lucide-react';
-import { formatCH } from '@/lib/utils';
+import TurnstileWidget from '@/components/ui/TurnstileWidget';
+import { 
+  Calendar, 
+  Fuel, 
+  Gauge, 
+  Zap, 
+  SlidersHorizontal, 
+  CheckCircle2, 
+  ChevronLeft, 
+  ChevronRight, 
+  Mail, 
+  Phone, 
+  User, 
+  MessageSquare, 
+  ChevronDown, 
+  ChevronUp, 
+  Info, 
+  Car, 
+  Compass, 
+  Droplets,
+  FileText,
+  Crown
+} from 'lucide-react';
 
-interface Car {
+interface CarItem {
   id: string;
   title: string;
+  subtitle?: string | null;
   brand: string;
   model: string;
   year: number;
@@ -16,260 +36,597 @@ interface Car {
   price: number;
   fuel_type: string;
   transmission: string;
-  description: string | null;
-  image_urls: string[];
-  is_active: boolean;
+  description?: string | null;
+  image_urls?: string[] | null;
+  badges?: string[] | null;
+  power?: string | null;
+  consumption?: string | null;
+  drive_type?: string | null;
+  body_type?: string | null;
+  ribbon_tier?: string | null;
+  optional_equipment?: string[] | null;
+  standard_equipment?: string[] | null;
 }
 
 interface CarsShowcaseClientProps {
-  cars: Car[];
+  cars: CarItem[];
 }
 
 export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
-  const [selectedCar, setSelectedCar] = useState<Car | null>(null);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedCarId, setSelectedCarId] = useState<string>(cars[0]?.id || '');
+  const activeCar = cars.find((c) => c.id === selectedCarId) || cars[0];
 
-  const openDetail = (car: Car) => {
-    setSelectedCar(car);
-    setSelectedImageIndex(0);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [showPhone, setShowPhone] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [activeTab, setActiveTab] = useState<'desc' | 'optional' | 'standard'>('desc');
+
+  // Form States
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    message: ''
+  });
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    if (activeCar) {
+      const priceStr = typeof activeCar.price === 'number'
+        ? activeCar.price.toLocaleString('de-CH')
+        : activeCar.price;
+      setFormData((prev) => ({
+        ...prev,
+        message: `Grüezi, ich interessiere mich für den ${activeCar.title} (CHF ${priceStr}.–). Ich möchte gerne einen Besichtigungstermin oder eine Probefahrt vereinbaren.`
+      }));
+    }
+  }, [activeCar?.id, activeCar?.title, activeCar?.price]);
+
+  if (!activeCar) return null;
+
+  const images = activeCar.image_urls && activeCar.image_urls.length > 0
+    ? activeCar.image_urls
+    : ['https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80'];
+
+  const handleCarSwitch = (carId: string) => {
+    setSelectedCarId(carId);
+    setActiveImageIndex(0);
+    setIsExpanded(false);
   };
+
+  const handlePrevImage = () => {
+    setActiveImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const handleNextImage = () => {
+    setActiveImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!turnstileToken) {
+      setFormError('Bitte bestätigen Sie das Sicherheitselement (Turnstile).');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setFormError(null);
+
+    try {
+      const res = await fetch('/api/car-inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          carId: activeCar.id,
+          carTitle: activeCar.title,
+          carPrice: activeCar.price,
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          message: formData.message,
+          turnstileToken
+        })
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setIsSubmitted(true);
+      } else {
+        setFormError(data.error || 'Fehler beim Senden der Anfrage.');
+      }
+    } catch (err) {
+      console.error(err);
+      setFormError('Verbindungsfehler. Bitte versuchen Sie es erneut.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const formattedPrice = typeof activeCar.price === 'number'
+    ? activeCar.price.toLocaleString('de-CH')
+    : activeCar.price;
+
+  const formattedMileage = typeof activeCar.mileage === 'number'
+    ? `${activeCar.mileage.toLocaleString('de-CH')} km`
+    : activeCar.mileage;
 
   return (
     <section
       id="occasionen"
-      className="relative w-full overflow-hidden bg-slate-900 text-slate-800"
+      className="relative w-full overflow-hidden bg-white text-slate-900"
       style={{
-        padding: 'clamp(4rem, 3rem + 4vw, 7.5rem) clamp(1rem, 0.429rem + 2.857vw, 3rem)',
+        padding: 'clamp(3rem, 2.5rem + 3vw, 6rem) clamp(1rem, 0.5rem + 2vw, 3rem)',
       }}
     >
-      {/* Background Image (rotbg.jpg) */}
-      <div className="absolute inset-0 z-0 pointer-events-none select-none">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/rotbg.jpg"
-          alt="Occasionen Background"
-          className="w-full h-full object-cover object-center"
-          draggable={false}
-        />
-      </div>
+      <div className="mx-auto relative z-10 max-w-7xl">
 
-      <div className="mx-auto relative z-10" style={{ maxWidth: '1200px' }}>
         {/* Section Header */}
-        <div className="text-left" style={{ marginBottom: 'clamp(2.5rem, 2rem + 2vw, 4.5rem)' }}>
+        <div className="text-left mb-6">
           <h2
-            className="font-black tracking-tight text-white"
+            className="font-black tracking-tight text-slate-900"
             style={{ fontSize: 'clamp(1.75rem, 1.393rem + 1.786vw, 3rem)' }}
           >
             Aktuelle Occasionen
           </h2>
           <p
-            className="text-white/90 font-normal"
-            style={{
-              fontSize: 'clamp(0.875rem, 0.83rem + 0.22vw, 1.0625rem)',
-              marginTop: 'clamp(0.5rem, 0.375rem + 0.3vw, 1rem)',
-              lineHeight: 1.5,
-            }}
+            className="font-normal text-slate-600 mt-1.5"
+            style={{ fontSize: 'clamp(0.875rem, 0.821rem + 0.268vw, 1.0625rem)' }}
           >
             Geprüfte Premium-Gebrauchtwagen mit Qualitätsgarantie.
           </p>
         </div>
 
-        {/* Car Grid */}
-        <div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-          style={{ gap: 'clamp(1rem, 0.75rem + 0.625vw, 1.5rem)' }}
-        >
-          {cars.map((car, index) => (
-            <motion.div
-              key={car.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.4, delay: index * 0.08, ease: 'easeOut' }}
-              className="group bg-white/45 backdrop-blur-lg border border-slate-200/80 hover:border-red-400 hover:bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-350 cursor-pointer flex flex-col justify-between"
-              style={{
-                backdropFilter: 'blur(16px)',
-                WebkitBackdropFilter: 'blur(16px)',
-              }}
-              onClick={() => openDetail(car)}
-            >
-              {/* Image Container */}
-              <div className="relative aspect-video bg-slate-100 overflow-hidden">
-                {car.image_urls && car.image_urls.length > 0 ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={car.image_urls[0]}
-                    alt={car.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    draggable={false}
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs">
-                    Keine Bilder verfügbar
-                  </div>
+        {/* Multi-Car Switcher Bar */}
+        {cars.length > 1 && (
+          <div className="mb-6 bg-slate-50 p-2.5 rounded-2xl border border-slate-200 shadow-sm">
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider px-2 shrink-0 flex items-center gap-1.5">
+                <Car className="w-4 h-4 text-red-500" />
+                Fahrzeug:
+              </span>
+              {cars.map((car, idx) => (
+                <button
+                  key={car.id}
+                  type="button"
+                  onClick={() => handleCarSwitch(car.id)}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
+                    car.id === selectedCarId
+                      ? 'bg-red-600 text-white shadow-md'
+                      : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                  }`}
+                >
+                  <span>{idx + 1}. {car.title}</span>
+                  <span className="text-[10px] opacity-80">
+                    (CHF {typeof car.price === 'number' ? car.price.toLocaleString('de-CH') : car.price})
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Embedded White Car Detail Card */}
+        <div className="bg-white text-slate-900 rounded-3xl border border-slate-200/90 shadow-2xl overflow-hidden p-5 sm:p-7 lg:p-8 transition-all duration-500">
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+
+            {/* LEFT COLUMN: Gallery */}
+            <div className="lg:col-span-6 space-y-3.5">
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200 shadow-sm bg-slate-950 group">
+                
+                {/* Main Image */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={images[activeImageIndex] || images[0]}
+                  alt={activeCar.title}
+                  className="w-full h-full object-cover transition-all duration-300"
+                />
+
+                {images.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={handlePrevImage}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/80 text-white backdrop-blur-md transition-all opacity-80 hover:opacity-100 cursor-pointer border border-white/20"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleNextImage}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/80 text-white backdrop-blur-md transition-all opacity-80 hover:opacity-100 cursor-pointer border border-white/20"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </>
+                )}
+
+                <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md text-white text-[11px] font-bold px-2.5 py-1 rounded-lg border border-white/20">
+                  {activeImageIndex + 1} / {images.length}
+                </div>
+              </div>
+
+              {/* Thumbnails Row */}
+              {images.length > 1 && (
+                <div className="grid grid-cols-4 gap-2">
+                  {images.slice(1, 5).map((img, idx) => {
+                    const actualIndex = idx + 1;
+                    const isFourthThumb = idx === 3;
+                    const extraImagesCount = images.length - 4;
+
+                    return (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => setActiveImageIndex(actualIndex)}
+                        className={`relative aspect-square rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
+                          activeImageIndex === actualIndex
+                            ? 'border-red-600 ring-2 ring-red-600/30 scale-[1.02] shadow-sm'
+                            : 'border-slate-200 hover:border-slate-400 opacity-85 hover:opacity-100'
+                        }`}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={img} alt={`Thumb ${actualIndex}`} className="w-full h-full object-cover" />
+                        
+                        {isFourthThumb && extraImagesCount > 0 && (
+                          <div className="absolute inset-0 bg-black/65 backdrop-blur-[2px] flex items-center justify-center text-white text-xs font-black tracking-wider">
+                            +{extraImagesCount} Bilder
+                          </div>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* RIGHT COLUMN: Details & Actions */}
+            <div className="lg:col-span-6 flex flex-col justify-between space-y-4">
+              
+              <div>
+                <h1 
+                  className="font-bold text-slate-900 tracking-tight leading-tight"
+                  style={{ fontSize: 'clamp(1.25rem, 1.1rem + 0.6vw, 1.75rem)' }}
+                >
+                  {activeCar.title}
+                </h1>
+                {activeCar.subtitle && (
+                  <p className="text-xs sm:text-[13px] text-slate-900 mt-2 leading-relaxed font-normal">
+                    {activeCar.subtitle}
+                  </p>
                 )}
               </div>
 
-              {/* Details Content */}
-              <div style={{ padding: 'clamp(1.25rem, 1rem + 0.5vw, 1.5rem)' }}>
-                <h3
-                  className="font-bold text-slate-900 tracking-tight line-clamp-1 group-hover:text-red-650 transition-colors"
-                  style={{ fontSize: 'clamp(0.9375rem, 0.9rem + 0.12vw, 1.125rem)' }}
-                >
-                  {car.title}
-                </h3>
-
-                <div
-                  className="flex items-center flex-wrap text-slate-500 font-normal"
-                  style={{
-                    gap: 'clamp(0.5rem, 0.375rem + 0.3vw, 0.75rem)',
-                    marginTop: '0.5rem',
-                    fontSize: 'clamp(0.75rem, 0.73rem + 0.08vw, 0.8125rem)',
-                  }}
-                >
-                  <span className="flex items-center gap-1 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-lg">
-                    <Calendar className="w-3.5 h-3.5 text-red-600" /> {car.year}
-                  </span>
-                  <span className="flex items-center gap-1 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-lg">
-                    <Gauge className="w-3.5 h-3.5 text-red-600" /> {formatCH(car.mileage)} km
-                  </span>
-                  <span className="flex items-center gap-1 bg-slate-50 border border-slate-200 px-2.5 py-1 rounded-lg">
-                    <Fuel className="w-3.5 h-3.5 text-red-600" /> {car.fuel_type}
+              {/* Price & Action Buttons */}
+              <div className="space-y-3 py-2 border-y border-slate-100">
+                <div className="flex items-baseline justify-between">
+                  <span 
+                    className="font-extrabold text-slate-900 tracking-tight"
+                    style={{ fontSize: 'clamp(1.25rem, 1.1rem + 0.4vw, 1.625rem)' }}
+                  >
+                    CHF {formattedPrice}.–
                   </span>
                 </div>
 
-                {/* Pricing & CTA */}
-                <div
-                  className="flex items-center justify-between border-t border-slate-100"
-                  style={{ marginTop: '1.25rem', paddingTop: '1rem' }}
-                >
-                  <span
-                    className="font-normal text-slate-900"
-                    style={{ fontSize: 'clamp(1.125rem, 1rem + 0.3vw, 1.375rem)' }}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsExpanded(true);
+                      setTimeout(() => {
+                        document.getElementById('kontakt-form-client')?.scrollIntoView({ behavior: 'smooth' });
+                      }, 150);
+                    }}
+                    className="w-full bg-white hover:bg-amber-50/40 text-slate-800 font-normal py-3 px-4 rounded-xl border border-amber-400 hover:border-amber-500 transition-all flex items-center justify-center gap-2 cursor-pointer text-sm group"
                   >
-                    CHF {formatCH(car.price)}.-
-                  </span>
-                  <span
-                    className="text-red-600 font-normal flex items-center gap-1 transition-all text-xs"
+                    <Mail className="w-4 h-4 text-slate-700 group-hover:text-amber-600 transition-colors" />
+                    <span>Anfrage</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowPhone(!showPhone)}
+                    className="w-full bg-white hover:bg-amber-50/40 text-slate-800 font-normal py-3 px-4 rounded-xl border border-amber-400 hover:border-amber-500 transition-all flex items-center justify-center gap-2 cursor-pointer text-sm group"
                   >
-                    <span>Details</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </span>
+                    <Phone className="w-4 h-4 text-slate-700 group-hover:text-amber-600 transition-colors" />
+                    <span>{showPhone ? '+41 76 302 54 54' : '076...anzeigen'}</span>
+                  </button>
                 </div>
               </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
 
-      {/* Detail Modal */}
-      {selectedCar && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs"
-          style={{ padding: 'clamp(1rem, 0.5rem + 1vw, 2rem)' }}
-          onClick={() => setSelectedCar(null)}
-        >
-          <div
-            className="bg-white/90 backdrop-blur-lg border border-slate-200/80 rounded-3xl shadow-2xl w-full overflow-hidden flex flex-col"
-            style={{ maxWidth: '750px', maxHeight: '85svh' }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-5 border-b border-slate-200">
-              <h3 className="font-bold text-slate-900 tracking-tight" style={{ fontSize: 'clamp(1rem, 0.95rem + 0.2vw, 1.25rem)' }}>
-                {selectedCar.title}
-              </h3>
-              <button
-                onClick={() => setSelectedCar(null)}
-                className="p-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-slate-500 transition-colors cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Modal Scroll Area */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-6">
-              {/* Image Slideshow */}
-              {selectedCar.image_urls && selectedCar.image_urls.length > 0 && (
-                <div>
-                  <div className="aspect-video rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={selectedCar.image_urls[selectedImageIndex]}
-                      alt={selectedCar.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  {selectedCar.image_urls.length > 1 && (
-                    <div className="flex gap-2.5 mt-2.5 overflow-x-auto pb-1.5">
-                      {selectedCar.image_urls.map((url, idx) => (
-                        <button
-                          key={url}
-                          onClick={() => setSelectedImageIndex(idx)}
-                          className={`w-20 h-14 rounded-xl overflow-hidden border-2 shrink-0 transition-colors cursor-pointer ${
-                            idx === selectedImageIndex
-                              ? 'border-red-500'
-                              : 'border-slate-200 hover:border-slate-400'
-                          }`}
-                        >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={url} alt="" className="w-full h-full object-cover" />
-                        </button>
-                      ))}
-                    </div>
-                  )}
+              {/* Badges Row */}
+              {activeCar.badges && activeCar.badges.length > 0 && (
+                <div className="flex flex-wrap gap-2 my-2">
+                  {activeCar.badges.map((badge: string, idx: number) => (
+                    <span
+                      key={idx}
+                      className="px-3 py-1 rounded-xl bg-slate-100 border border-slate-200 text-slate-900 text-xs font-semibold flex items-center gap-1.5 shadow-2xs"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                      {badge}
+                    </span>
+                  ))}
                 </div>
               )}
 
               {/* Specs Grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                {[
-                  { label: 'Marke', value: selectedCar.brand },
-                  { label: 'Modell', value: selectedCar.model },
-                  { label: 'Jahrgang', value: String(selectedCar.year) },
-                  { label: 'Kilometer', value: `${formatCH(selectedCar.mileage)} km` },
-                  { label: 'Treibstoff', value: selectedCar.fuel_type },
-                  { label: 'Getriebe', value: selectedCar.transmission },
-                ].map((spec) => (
-                  <div key={spec.label} className="bg-white/40 backdrop-blur-md border border-slate-200/80 p-3 rounded-2xl">
-                    <span className="block text-[10px] font-normal text-slate-500 uppercase tracking-wider">{spec.label}</span>
-                    <span className={`block text-slate-900 text-sm mt-0.5 ${spec.label === 'Marke' ? 'font-bold' : 'font-normal'}`}>{spec.value}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Price Banner */}
-              <div className="bg-red-50 border border-red-150 p-5 rounded-2xl text-center">
-                <span className="block text-xs font-normal text-red-600 uppercase tracking-wider">Verkaufspreis</span>
-                <span className="block font-normal text-red-600 mt-1" style={{ fontSize: 'clamp(1.5rem, 1.25rem + 0.6vw, 2rem)' }}>
-                  CHF {formatCH(selectedCar.price)}.-
-                </span>
-              </div>
-
-              {/* Description */}
-              {selectedCar.description && (
-                <div className="space-y-2">
-                  <h4 className="font-normal text-slate-900 text-sm border-b border-slate-200 pb-2">Details & Beschreibung</h4>
-                  <p className="text-slate-600 text-sm leading-relaxed whitespace-pre-line font-normal">
-                    {selectedCar.description}
-                  </p>
+              <div className="grid grid-cols-2 gap-y-3.5 gap-x-4 py-3 pl-3 sm:pl-3.5 text-xs sm:text-sm text-slate-900 font-normal">
+                <div className="flex items-center gap-2.5">
+                  <Calendar className="w-4 h-4 text-red-600 shrink-0" />
+                  <span>{activeCar.year}</span>
                 </div>
-              )}
+                <div className="flex items-center gap-2.5">
+                  <Fuel className="w-4 h-4 text-red-600 shrink-0" />
+                  <span>{activeCar.fuel_type}</span>
+                </div>
+
+                <div className="flex items-center gap-2.5">
+                  <Gauge className="w-4 h-4 text-red-600 shrink-0" />
+                  <span>{formattedMileage}</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <Zap className="w-4 h-4 text-red-600 shrink-0" />
+                  <span>{activeCar.power || 'k.A.'}</span>
+                </div>
+
+                <div className="flex items-center gap-2.5">
+                  <SlidersHorizontal className="w-4 h-4 text-red-600 shrink-0" />
+                  <span>{activeCar.transmission}</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <Droplets className="w-4 h-4 text-red-600 shrink-0" />
+                  <span>{activeCar.consumption || 'k.A.'}</span>
+                </div>
+
+                <div className="flex items-center gap-2.5">
+                  <Compass className="w-4 h-4 text-red-600 shrink-0" />
+                  <span>{activeCar.drive_type || 'k.A.'}</span>
+                </div>
+                <div className="flex items-center gap-2.5">
+                  <Car className="w-4 h-4 text-red-600 shrink-0" />
+                  <span>{activeCar.body_type || 'Limousine'}</span>
+                </div>
+              </div>
+
+              {/* Toggle Button for 2nd Layer */}
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-3 sm:gap-4">
+                <div className="shrink-0 flex items-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/logo.svg" alt="SAZCAR GMBH" className="h-8 sm:h-10 w-auto object-contain" />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="flex-1 bg-red-600 hover:bg-red-700 text-white font-extrabold py-3 px-3 sm:px-4 rounded-2xl border-b-2 border-b-amber-400 hover:border-b-amber-300 transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer text-xs sm:text-sm group"
+                >
+                  <span className="truncate">{isExpanded ? 'Alle Fahrzeugdaten ausblenden' : 'Alle Details & Fahrzeug-Anfrage'}</span>
+                  {isExpanded ? <ChevronUp className="w-4 h-4 shrink-0" /> : <ChevronDown className="w-4 h-4 shrink-0" />}
+                </button>
+              </div>
+
             </div>
 
-            {/* Email Contact Action */}
-            <div className="p-5 border-t border-slate-200 bg-slate-50">
-              <a
-                href={`mailto:sazcargmbh@gmail.com?subject=Interesse an: ${selectedCar.title}`}
-                className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-normal text-sm py-3.5 rounded-2xl transition-all"
-              >
-                <Mail className="w-4 h-4" />
-                <span>Interesse bekunden / Termin vereinbaren</span>
-              </a>
-            </div>
           </div>
+
+          {/* 2nd LAYER: EXPANDED TABS & INQUIRY FORM */}
+          {isExpanded && (
+            <div id="ausstattungen-section" className="mt-8 pt-8 border-t border-slate-200/90 space-y-8 animate-in fade-in slide-in-from-top-4 duration-300">
+              
+              {/* Notice Disclaimer Banner */}
+              <div className="p-4 bg-blue-50 border border-blue-200/80 rounded-2xl flex items-start gap-3 text-xs text-blue-900">
+                <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+                <p>
+                  Die tatsächliche Ausstattung kann von der veröffentlichten Ausstattung abweichen. Bitte überprüfen Sie alle Details bei der Besichtigung.
+                </p>
+              </div>
+
+              {/* Üst Sekme Butonları */}
+              <div className="space-y-0">
+                <div className="flex items-end gap-1.5 px-0.5 relative z-10 flex-wrap sm:flex-nowrap">
+                  {/* Tab 1: Optionale Ausstattung (Özel - Altın Sarısı) */}
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('optional')}
+                    className={`px-3.5 sm:px-4 py-3 text-xs sm:text-sm font-extrabold rounded-t-2xl transition-all cursor-pointer flex items-center gap-2 select-none ${
+                      activeTab === 'optional'
+                        ? 'bg-amber-400 text-slate-950 font-black border-2 border-b-0 border-amber-400 -mb-[2px] shadow-2xs'
+                        : 'bg-slate-100 hover:bg-slate-200/80 text-slate-900 font-bold border border-slate-200/90'
+                    }`}
+                  >
+                    <Crown className={`w-4 h-4 ${activeTab === 'optional' ? 'text-slate-950' : 'text-slate-900'}`} />
+                    <span>Optionale Ausstattung ({activeCar.optional_equipment?.length || 0})</span>
+                  </button>
+
+                  {/* Tab 2: Serienmässige Ausstattung (Standart - Siyah) */}
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('standard')}
+                    className={`px-3.5 sm:px-4 py-3 text-xs sm:text-sm font-extrabold rounded-t-2xl transition-all cursor-pointer flex items-center gap-2 select-none ${
+                      activeTab === 'standard'
+                        ? 'bg-slate-900 text-white font-black border-2 border-b-0 border-slate-900 -mb-[2px] shadow-2xs'
+                        : 'bg-slate-100 hover:bg-slate-200/80 text-slate-900 font-bold border border-slate-200/90'
+                    }`}
+                  >
+                    <CheckCircle2 className={`w-4 h-4 ${activeTab === 'standard' ? 'text-white' : 'text-slate-900'}`} />
+                    <span>Serienmässige Ausstattung ({activeCar.standard_equipment?.length || 0})</span>
+                  </button>
+
+                  {/* Tab 3: Fahrzeugbeschreibung (Açıklama - Kırmızı) */}
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab('desc')}
+                    className={`px-3.5 sm:px-4 py-3 text-xs sm:text-sm font-extrabold rounded-t-2xl transition-all cursor-pointer flex items-center gap-2 select-none ${
+                      activeTab === 'desc'
+                        ? 'bg-red-600 text-white font-black border-2 border-b-0 border-red-600 -mb-[2px] shadow-2xs'
+                        : 'bg-slate-100 hover:bg-slate-200/80 text-slate-900 font-bold border border-slate-200/90'
+                    }`}
+                  >
+                    <FileText className={`w-4 h-4 ${activeTab === 'desc' ? 'text-white' : 'text-slate-900'}`} />
+                    <span>Fahrzeugbeschreibung</span>
+                  </button>
+                </div>
+
+                {/* Aktif Sekmeyle Çerçevesi Birleşen İçerik Kutusu */}
+                <div
+                  className={`p-4 sm:p-5 bg-slate-50/90 border-2 shadow-xs relative z-0 ${
+                    activeTab === 'optional' 
+                      ? 'border-amber-400 rounded-b-2xl rounded-tr-2xl rounded-tl-none' 
+                      : activeTab === 'standard'
+                      ? 'border-slate-900 rounded-b-2xl rounded-t-2xl'
+                      : 'border-red-600 rounded-b-2xl rounded-tl-2xl rounded-tr-none'
+                  }`}
+                >
+                  {activeTab === 'desc' ? (
+                    <div className="p-3 sm:p-4 bg-white rounded-xl border border-slate-200/80 text-xs sm:text-sm text-slate-900 leading-relaxed font-normal shadow-2xs whitespace-pre-line">
+                      {activeCar.description || 'Keine besondere Beschreibung vorhanden.'}
+                    </div>
+                  ) : (
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs sm:text-sm text-slate-900 font-medium">
+                      {(activeTab === 'optional' ? (activeCar.optional_equipment || []) : (activeCar.standard_equipment || [])).map((item, idx) => (
+                        <li key={idx} className="flex items-center gap-2.5 bg-white p-3 rounded-xl border border-slate-200/80 shadow-2xs">
+                          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${activeTab === 'optional' ? 'bg-amber-500' : 'bg-slate-900'}`} />
+                          <span className="leading-snug">{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+              </div>
+
+              {/* 5. FAHRZEUG-ANFRAGE KONTAKTFORMULAR */}
+              <div id="kontakt-form-client" className="space-y-4 border-t border-slate-200 pt-6">
+                <div className="flex items-center gap-2">
+                  <Mail className="w-5 h-5 text-red-600" />
+                  <h3 className="text-lg font-black text-slate-900 tracking-tight">
+                    Fahrzeug-Anfrage / Probefahrt
+                  </h3>
+                </div>
+                
+                {isSubmitted ? (
+                  <div className="bg-emerald-50 border border-emerald-200 rounded-3xl p-6 text-center space-y-3">
+                    <div className="w-12 h-12 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto">
+                      <CheckCircle2 className="w-7 h-7" />
+                    </div>
+                    <h4 className="text-lg font-bold text-emerald-950">Vielen Dank für Ihre Anfrage!</h4>
+                    <p className="text-sm text-emerald-800 font-normal">
+                      Wir haben Ihre Nachricht zum <strong>{activeCar.title}</strong> erhalten und melden uns umgehend bei Ihnen!
+                    </p>
+                  </div>
+                ) : (
+                  <form
+                    onSubmit={handleFormSubmit}
+                    className="bg-slate-50 p-5 sm:p-6 rounded-3xl border border-slate-200 space-y-4 shadow-2xs"
+                  >
+                    {formError && (
+                      <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-2xl">
+                        {formError}
+                      </div>
+                    )}
+                    
+                    {/* İlgilenilen Araç Rozeti */}
+                    <div className="bg-amber-50/80 border border-amber-300/90 rounded-2xl p-3.5 flex flex-wrap items-center justify-between gap-2.5 text-slate-900 text-xs sm:text-sm font-normal shadow-2xs">
+                      <div className="flex items-center gap-2.5 font-normal">
+                        <div className="p-1.5 bg-amber-400 text-slate-950 rounded-xl">
+                          <Car className="w-4 h-4 shrink-0" />
+                        </div>
+                        <span className="font-normal">Anfrage für: {activeCar.title}</span>
+                      </div>
+                      <span className="shrink-0 px-3 py-1 bg-amber-400 text-slate-950 text-xs font-normal rounded-xl shadow-2xs">
+                        CHF {formattedPrice}.–
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                      <div>
+                        <label className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-1.5 uppercase tracking-wide">
+                          <User className="w-3.5 h-3.5 text-red-600" /> Vorname & Nachname *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          value={formData.name}
+                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          placeholder="Max Mustermann"
+                          className="w-full bg-white border border-slate-400 hover:border-slate-500 focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-2xl text-slate-900 placeholder-slate-400 transition-all duration-300 focus:outline-none shadow-2xs px-3.5 py-2.5 text-xs sm:text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-1.5 uppercase tracking-wide">
+                          <Phone className="w-3.5 h-3.5 text-red-600" /> Telefonnummer *
+                        </label>
+                        <input
+                          type="tel"
+                          required
+                          value={formData.phone}
+                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          placeholder="079 123 45 67"
+                          className="w-full bg-white border border-slate-400 hover:border-slate-500 focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-2xl text-slate-900 placeholder-slate-400 transition-all duration-300 focus:outline-none shadow-2xs px-3.5 py-2.5 text-xs sm:text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-1.5 uppercase tracking-wide">
+                          <Mail className="w-3.5 h-3.5 text-red-600" /> E-Mail Adresse *
+                        </label>
+                        <input
+                          type="email"
+                          required
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          placeholder="name@beispiel.ch"
+                          className="w-full bg-white border border-slate-400 hover:border-slate-500 focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-2xl text-slate-900 placeholder-slate-400 transition-all duration-300 focus:outline-none shadow-2xs px-3.5 py-2.5 text-xs sm:text-sm"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-1.5 uppercase tracking-wide">
+                        <MessageSquare className="w-3.5 h-3.5 text-red-600" /> Ihre Nachricht / Wunschtermin
+                      </label>
+                      <textarea
+                        rows={3}
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        placeholder="Ich interessiere mich für dieses Fahrzeug und möchte gerne einen Termin vereinbaren..."
+                        className="w-full bg-white border border-slate-400 hover:border-slate-500 focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-2xl text-slate-900 placeholder-slate-400 transition-all duration-300 focus:outline-none shadow-2xs p-3.5 text-xs sm:text-sm"
+                      />
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 pt-1">
+                      {process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY && (
+                        <div className="shrink-0 w-full sm:w-auto">
+                          <TurnstileWidget
+                            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+                            onVerify={(token) => setTurnstileToken(token)}
+                          />
+                        </div>
+                      )}
+
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="flex-1 w-full bg-red-600 hover:bg-red-700 text-white font-extrabold py-3.5 px-4 rounded-2xl border-b-2 border-b-amber-400 hover:border-b-amber-300 transition-all shadow-sm cursor-pointer text-sm flex items-center justify-center gap-2 group disabled:opacity-50"
+                      >
+                        <Mail className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
+                        <span>{isSubmitting ? 'Wird gesendet...' : 'Anfrage Jetzt Absenden'}</span>
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+
+            </div>
+          )}
+
         </div>
-      )}
+
+      </div>
     </section>
   );
 }
+
+

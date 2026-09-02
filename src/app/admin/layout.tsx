@@ -14,7 +14,8 @@ import {
   X,
   Gauge,
   Tag,
-  Briefcase
+  Briefcase,
+  Inbox
 } from 'lucide-react';
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -31,6 +32,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: '/admin/projects/new', name: 'Neuer Auftrag', icon: ClipboardList },
     { href: '/admin/appointments', name: 'Termine', icon: CalendarCheck },
     { href: '/admin/cars', name: 'Occasionen', icon: Car },
+    { href: '/admin/inquiries', name: 'Auto-Anfragen', icon: Inbox },
     { href: '/admin/promotions', name: 'Aktionen', icon: Tag },
     { href: '/admin/jobs', name: 'Stellenangebote', icon: Briefcase },
   ];
