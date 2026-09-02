@@ -45,9 +45,6 @@ export default function BeforeAfterClient({ projects }: BeforeAfterClientProps) 
     handleMove(e.touches[0].clientX, e.currentTarget.getBoundingClientRect());
   };
 
-  const prev = () => setActiveIndex((i) => (i > 0 ? i - 1 : projects.length - 1));
-  const next = () => setActiveIndex((i) => (i < projects.length - 1 ? i + 1 : 0));
-
   return (
     <section
       id="vorher-nachher"
@@ -83,7 +80,8 @@ export default function BeforeAfterClient({ projects }: BeforeAfterClientProps) 
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="relative w-full aspect-video rounded-3xl overflow-hidden border border-slate-200 shadow-md cursor-col-resize select-none bg-slate-200"
+          className="relative w-full rounded-3xl overflow-hidden border border-slate-200 shadow-md cursor-col-resize select-none bg-slate-200"
+          style={{ height: 'clamp(320px, 34vw, 480px)' }}
           onMouseDown={handleMouseDown}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
@@ -173,29 +171,32 @@ export default function BeforeAfterClient({ projects }: BeforeAfterClientProps) 
             </div>
           </div>
 
-          {/* Navigation Controls */}
+          {/* Thumbnail Strip Navigation — quick jump via each project's "before" shot */}
           {projects.length > 1 && (
-            <div className="flex items-center gap-3">
-              <button
-                onClick={prev}
-                className="p-2.5 bg-white border border-slate-200 hover:border-slate-300 rounded-2xl hover:bg-slate-50 transition-colors cursor-pointer"
-                aria-label="Vorheriges Projekt"
-              >
-                <ChevronLeft className="w-5 h-5 text-slate-600" />
-              </button>
-              <span
-                className="font-normal text-slate-600 tabular-nums"
-                style={{ fontSize: 'clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem)' }}
-              >
-                {activeIndex + 1} / {projects.length}
-              </span>
-              <button
-                onClick={next}
-                className="p-2.5 bg-white border border-slate-200 hover:border-slate-300 rounded-2xl hover:bg-slate-50 transition-colors cursor-pointer"
-                aria-label="Nächstes Projekt"
-              >
-                <ChevronRight className="w-5 h-5 text-slate-600" />
-              </button>
+            <div className="flex items-center gap-2 overflow-x-auto pb-0.5">
+              {projects.map((p, idx) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  onClick={() => setActiveIndex(idx)}
+                  aria-label={`${p.brand} ${p.model} anzeigen`}
+                  className={`relative shrink-0 w-14 h-10 rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
+                    idx === activeIndex
+                      ? 'border-red-600 ring-2 ring-red-600/30'
+                      : 'border-slate-200 opacity-70 hover:opacity-100 hover:border-slate-400'
+                  }`}
+                >
+                  {p.before_image_urls?.[0] && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={p.before_image_urls[0]}
+                      alt=""
+                      className="w-full h-full object-cover"
+                      draggable={false}
+                    />
+                  )}
+                </button>
+              ))}
             </div>
           )}
         </div>
