@@ -300,10 +300,10 @@ export default function Header() {
                                 handleNavClick(child.href);
                                 setOpenDropdown(null);
                               }}
-                              className={`block px-3 py-2 rounded-lg text-sm font-normal transition-colors ${
+                              className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                                 activeSection === child.href
-                                  ? 'text-red-600 bg-red-50'
-                                  : 'text-slate-700 hover:text-red-600 hover:bg-slate-100'
+                                  ? 'text-red-600 bg-red-50 font-bold'
+                                  : 'text-black hover:text-red-600 hover:bg-slate-100'
                               }`}
                             >
                               {child.label}
@@ -386,13 +386,13 @@ export default function Header() {
                 right: 'clamp(1rem, 0.429rem + 2.857vw, 3rem)',
                 maxHeight: 'calc(100vh - 5.5rem)',
                 background:
-                  'linear-gradient(160deg, rgba(255,255,255,0.78) 0%, rgba(254,226,226,0.52) 45%, rgba(254,202,202,0.55) 100%)',
+                  'linear-gradient(160deg, rgba(255,255,255,0.96) 0%, rgba(248,250,252,0.94) 100%)',
                 backdropFilter: 'blur(28px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(28px) saturate(180%)',
                 boxShadow:
-                  '0 28px 70px -20px rgba(15,23,42,0.4), 0 14px 34px -14px rgba(220,38,38,0.65), inset 0 1px 0 rgba(255,255,255,0.9)',
+                  '0 28px 70px -20px rgba(15,23,42,0.25), 0 10px 25px -10px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,1)',
               }}
-              className="fixed top-[4.75rem] z-50 w-[min(88vw,340px)] overflow-y-auto rounded-[22px] border border-red-200/70 p-4 flex flex-col lg:hidden"
+              className="fixed top-[4.75rem] z-50 w-[min(88vw,340px)] overflow-y-auto rounded-[22px] border border-slate-200/90 p-4 flex flex-col lg:hidden"
             >
               {/* Cam üzerinde ışık huzmesi */}
               <div
@@ -404,15 +404,11 @@ export default function Header() {
                 }}
               />
 
-              {/* Üst Kısım: Başlık & Kapat Butonu */}
-              <motion.div {...itemMotion} className="relative flex items-center justify-between pl-1">
-                <span className="flex items-center gap-2 text-[11px] font-semibold tracking-[0.18em] text-slate-500 uppercase">
-                  <span className="h-1.5 w-1.5 rounded-full bg-red-600" />
-                  Navigation
-                </span>
+              {/* Üst Kısım: Kapat Butonu */}
+              <motion.div {...itemMotion} className="relative flex items-center justify-end">
                 <button
                   onClick={() => setMenuOpen(false)}
-                  className="p-1.5 rounded-full text-slate-500 hover:text-red-600 hover:bg-white/70 hover:rotate-90 transition-all duration-300 cursor-pointer"
+                  className="p-1.5 rounded-full text-slate-700 hover:text-red-600 hover:bg-white/70 hover:rotate-90 transition-all duration-300 cursor-pointer"
                   aria-label="Menü schliessen"
                 >
                   <X className="w-5 h-5" />
@@ -444,10 +440,10 @@ export default function Header() {
                     }
                   >
                     <span
-                      className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg text-[11px] font-mono font-normal transition-colors ${
+                      className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg text-[11px] font-mono font-bold transition-colors ${
                         pathname === '/' && activeSection === ''
                           ? 'bg-white/25 text-white'
-                          : 'bg-white/70 text-slate-400 group-hover:bg-red-50 group-hover:text-red-500'
+                          : 'bg-slate-200 text-slate-900 group-hover:bg-red-600 group-hover:text-white'
                       }`}
                     >
                       <Home className="w-4 h-4" />
@@ -457,7 +453,7 @@ export default function Header() {
                       className={`w-[18px] h-[18px] shrink-0 transition-all duration-300 ${
                         pathname === '/' && activeSection === ''
                           ? 'opacity-100 translate-x-0 text-white'
-                          : 'opacity-0 -translate-x-2 text-red-600 group-hover:opacity-100 group-hover:translate-x-0'
+                          : 'opacity-0 -translate-x-2 text-slate-900 group-hover:opacity-100 group-hover:translate-x-0'
                       }`}
                     />
                   </a>
@@ -490,10 +486,10 @@ export default function Header() {
                         }
                       >
                         <span
-                          className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg text-[11px] font-mono font-normal transition-colors ${
+                          className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg text-[11px] font-mono font-bold transition-colors ${
                             isActive
                               ? 'bg-white/25 text-white'
-                              : 'bg-white/70 text-slate-400 group-hover:bg-red-50 group-hover:text-red-500'
+                              : 'bg-slate-200 text-slate-900 group-hover:bg-red-600 group-hover:text-white'
                           }`}
                         >
                           0{idx + 1}
@@ -503,7 +499,7 @@ export default function Header() {
                           className={`w-[18px] h-[18px] shrink-0 transition-all duration-300 ${
                             isActive
                               ? 'opacity-100 translate-x-0 text-white'
-                              : 'opacity-0 -translate-x-2 text-red-600 group-hover:opacity-100 group-hover:translate-x-0'
+                              : 'opacity-0 -translate-x-2 text-slate-900 group-hover:opacity-100 group-hover:translate-x-0'
                           }`}
                         />
                       </a>
@@ -519,13 +515,13 @@ export default function Header() {
                               setMenuOpen(false);
                             }}
                             aria-current={childActive ? 'true' : undefined}
-                            className={`flex items-center gap-2.5 rounded-xl pl-9 pr-3 py-2 -mt-1 text-sm font-normal transition-all duration-300 ${
+                            className={`flex items-center gap-2.5 rounded-xl pl-9 pr-3 py-2 -mt-1 text-sm font-medium transition-all duration-300 ${
                               childActive
-                                ? 'text-red-600 bg-red-50'
-                                : 'text-slate-500 hover:text-red-600 hover:bg-white/60'
+                                ? 'text-red-600 bg-red-50 font-bold'
+                                : 'text-black hover:text-red-600 hover:bg-white/60'
                             }`}
                           >
-                            <CornerDownRight className="w-3.5 h-3.5 shrink-0" />
+                            <CornerDownRight className="w-3.5 h-3.5 shrink-0 text-black" />
                             <span>{child.label}</span>
                           </a>
                         );
@@ -550,7 +546,7 @@ export default function Header() {
                   <Phone className="w-[18px] h-[18px] text-white" />
                   <span>Jetzt anrufen</span>
                 </a>
-                <p className="mt-2 text-center text-[11px] font-medium text-slate-500">
+                <p className="mt-2 text-center text-[11.5px] font-semibold text-slate-900">
                   Mo–Fr 07:30–12:00, 13:15–18:00 · Sa 09:00–14:00
                 </p>
               </motion.div>

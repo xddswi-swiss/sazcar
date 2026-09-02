@@ -237,7 +237,7 @@ export default function AppointmentForm() {
     );
   }
 
-  const inputClass = 'w-full bg-white/20 backdrop-blur-xs border border-slate-300 hover:border-slate-400 focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-2xl text-slate-900 placeholder-slate-400 hover:bg-white focus:bg-white transition-all duration-300 focus:outline-none';
+  const inputClass = 'w-full bg-white/20 backdrop-blur-xs border border-slate-300 hover:border-slate-400 focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-2xl text-slate-900 placeholder-slate-500 hover:bg-white focus:bg-white transition-all duration-300 focus:outline-none';
 
   return (
     <section
@@ -313,13 +313,13 @@ export default function AppointmentForm() {
             <div className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="customer_name" className="flex items-center gap-1.5 text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wide">
+                  <label htmlFor="customer_name" className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-1.5 uppercase tracking-wide">
                     <User className="w-3.5 h-3.5 text-red-600" /> Name *
                   </label>
                   <input id="customer_name" name="customer_name" type="text" required className={inputClass} style={{ padding: 'clamp(0.625rem, 0.5rem + 0.3vw, 0.75rem) 1rem', fontSize: 'clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem)' }} placeholder="Vor- und Nachname" />
                 </div>
                 <div>
-                  <label htmlFor="phone" className="flex items-center gap-1.5 text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wide">
+                  <label htmlFor="phone" className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-1.5 uppercase tracking-wide">
                     <Phone className="w-3.5 h-3.5 text-red-600" /> Telefon *
                   </label>
                   <input id="phone" name="phone" type="tel" required className={inputClass} style={{ padding: 'clamp(0.625rem, 0.5rem + 0.3vw, 0.75rem) 1rem', fontSize: 'clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem)' }} placeholder="+41 79 ..." />
@@ -328,13 +328,13 @@ export default function AppointmentForm() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="email" className="flex items-center gap-1.5 text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wide">
+                  <label htmlFor="email" className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-1.5 uppercase tracking-wide">
                     <Mail className="w-3.5 h-3.5 text-red-600" /> E-Mail *
                   </label>
                   <input id="email" name="email" type="email" required className={inputClass} style={{ padding: 'clamp(0.625rem, 0.5rem + 0.3vw, 0.75rem) 1rem', fontSize: 'clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem)' }} placeholder="name@beispiel.ch" />
                 </div>
                 <div>
-                  <label htmlFor="vehicle_info" className="flex items-center gap-1.5 text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wide">
+                  <label htmlFor="vehicle_info" className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-1.5 uppercase tracking-wide">
                     <Car className="w-3.5 h-3.5 text-red-600" /> Fahrzeugdaten *
                   </label>
                   <input id="vehicle_info" name="vehicle_info" type="text" required className={inputClass} style={{ padding: 'clamp(0.625rem, 0.5rem + 0.3vw, 0.75rem) 1rem', fontSize: 'clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem)' }} placeholder="z.B. VW Golf VII, ZH 12345" />
@@ -343,13 +343,13 @@ export default function AppointmentForm() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="preferred_date" className="flex items-center gap-1.5 text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wide">
+                  <label htmlFor="preferred_date" className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-1.5 uppercase tracking-wide">
                     <CalendarDays className="w-3.5 h-3.5 text-red-600" /> Wunschdatum *
                   </label>
                   <input id="preferred_date" name="preferred_date" type="date" required className={inputClass} style={{ padding: 'clamp(0.625rem, 0.5rem + 0.3vw, 0.75rem) 1rem', fontSize: 'clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem)' }} />
                 </div>
                 <div>
-                  <label htmlFor="preferred_time" className="flex items-center gap-1.5 text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wide">
+                  <label htmlFor="preferred_time" className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-1.5 uppercase tracking-wide">
                     <Clock className="w-3.5 h-3.5 text-red-600" /> Wunschzeit *
                   </label>
                   <select id="preferred_time" name="preferred_time" required className={inputClass} style={{ padding: 'clamp(0.625rem, 0.5rem + 0.3vw, 0.75rem) 1rem', fontSize: 'clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem)' }}>
@@ -361,7 +361,7 @@ export default function AppointmentForm() {
               </div>
 
               <div>
-                <span className="flex items-center gap-1.5 text-xs font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                <span className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-2 uppercase tracking-wide">
                   <Settings className="w-3.5 h-3.5 text-red-600" /> Gewünschte Services (Optional)
                 </span>
                 <div className="grid grid-cols-2 gap-2">
@@ -398,14 +398,14 @@ export default function AppointmentForm() {
               </div>
 
               <div>
-                <label htmlFor="notes" className="flex items-center gap-1.5 text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wide">
+                <label htmlFor="notes" className="flex items-center gap-1.5 text-xs font-bold text-slate-900 mb-1.5 uppercase tracking-wide">
                   <MessageSquare className="w-3.5 h-3.5 text-red-600" /> Bemerkungen / Schadenbeschreibung
                 </label>
                 <textarea id="notes" name="notes" rows={4} className={inputClass} style={{ padding: '0.75rem 1rem', fontSize: 'clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem)' }} placeholder="Beschreiben Sie hier Ihr Anliegen oder Details zum Schaden..." />
               </div>
 
               <div className="space-y-2">
-                <span className="flex items-center gap-1.5 text-xs font-bold text-slate-500 uppercase tracking-wide">
+                <span className="flex items-center gap-1.5 text-xs font-bold text-slate-900 uppercase tracking-wide">
                   <Camera className="w-3.5 h-3.5 text-red-600" /> Schadenfotos hochladen (Optional)
                 </span>
                 <div className="flex gap-2.5 flex-wrap">
