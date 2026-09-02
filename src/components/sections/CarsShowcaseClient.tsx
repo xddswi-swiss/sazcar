@@ -53,8 +53,8 @@ interface CarsShowcaseClientProps {
 }
 
 export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
-  const [selectedCarId, setSelectedCarId] = useState<string>(cars[0]?.id || '');
-  const activeCar = cars.find((c) => c.id === selectedCarId) || cars[0];
+  const [selectedCarId, setSelectedCarId] = useState<string>(cars.length === 1 ? (cars[0]?.id || '') : '');
+  const activeCar = cars.find((c) => c.id === selectedCarId);
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [showPhone, setShowPhone] = useState(false);
@@ -85,9 +85,9 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
     }
   }, [activeCar?.id, activeCar?.title, activeCar?.price]);
 
-  if (!activeCar) return null;
+  if (cars.length === 0) return null;
 
-  const images = activeCar.image_urls && activeCar.image_urls.length > 0
+  const images = activeCar?.image_urls && activeCar.image_urls.length > 0
     ? activeCar.image_urls
     : ['https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80'];
 
@@ -95,6 +95,9 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
     setSelectedCarId(carId);
     setActiveImageIndex(0);
     setIsExpanded(false);
+    setTimeout(() => {
+      document.getElementById('occasionen-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
   };
 
   const handlePrevImage = () => {
@@ -107,6 +110,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!activeCar) return;
     if (!turnstileToken) {
       setFormError('Bitte bestätigen Sie das Sicherheitselement (Turnstile).');
       return;
@@ -145,13 +149,13 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
     }
   };
 
-  const formattedPrice = typeof activeCar.price === 'number'
+  const formattedPrice = activeCar && typeof activeCar.price === 'number'
     ? activeCar.price.toLocaleString('de-CH')
-    : activeCar.price;
+    : activeCar?.price;
 
-  const formattedMileage = typeof activeCar.mileage === 'number'
+  const formattedMileage = activeCar && typeof activeCar.mileage === 'number'
     ? `${activeCar.mileage.toLocaleString('de-CH')} km`
-    : activeCar.mileage;
+    : activeCar?.mileage;
 
   return (
     <section
@@ -161,7 +165,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
         padding: 'clamp(3rem, 2.5rem + 3vw, 6rem) clamp(1rem, 0.5rem + 2vw, 3rem)',
       }}
     >
-      <div className="mx-auto relative z-10 max-w-7xl">
+      <div className="mx-auto relative z-10" style={{ maxWidth: '1200px' }}>
 
         {/* Section Header */}
         <div className="text-left mb-6">
@@ -179,38 +183,57 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
           </p>
         </div>
 
-        {/* Multi-Car Switcher Bar */}
+        {/* Car Grid: compact cards, click for full detail below */}
         {cars.length > 1 && (
-          <div className="mb-6 bg-slate-50 p-2.5 rounded-2xl border border-slate-200 shadow-sm">
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider px-2 shrink-0 flex items-center gap-1.5">
-                <Car className="w-4 h-4 text-red-500" />
-                Fahrzeug:
-              </span>
-              {cars.map((car, idx) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-8">
+            {cars.map((car) => {
+              const cardPrice = typeof car.price === 'number' ? car.price.toLocaleString('de-CH') : car.price;
+              const cardMileage = typeof car.mileage === 'number' ? `${car.mileage.toLocaleString('de-CH')} km` : car.mileage;
+              const cardImage = car.image_urls?.[0] || 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80';
+              const isActive = car.id === selectedCarId;
+              return (
                 <button
                   key={car.id}
                   type="button"
                   onClick={() => handleCarSwitch(car.id)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer flex items-center gap-2 ${
-                    car.id === selectedCarId
-                      ? 'bg-red-600 text-white shadow-md'
-                      : 'bg-white hover:bg-slate-100 text-slate-700 border border-slate-200'
+                  className={`group h-full flex flex-col text-left bg-white rounded-2xl border-2 border-t-4 overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer ${
+                    isActive ? 'border-red-600 border-t-red-600' : 'border-slate-200 border-t-red-600 hover:border-slate-300'
                   }`}
                 >
-                  <span>{idx + 1}. {car.title}</span>
-                  <span className="text-[10px] opacity-80">
-                    (CHF {typeof car.price === 'number' ? car.price.toLocaleString('de-CH') : car.price})
-                  </span>
+                  <div className="relative aspect-[4/3] overflow-hidden bg-slate-950 shrink-0">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={cardImage}
+                      alt={car.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    {car.image_urls && car.image_urls.length > 1 && (
+                      <span className="absolute bottom-2 right-2 bg-black/70 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-lg border border-white/20">
+                        {car.image_urls.length} Fotos
+                      </span>
+                    )}
+                  </div>
+                  <div className="p-3.5 space-y-1.5 flex-1 flex flex-col">
+                    <h3 className="font-black text-slate-900 text-sm leading-snug truncate">{car.title}</h3>
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-normal text-slate-900 text-sm shrink-0">CHF {cardPrice}.–</span>
+                      <span className="text-[11px] font-medium text-slate-900 truncate">{car.year} · {cardMileage}</span>
+                    </div>
+                    <div className="mt-auto flex items-center gap-1 text-[10px] font-bold text-red-600 uppercase tracking-wide pt-0.5">
+                      <span>Details ansehen</span>
+                      <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                    </div>
+                  </div>
                 </button>
-              ))}
-            </div>
+              );
+            })}
           </div>
         )}
 
         {/* Embedded White Car Detail Card */}
-        <div className="bg-white text-slate-900 rounded-3xl border border-slate-200/90 shadow-2xl overflow-hidden p-5 sm:p-7 lg:p-8 transition-all duration-500">
-          
+        {activeCar && (
+        <div id="occasionen-detail" className="bg-white text-slate-900 rounded-3xl border border-slate-200/90 shadow-md overflow-hidden p-5 sm:p-7 lg:p-8 transition-all duration-500">
+
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
 
             {/* LEFT COLUMN: Gallery */}
@@ -623,6 +646,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
           )}
 
         </div>
+        )}
 
       </div>
     </section>

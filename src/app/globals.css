@@ -29,6 +29,7 @@ body {
 html {
   scrollbar-color: #dc2626 #f8fafc; /* thumb (red), track (slate-50) */
   scrollbar-width: auto;
+  scroll-padding-top: 6rem; /* fixed header (~4.75rem) + breathing room, so #section anchors and scrollIntoView() land below it */
 }
 
 /* Webkit (Chrome, Edge, Safari) scrollbar styling */
