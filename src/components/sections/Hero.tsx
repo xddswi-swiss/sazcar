@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { Shield, Award, Clock, ArrowUpRight } from 'lucide-react';
+import { Shield, Award, Clock, ArrowUpRight, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import PromoBadge, { type Promotion } from './PromoBadge';
 
@@ -116,14 +116,17 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
             <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
           <a
-            href="#occasionen"
-            className="bg-white border border-slate-300 text-slate-800 hover:bg-slate-50 font-bold rounded-xl shadow-xs transition-colors"
+            href="https://api.whatsapp.com/send?phone=41764717981&text=Guten%20Tag%20SAZCAR%20Team%2C%20ich%20bin%20%C3%BCber%20Ihre%20Webseite%20auf%20Sie%20aufmerksam%20geworden.%20Ich%20m%C3%B6chte%20gerne%20einen%20Termin%20%2F%20eine%20Offerte%20anfragen."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-extrabold rounded-xl shadow-md transition-all flex items-center gap-2 group cursor-pointer"
             style={{
               padding: 'clamp(0.75rem, 0.6rem + 0.5vw, 1rem) clamp(1.5rem, 1.25rem + 0.8vw, 2.5rem)',
               fontSize: 'clamp(0.8125rem, 0.78rem + 0.15vw, 0.9375rem)',
             }}
           >
-            Occasionen
+            <MessageCircle className="w-4 h-4 fill-white stroke-emerald-600" />
+            <span>WhatsApp Chat</span>
           </a>
         </motion.div>
 

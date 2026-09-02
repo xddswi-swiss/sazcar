@@ -954,14 +954,33 @@ class App {
     const initW = Math.max(1, container.offsetWidth);
     const initH = Math.max(1, container.offsetHeight);
 
-    this.renderer = new THREE.WebGLRenderer({
-      antialias: false,
-      alpha: true
-    });
-    this.renderer.setSize(initW, initH, false);
-    this.renderer.setPixelRatio(window.devicePixelRatio);
+    try {
+      this.renderer = new THREE.WebGLRenderer({
+        antialias: false,
+        alpha: true
+      });
+    } catch (e) {
+      console.warn('WebGL initialization failed:', e);
+      this.disposed = true;
+      return;
+    }
 
-    this.composer = new EffectComposer(this.renderer);
+    if (!this.renderer || !this.renderer.getContext || !this.renderer.getContext()) {
+      console.warn('WebGL context is unavailable');
+      this.disposed = true;
+      return;
+    }
+
+    this.renderer.setSize(initW, initH, false);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    try {
+      this.composer = new EffectComposer(this.renderer);
+    } catch (e) {
+      console.warn('EffectComposer initialization failed:', e);
+      this.disposed = true;
+      return;
+    }
     container.appendChild(this.renderer.domElement);
 
     this.camera = new THREE.PerspectiveCamera(options.fov, initW / initH, 0.1, 10000);
@@ -1043,29 +1062,37 @@ class App {
   }
 
   initPasses() {
-    this.renderPass = new RenderPass(this.scene, this.camera);
-    this.bloomPass = new EffectPass(
-      this.camera,
-      new BloomEffect({
-        luminanceThreshold: 0.2,
-        luminanceSmoothing: 0,
-        resolutionScale: 1
-      })
-    );
+    if (this.disposed || !this.renderer || !this.renderer.getContext || !this.renderer.getContext() || !this.composer) {
+      return;
+    }
+    try {
+      this.renderPass = new RenderPass(this.scene, this.camera);
+      this.bloomPass = new EffectPass(
+        this.camera,
+        new BloomEffect({
+          luminanceThreshold: 0.2,
+          luminanceSmoothing: 0,
+          resolutionScale: 1
+        })
+      );
 
-    const smaaPass = new EffectPass(
-      this.camera,
-      new SMAAEffect({
-        preset: SMAAPreset.MEDIUM
-      })
-    );
-    this.renderPass.renderToScreen = false;
-    this.bloomPass.renderToScreen = false;
-    smaaPass.renderToScreen = true;
+      const smaaPass = new EffectPass(
+        this.camera,
+        new SMAAEffect({
+          preset: SMAAPreset.MEDIUM
+        })
+      );
+      this.renderPass.renderToScreen = false;
+      this.bloomPass.renderToScreen = false;
+      smaaPass.renderToScreen = true;
 
-    this.composer.addPass(this.renderPass);
-    this.composer.addPass(this.bloomPass);
-    this.composer.addPass(smaaPass);
+      this.composer.addPass(this.renderPass);
+      this.composer.addPass(this.bloomPass);
+      this.composer.addPass(smaaPass);
+    } catch (err) {
+      console.warn('Hyperspeed initPasses failed:', err);
+      this.disposed = true;
+    }
   }
 
   loadAssets(): Promise<void> {
@@ -1096,28 +1123,36 @@ class App {
   }
 
   init() {
-    this.initPasses();
-    const options = this.options;
-    this.road.init();
-    this.leftCarLights.init();
-    this.leftCarLights.mesh.position.setX(-options.roadWidth / 2 - options.islandWidth / 2);
+    if (this.disposed || !this.renderer || !this.renderer.getContext || !this.renderer.getContext()) {
+      return;
+    }
+    try {
+      this.initPasses();
+      const options = this.options;
+      this.road.init();
+      this.leftCarLights.init();
+      this.leftCarLights.mesh.position.setX(-options.roadWidth / 2 - options.islandWidth / 2);
 
-    this.rightCarLights.init();
-    this.rightCarLights.mesh.position.setX(options.roadWidth / 2 + options.islandWidth / 2);
+      this.rightCarLights.init();
+      this.rightCarLights.mesh.position.setX(options.roadWidth / 2 + options.islandWidth / 2);
 
-    this.leftSticks.init();
-    this.leftSticks.mesh.position.setX(-(options.roadWidth + options.islandWidth / 2));
+      this.leftSticks.init();
+      this.leftSticks.mesh.position.setX(-(options.roadWidth + options.islandWidth / 2));
 
-    this.container.addEventListener('mousedown', this.onMouseDown);
-    this.container.addEventListener('mouseup', this.onMouseUp);
-    this.container.addEventListener('mouseout', this.onMouseUp);
+      this.container.addEventListener('mousedown', this.onMouseDown);
+      this.container.addEventListener('mouseup', this.onMouseUp);
+      this.container.addEventListener('mouseout', this.onMouseUp);
 
-    this.container.addEventListener('touchstart', this.onTouchStart, { passive: true });
-    this.container.addEventListener('touchend', this.onTouchEnd, { passive: true });
-    this.container.addEventListener('touchcancel', this.onTouchEnd, { passive: true });
-    this.container.addEventListener('contextmenu', this.onContextMenu);
+      this.container.addEventListener('touchstart', this.onTouchStart, { passive: true });
+      this.container.addEventListener('touchend', this.onTouchEnd, { passive: true });
+      this.container.addEventListener('touchcancel', this.onTouchEnd, { passive: true });
+      this.container.addEventListener('contextmenu', this.onContextMenu);
 
-    this.tick();
+      this.tick();
+    } catch (err) {
+      console.warn('Hyperspeed init failed:', err);
+      this.disposed = true;
+    }
   }
 
   onMouseDown(ev: MouseEvent) {
@@ -1305,9 +1340,21 @@ const Hyperspeed: FC<HyperspeedProps> = ({ effectOptions = DEFAULT_EFFECT_OPTION
       options.distortion = distortions[options.distortion];
     }
 
-    const myApp = new App(container, options);
-    appRef.current = myApp;
-    myApp.loadAssets().then(myApp.init);
+    try {
+      const myApp = new App(container, options);
+      appRef.current = myApp;
+      if (!myApp.disposed) {
+        myApp.loadAssets().then(() => {
+          if (appRef.current && !appRef.current.disposed) {
+            appRef.current.init();
+          }
+        }).catch(err => {
+          console.warn('Hyperspeed asset loading error:', err);
+        });
+      }
+    } catch (err) {
+      console.warn('Hyperspeed WebGL initialization caught error:', err);
+    }
 
     return () => {
       if (appRef.current) {

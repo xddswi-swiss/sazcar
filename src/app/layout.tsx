@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import ScrollToTopCar from '@/components/ui/ScrollToTopCar';
+import WhatsAppFloatingButton from '@/components/ui/WhatsAppFloatingButton';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -78,6 +79,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         {children}
         <ScrollToTopCar />
+        <WhatsAppFloatingButton />
       </body>
     </html>
   );
