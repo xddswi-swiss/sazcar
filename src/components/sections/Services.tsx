@@ -27,16 +27,30 @@ const iconMap: Record<string, LucideIcon> = {
   CloudRain,
 };
 
-// Bento asymmetry (wide/narrow cards) only kicks in at lg+ — at md (tablet, 2-col)
-// every card stays equal width, since a narrow bento card there was too tight for its
-// title next to the corner mascot.
-const bentoStyles = [
-  'lg:col-span-2',
-  '',
-  '',
-  'lg:col-span-2',
-  'lg:col-span-2',
-  '',
+// 3-way color cycle (red/black/gold — the site's accent triad) so cards in a row
+// each read as a distinct color instead of repeating the same red accent 7 times.
+const cardColors = [
+  {
+    iconBg: 'bg-red-50 text-red-600 border-red-100 group-hover:bg-red-600 group-hover:text-white',
+    border: 'border-slate-200 hover:border-red-400',
+    top: 'border-t-red-600',
+    bullet: 'bg-red-600',
+    hoverTitle: 'group-hover:text-red-600',
+  },
+  {
+    iconBg: 'bg-slate-100 text-slate-900 border-slate-200 group-hover:bg-slate-900 group-hover:text-white',
+    border: 'border-slate-200 hover:border-slate-400',
+    top: 'border-t-slate-900',
+    bullet: 'bg-slate-900',
+    hoverTitle: 'group-hover:text-slate-900',
+  },
+  {
+    iconBg: 'bg-amber-50 text-amber-600 border-amber-100 group-hover:bg-amber-400 group-hover:text-slate-950',
+    border: 'border-slate-200 hover:border-amber-400',
+    top: 'border-t-amber-500',
+    bullet: 'bg-amber-500',
+    hoverTitle: 'group-hover:text-amber-600',
+  },
 ];
 
 export default function Services() {
@@ -65,14 +79,17 @@ export default function Services() {
       <div className="mx-auto relative z-10" style={{ maxWidth: '1200px' }}>
         {/* Section Header */}
         <div className="text-left" style={{ marginBottom: 'clamp(2.5rem, 2rem + 2vw, 4.5rem)' }}>
-          <h2
-            className="font-black tracking-tight text-slate-900"
-            style={{
-              fontSize: 'clamp(1.75rem, 1.393rem + 1.786vw, 3rem)',
-            }}
-          >
-            Dienstleistungen
-          </h2>
+          <div className="flex items-center gap-3">
+            <h2
+              className="font-black tracking-tight text-slate-900"
+              style={{
+                fontSize: 'clamp(1.75rem, 1.393rem + 1.786vw, 3rem)',
+              }}
+            >
+              Dienstleistungen
+            </h2>
+            <SazcarVanMascot />
+          </div>
           <p
             className="text-slate-600 font-normal"
             style={{
@@ -92,9 +109,7 @@ export default function Services() {
         >
           {services.map((service, index) => {
             const Icon = iconMap[service.iconName] || Wrench;
-            const bentoSpan = bentoStyles[index] || '';
-
-            const isBigCard = index === 0 || index === 3 || index === 4;
+            const color = cardColors[index % cardColors.length];
 
             return (
               <motion.div
@@ -104,10 +119,10 @@ export default function Services() {
                 viewport={{ once: true, margin: '-40px' }}
                 transition={{ duration: 0.5, delay: index * 0.05, ease: 'easeOut' }}
                 className={`
-                  group relative border rounded-3xl overflow-hidden
+                  group relative border-2 border-t-4 rounded-3xl overflow-hidden
                   transition-all duration-300 shadow-sm hover:shadow-md
-                  flex flex-col justify-between ${bentoSpan}
-                  ${isBigCard ? 'card-tint-red' : 'bg-white/45 border-black hover:border-red-400 hover:bg-white'}
+                  flex flex-col justify-between bg-white/70
+                  ${color.border} ${color.top}
                 `}
                 style={{
                   padding: 'clamp(1.5rem, 1.25rem + 0.8vw, 2.25rem)',
@@ -115,19 +130,13 @@ export default function Services() {
                   WebkitBackdropFilter: 'blur(16px)',
                 }}
               >
-                {/* SAZCAR Minibus Van Mascot on top-right corner */}
-                <div className="absolute top-3 right-4 z-20 pointer-events-none">
-                  <SazcarVanMascot />
-                </div>
-
                 <div className="space-y-4">
-                  {/* Icon + Title — h3 gets flex-1 min-w-0 so its own pr (mascot's reserved width) actually shrinks the wrap box instead of overflowing */}
                   <div className="flex items-center gap-3">
-                    <div className="p-3 bg-red-50 text-red-600 rounded-2xl w-fit shrink-0 group-hover:bg-red-600 group-hover:text-white transition-all duration-300 border border-red-100">
+                    <div className={`p-3 rounded-2xl w-fit shrink-0 transition-all duration-300 border ${color.iconBg}`}>
                       <Icon className="w-5 h-5" />
                     </div>
                     <h3
-                      className="font-bold text-slate-900 tracking-tight group-hover:text-red-600 transition-colors flex-1 min-w-0 pr-16 sm:pr-20"
+                      className={`font-bold text-slate-900 tracking-tight transition-colors flex-1 min-w-0 ${color.hoverTitle}`}
                       style={{
                         fontSize: 'clamp(1rem, 0.95rem + 0.2vw, 1.25rem)',
                       }}
@@ -150,7 +159,7 @@ export default function Services() {
 
                 {/* Features List */}
                 <ul
-                  className={`grid gap-x-4 gap-y-2.5 border-t border-slate-100 pt-5 ${isBigCard ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}
+                  className="grid grid-cols-1 gap-y-2.5 border-t border-slate-100 pt-5"
                   style={{
                     marginTop: 'clamp(1.5rem, 1.25rem + 0.5vw, 2rem)',
                   }}
@@ -161,7 +170,7 @@ export default function Services() {
                       className="flex items-start gap-2 text-slate-700 font-medium"
                       style={{ fontSize: 'clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem)' }}
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-red-600 shrink-0 mt-1.5" />
+                      <span className={`w-1.5 h-1.5 rounded-full shrink-0 mt-1.5 ${color.bullet}`} />
                       <span className="line-clamp-2">{feat}</span>
                     </li>
                   ))}
