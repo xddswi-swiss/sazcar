@@ -84,15 +84,14 @@ export default function Services() {
             Dienstleistungen
           </h2>
           <p
-            className="text-slate-600"
+            className="text-slate-600 font-normal"
             style={{
               fontSize: 'clamp(0.875rem, 0.83rem + 0.22vw, 1.0625rem)',
-              maxWidth: '560px',
               marginTop: 'clamp(0.5rem, 0.375rem + 0.3vw, 1rem)',
-              lineHeight: 1.6,
+              lineHeight: 1.5,
             }}
           >
-            Professioneller Fahrzeugservice auf höchstem Niveau. Entdecken Sie unser breites Angebot.
+            Professioneller Fahrzeugservice auf höchstem Niveau.
           </p>
         </div>
 

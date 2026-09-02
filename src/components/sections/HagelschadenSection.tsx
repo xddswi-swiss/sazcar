@@ -191,12 +191,12 @@ export default function HagelschadenSection() {
             Spezialisierte Hagelschaden-Reparatur & Verfahren
           </h2>
           <p
-            className="text-slate-600 max-w-3xl mt-4 leading-relaxed font-medium"
+            className="text-slate-600 mt-4 leading-relaxed font-normal"
             style={{
               fontSize: 'clamp(0.9375rem, 0.88rem + 0.3vw, 1.125rem)',
             }}
           >
-            Als langjähriger Carrosserie- & Spenglerfachbetrieb beherrschen wir sämtliche sanften und konventionellen Reparaturmethoden. Wir stellen Ihr Fahrzeug spurlos und werterhaltend wieder her.
+            Spezialisierte sanfte Reparaturmethoden für werterhaltende Wiederherstellung.
           </p>
         </div>
 

@@ -106,26 +106,18 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
         >
           <a
             href="#termin"
-            className="bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl shadow-md transition-all flex items-center gap-2 group"
-            style={{
-              padding: 'clamp(0.75rem, 0.6rem + 0.5vw, 1rem) clamp(1.5rem, 1.25rem + 0.8vw, 2.5rem)',
-              fontSize: 'clamp(0.8125rem, 0.78rem + 0.15vw, 0.9375rem)',
-            }}
+            className="bg-red-600 hover:bg-red-700 text-white font-normal rounded-xl shadow-xs transition-all flex items-center gap-1.5 py-2 px-4 text-xs sm:text-sm group"
           >
             <span>Online Termin buchen</span>
-            <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
           <a
             href="https://api.whatsapp.com/send?phone=41764717981&text=Guten%20Tag%20SAZCAR%20Team%2C%20ich%20bin%20%C3%BCber%20Ihre%20Webseite%20auf%20Sie%20aufmerksam%20geworden.%20Ich%20m%C3%B6chte%20gerne%20einen%20Termin%20%2F%20eine%20Offerte%20anfragen."
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-extrabold rounded-xl shadow-md transition-all flex items-center gap-2 group cursor-pointer"
-            style={{
-              padding: 'clamp(0.75rem, 0.6rem + 0.5vw, 1rem) clamp(1.5rem, 1.25rem + 0.8vw, 2.5rem)',
-              fontSize: 'clamp(0.8125rem, 0.78rem + 0.15vw, 0.9375rem)',
-            }}
+            className="bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-normal rounded-xl shadow-xs transition-all flex items-center gap-1.5 py-2 px-4 text-xs sm:text-sm group cursor-pointer"
           >
-            <MessageCircle className="w-4 h-4 fill-white stroke-emerald-600" />
+            <MessageCircle className="w-3.5 h-3.5 fill-white stroke-emerald-600" />
             <span>WhatsApp Chat</span>
           </a>
         </motion.div>
@@ -146,11 +138,11 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
             return (
               <div
                 key={badge.text}
-                className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 shadow-xs rounded-xl"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200/90 shadow-2xs rounded-xl"
               >
-                <Icon className="w-4 h-4 text-red-600" />
+                <Icon className="w-3.5 h-3.5 text-red-600" />
                 <span
-                  className="font-bold text-slate-700"
+                  className="font-normal text-slate-800"
                   style={{
                     fontSize: 'clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem)',
                   }}
