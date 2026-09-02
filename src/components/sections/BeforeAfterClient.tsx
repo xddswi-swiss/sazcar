@@ -60,7 +60,7 @@ export default function BeforeAfterClient({ projects }: BeforeAfterClientProps) 
         {/* Section Header */}
         <div className="text-left" style={{ marginBottom: 'clamp(2.5rem, 2rem + 2vw, 4rem)' }}>
           <span
-            className="inline-block bg-red-50 text-red-600 border border-red-100 font-bold uppercase tracking-widest rounded-full"
+            className="inline-block bg-red-50 text-red-600 border border-red-100 font-normal uppercase tracking-widest rounded-full"
             style={{
               fontSize: 'clamp(0.625rem, 0.6rem + 0.1vw, 0.75rem)',
               padding: '0.375rem 1rem',
@@ -144,10 +144,10 @@ export default function BeforeAfterClient({ projects }: BeforeAfterClientProps) 
           </div>
 
           {/* Labels */}
-          <div className="absolute top-4 left-4 bg-white/90 border border-slate-200 text-slate-800 font-bold px-3.5 py-1.5 rounded-xl shadow-xs z-10 pointer-events-none" style={{ fontSize: 'clamp(0.6875rem, 0.66rem + 0.1vw, 0.8125rem)' }}>
+          <div className="absolute top-4 left-4 bg-white/90 border border-slate-200 text-slate-800 font-normal px-3.5 py-1.5 rounded-xl shadow-xs z-10 pointer-events-none" style={{ fontSize: 'clamp(0.6875rem, 0.66rem + 0.1vw, 0.8125rem)' }}>
             Vorher
           </div>
-          <div className="absolute top-4 right-4 bg-white/90 border border-slate-200 text-slate-800 font-bold px-3.5 py-1.5 rounded-xl shadow-xs z-10 pointer-events-none" style={{ fontSize: 'clamp(0.6875rem, 0.66rem + 0.1vw, 0.8125rem)' }}>
+          <div className="absolute top-4 right-4 bg-white/90 border border-slate-200 text-slate-800 font-normal px-3.5 py-1.5 rounded-xl shadow-xs z-10 pointer-events-none" style={{ fontSize: 'clamp(0.6875rem, 0.66rem + 0.1vw, 0.8125rem)' }}>
             Nachher
           </div>
         </motion.div>
@@ -162,7 +162,7 @@ export default function BeforeAfterClient({ projects }: BeforeAfterClientProps) 
         >
           <div>
             <h3
-              className="font-bold text-slate-900 tracking-tight"
+              className="font-normal text-slate-900 tracking-tight pl-3"
               style={{ fontSize: 'clamp(1rem, 0.95rem + 0.22vw, 1.25rem)' }}
             >
               {project.brand} {project.model}
@@ -171,7 +171,7 @@ export default function BeforeAfterClient({ projects }: BeforeAfterClientProps) 
               {project.services_done?.map((srv) => (
                 <span
                   key={srv}
-                  className="inline-block bg-slate-100 border border-slate-200 text-slate-700 font-bold rounded-full"
+                  className="inline-block bg-slate-100 border border-slate-200 text-slate-700 font-normal rounded-full"
                   style={{
                     fontSize: 'clamp(0.625rem, 0.61rem + 0.07vw, 0.6875rem)',
                     padding: '0.25rem 0.75rem',
@@ -194,7 +194,7 @@ export default function BeforeAfterClient({ projects }: BeforeAfterClientProps) 
                 <ChevronLeft className="w-5 h-5 text-slate-600" />
               </button>
               <span
-                className="font-bold text-slate-600 tabular-nums"
+                className="font-normal text-slate-600 tabular-nums"
                 style={{ fontSize: 'clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem)' }}
               >
                 {activeIndex + 1} / {projects.length}

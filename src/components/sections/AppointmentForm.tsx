@@ -262,10 +262,10 @@ export default function AppointmentForm() {
       <div className="mx-auto relative z-10" style={{ maxWidth: '1200px' }}>
         <div className="text-left" style={{ marginBottom: 'clamp(2.5rem, 2rem + 2vw, 4rem)' }}>
           <span
-            className="inline-block bg-red-50 text-red-600 border border-red-100 font-bold uppercase tracking-widest rounded-full"
+            className="inline-block bg-red-50 text-red-600 border border-red-100 font-normal uppercase tracking-widest rounded-full"
             style={{ fontSize: 'clamp(0.625rem, 0.6rem + 0.1vw, 0.75rem)', padding: '0.375rem 1rem', marginBottom: 'clamp(0.75rem, 0.5rem + 0.5vw, 1.25rem)' }}
           >
-            Terminbuchung & Schadensmeldung
+            Kontakt & Schadensmeldung
           </span>
           <h2
             className="font-black tracking-tight text-slate-900"
@@ -277,7 +277,7 @@ export default function AppointmentForm() {
             className="text-slate-600 font-normal"
             style={{ fontSize: 'clamp(0.875rem, 0.83rem + 0.22vw, 1.0625rem)', marginTop: 'clamp(0.5rem, 0.375rem + 0.3vw, 1rem)', lineHeight: 1.5 }}
           >
-            Wählen Sie Ihre Services und Ihren Wunschtermin online aus.
+            Wählen Sie die gewünschten Leistungen und Ihr Wunschdatum aus.
           </p>
         </div>
 

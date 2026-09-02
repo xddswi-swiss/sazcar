@@ -208,23 +208,6 @@ export default function Header() {
           <Link href="/" aria-label="Startseite">
             <Logo />
           </Link>
-          <a
-            href="/"
-            onClick={handleHomeClick}
-            aria-label="Zum Seitenanfang"
-            className="relative p-2 rounded-xl text-red-600 hover:bg-red-50 transition-colors"
-            style={{ display: 'var(--burger-display, block)' }}
-          >
-            {!reduceMotion && (
-              <motion.span
-                aria-hidden
-                className="absolute inset-0 rounded-xl bg-red-500/25"
-                animate={{ opacity: [0.15, 0.65, 0.15] }}
-                transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-              />
-            )}
-            <Home className="relative w-6 h-6" />
-          </a>
         </div>
 
         {/* Desktop Nav */}
@@ -275,7 +258,7 @@ export default function Header() {
                       handleNavClick(link.href);
                       setOpenDropdown(null);
                     }}
-                    className={`relative flex items-center gap-1 px-2.5 xl:px-3 py-1 text-sm xl:text-base font-extrabold transition-colors rounded-lg ${
+                    className={`relative flex items-center gap-1 px-2.5 xl:px-3 py-1 text-sm xl:text-base font-normal transition-colors rounded-lg ${
                       isActive
                         ? 'text-red-600 bg-white shadow-2xs'
                         : 'text-white hover:text-white hover:bg-white/20'
@@ -317,7 +300,7 @@ export default function Header() {
                                 handleNavClick(child.href);
                                 setOpenDropdown(null);
                               }}
-                              className={`block px-3 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                              className={`block px-3 py-2 rounded-lg text-sm font-normal transition-colors ${
                                 activeSection === child.href
                                   ? 'text-red-600 bg-red-50'
                                   : 'text-slate-700 hover:text-red-600 hover:bg-slate-100'
@@ -338,7 +321,7 @@ export default function Header() {
           {/* Call CTA */}
           <a
             href="tel:+41434228676"
-            className="ml-2 xl:ml-4 flex items-center gap-1.5 xl:gap-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs xl:text-sm px-3 xl:px-4 py-2 rounded-xl transition-all shadow-sm shadow-red-900/10 shrink-0"
+            className="ml-2 xl:ml-4 flex items-center gap-1.5 xl:gap-2 bg-red-600 hover:bg-red-700 text-white font-normal text-xs xl:text-sm px-3 xl:px-4 py-2 rounded-xl transition-all shadow-sm shadow-red-900/10 shrink-0"
           >
             <Phone className="w-3.5 h-3.5 xl:w-4 xl:h-4" />
             <span>Jetzt anrufen</span>

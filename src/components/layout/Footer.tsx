@@ -29,22 +29,21 @@ export default function Footer() {
           }}
         >
           {/* Column 1: Info & Brand */}
-          <div className="space-y-4">
+          <div className="space-y-2 flex flex-col justify-start items-start">
             <Logo variant="inverted" />
-            <p
-              className="text-red-100 leading-relaxed"
-              style={{
-                fontSize: 'clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem)',
-              }}
-            >
-              Ihr kompetenter Partner für Autolackierung, Karosseriearbeiten und Autoservice in der Region. Seit über 40 Jahren stehen wir für Qualität und Zuverlässigkeit.
-            </p>
+            <div className="pt-1 space-y-1.5 text-red-200 text-xs font-normal">
+              <p>© {currentYear} SAZCAR GMBH. Alle Rechte vorbehalten.</p>
+              <div className="flex gap-4">
+                <Link href="/impressum" className="text-red-200 hover:text-white transition-colors underline-offset-4 hover:underline">Impressum</Link>
+                <Link href="/datenschutz" className="text-red-200 hover:text-white transition-colors underline-offset-4 hover:underline">Datenschutz</Link>
+              </div>
+            </div>
           </div>
 
           {/* Column 2: Contact & Opening Hours */}
           <div className="space-y-4">
             <h3
-              className="font-bold text-white tracking-tight"
+              className="font-normal text-white tracking-tight"
               style={{
                 fontSize: 'clamp(0.9375rem, 0.9rem + 0.15vw, 1.0625rem)',
               }}
@@ -64,7 +63,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-white shrink-0" />
-                <a href="tel:+41434228676" className="text-white hover:text-red-200 transition-colors font-semibold">
+                <a href="tel:+41434228676" className="text-white hover:text-red-200 transition-colors font-normal">
                   043 422 86 76
                 </a>
               </li>
@@ -74,21 +73,21 @@ export default function Footer() {
                   href="https://wa.me/41764717981"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white hover:text-red-200 transition-colors font-semibold"
+                  className="text-white hover:text-red-200 transition-colors font-normal"
                 >
                   +41 76 471 79 81
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-white shrink-0" />
-                <a href="mailto:sazcargmbh@gmail.com" className="text-white hover:text-red-200 transition-colors font-semibold">
+                <a href="mailto:sazcargmbh@gmail.com" className="text-white hover:text-red-200 transition-colors font-normal">
                   sazcargmbh@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-3 border-t border-red-500/50 pt-3 mt-3">
                 <Clock className="w-4 h-4 text-white shrink-0 mt-0.5" />
                 <div>
-                  <span className="block font-semibold text-white">Öffnungszeiten:</span>
+                  <span className="block font-normal text-white">Öffnungszeiten:</span>
                   <span className="block mt-0.5 text-red-100">Montag – Freitag: 07:30 – 12:00, 13:15 – 18:00 Uhr</span>
                   <span className="block mt-1 text-red-100">Samstag: 09:00 – 14:00 Uhr</span>
                   <span className="block text-red-100">Sonntag: Geschlossen</span>
@@ -101,7 +100,7 @@ export default function Footer() {
           <div className="space-y-3">
             <div className="flex items-center justify-between gap-2">
               <h3
-                className="font-bold text-white tracking-tight"
+                className="font-normal text-white tracking-tight"
                 style={{
                   fontSize: 'clamp(0.9375rem, 0.9rem + 0.15vw, 1.0625rem)',
                 }}
@@ -112,7 +111,7 @@ export default function Footer() {
                 href={GOOGLE_MAPS_DIRECTIONS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-red-100 hover:text-white transition-colors font-semibold shrink-0"
+                className="flex items-center gap-1.5 text-red-100 hover:text-white transition-colors font-normal shrink-0"
                 style={{ fontSize: 'clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem)' }}
               >
                 <Navigation className="w-3.5 h-3.5" />
@@ -136,21 +135,6 @@ export default function Footer() {
                 <Car className="map-car-drive w-5 h-5 text-red-600 drop-shadow" strokeWidth={2.25} />
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Footer Bottom */}
-        <div
-          className="pt-6 border-t border-red-500/50 flex flex-col sm:flex-row items-center justify-between text-red-200"
-          style={{
-            fontSize: 'clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem)',
-            gap: '1rem',
-          }}
-        >
-          <p>© {currentYear} Autogarage & Carrosserie. Alle Rechte vorbehalten.</p>
-          <div className="flex gap-4">
-            <Link href="/impressum" className="text-red-200 hover:text-white transition-colors">Impressum</Link>
-            <Link href="/datenschutz" className="text-red-200 hover:text-white transition-colors">Datenschutz</Link>
           </div>
         </div>
       </div>

@@ -57,7 +57,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
         >
           <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
           <span 
-            className="font-bold tracking-widest text-slate-500 uppercase text-[10px] md:text-xs"
+            className="font-normal tracking-widest text-slate-500 uppercase text-[10px] md:text-xs"
           >
             Premium Automotive Studio
           </span>
