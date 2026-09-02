@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Shield, Award, Clock, ArrowUpRight, MessageCircle } from 'lucide-react';
+import { ShieldCheck, BadgeCheck, History, ArrowUpRight, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import PromoBadge, { type Promotion } from './PromoBadge';
 
 const badges = [
-  { icon: Clock, text: '40+ Jahre Erfahrung' },
-  { icon: Shield, text: '100% Schweizer Qualität' },
-  { icon: Award, text: 'MFK-Garantie' },
+  { icon: History, text: '40+ Jahre Erfahrung' },
+  { icon: ShieldCheck, text: '100% Schweizer Qualität' },
+  { icon: BadgeCheck, text: 'MFK-Garantie' },
 ];
 
 const FLIP_WORDS = ['Profis', 'Meister', 'Partner', 'Spezialisten'];
@@ -94,7 +94,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
-          className="text-slate-700 max-w-[620px] ml-0 mr-auto font-normal bg-white/40 backdrop-blur-xs rounded-xl p-2"
+          className="text-slate-700 max-w-[620px] ml-0 mr-auto font-normal"
           style={{
             fontSize: 'clamp(0.875rem, 0.82rem + 0.28vw, 1.125rem)',
             marginTop: 'clamp(1.25rem, 1rem + 0.8vw, 2rem)',
@@ -133,14 +133,13 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
           </a>
         </motion.div>
 
-        {/* Clean Trust Badges */}
+        {/* Trust Badges — Pushed down and shifted left for pixel-perfect alignment with button */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex flex-wrap justify-start"
+          className="flex flex-wrap items-center justify-start gap-2.5 sm:gap-3.5 -ml-6 sm:-ml-7"
           style={{
-            gap: 'clamp(1rem, 0.5rem + 1vw, 2rem)',
             marginTop: 'clamp(3rem, 2.5rem + 1.5vw, 4.5rem)',
           }}
         >
@@ -149,14 +148,13 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
             return (
               <div
                 key={badge.text}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200/90 shadow-2xs rounded-xl"
+                className="flex items-center gap-2.5 px-3.5 py-2 bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-2xs rounded-2xl hover:border-red-300 hover:shadow-xs transition-all duration-300 group"
               >
-                <Icon className="w-3.5 h-3.5 text-red-600" />
+                <div className="p-1.5 rounded-xl bg-red-50 text-red-600 border border-red-100/80 shadow-2xs shrink-0 flex items-center justify-center group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
+                  <Icon className="w-4 h-4 stroke-[2.2]" />
+                </div>
                 <span
-                  className="font-normal text-slate-800"
-                  style={{
-                    fontSize: 'clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem)',
-                  }}
+                  className="font-normal text-slate-800 text-xs sm:text-sm whitespace-nowrap"
                 >
                   {badge.text}
                 </span>
