@@ -4,10 +4,12 @@ import HyperspeedBanner from '@/components/ui/HyperspeedBanner';
 import Services from '@/components/sections/Services';
 import BeforeAfter from '@/components/sections/BeforeAfter';
 import CarsShowcase from '@/components/sections/CarsShowcase';
+import Testimonials from '@/components/sections/Testimonials';
 import AppointmentForm from '@/components/sections/AppointmentForm';
 import HagelschadenPopup from '@/components/sections/HagelschadenPopup';
 import Footer from '@/components/layout/Footer';
 import { createClient } from '@/utils/supabase/server';
+import { googleRating, googleReviewCount } from '@/content/reviews';
 
 export default async function Home() {
   const supabase = await createClient();
@@ -39,6 +41,11 @@ export default async function Home() {
       '@type': 'GeoCoordinates',
       'latitude': 47.483,
       'longitude': 8.417,
+    },
+    'aggregateRating': {
+      '@type': 'AggregateRating',
+      'ratingValue': googleRating,
+      'reviewCount': googleReviewCount,
     },
     'openingHoursSpecification': [
       {
@@ -80,6 +87,7 @@ export default async function Home() {
         <Services />
         <BeforeAfter />
         <CarsShowcase />
+        <Testimonials />
         <AppointmentForm />
       </main>
 
