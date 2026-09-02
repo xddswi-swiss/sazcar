@@ -237,7 +237,7 @@ export default function AppointmentForm() {
     );
   }
 
-  const inputClass = 'w-full bg-white/20 backdrop-blur-xs border border-slate-300 hover:border-slate-400 focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-2xl text-slate-900 placeholder-slate-500 hover:bg-white focus:bg-white transition-all duration-300 focus:outline-none';
+  const inputClass = 'w-full bg-white/20 backdrop-blur-xs border border-slate-500 hover:border-slate-300 focus:border-red-600 focus:ring-1 focus:ring-red-600 rounded-2xl text-slate-900 placeholder-slate-500 hover:bg-white focus:bg-white transition-all duration-300 focus:outline-none';
 
   return (
     <section
@@ -369,11 +369,11 @@ export default function AppointmentForm() {
                     const isSelected = selectedServices.includes(srv.title);
                     const isHagel = srv.id === 'hagelschaden-instandsetzung' || srv.title.includes('Hagelschaden');
 
-                    let buttonStyle = 'bg-white/20 backdrop-blur-xs border-slate-300 text-slate-700 hover:border-slate-400 hover:bg-white';
+                    let buttonStyle = 'bg-white/40 backdrop-blur-xs border-amber-400 hover:border-amber-500 text-slate-900 font-bold hover:bg-amber-50/40 shadow-xs';
                     if (isSelected) {
-                      buttonStyle = 'bg-red-600 border-red-600 text-white shadow-xs';
+                      buttonStyle = 'bg-red-600 border-amber-400 text-white ring-2 ring-amber-400/60 shadow-md font-extrabold';
                     } else if (isHagel) {
-                      buttonStyle = 'bg-red-50/90 border-red-500 text-red-700 animate-pulse ring-2 ring-red-500/40 shadow-sm font-extrabold';
+                      buttonStyle = 'bg-red-50/90 border-amber-500 text-red-700 animate-pulse ring-2 ring-amber-400/50 shadow-sm font-extrabold';
                     }
 
                     return (
@@ -408,36 +408,40 @@ export default function AppointmentForm() {
                 <span className="flex items-center gap-1.5 text-xs font-bold text-slate-900 uppercase tracking-wide">
                   <Camera className="w-3.5 h-3.5 text-red-600" /> Schadenfotos hochladen (Optional)
                 </span>
-                <div className="flex gap-2.5 flex-wrap">
-                  {images.map((url, idx) => (
-                    <div key={url} className="relative w-16 h-16 rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={url} alt="Schaden" className="object-cover w-full h-full" />
-                      <button type="button" onClick={() => removeImage(idx)} className="absolute top-1 right-1 p-1 bg-red-600 text-white rounded-lg cursor-pointer transition-colors hover:bg-red-700">
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div className="flex gap-2.5 flex-wrap">
+                    {images.map((url, idx) => (
+                      <div key={url} className="relative w-16 h-16 rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={url} alt="Schaden" className="object-cover w-full h-full" />
+                        <button type="button" onClick={() => removeImage(idx)} className="absolute top-1 right-1 p-1 bg-red-600 text-white rounded-lg cursor-pointer transition-colors hover:bg-red-700">
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                    {uploading ? (
+                      <div className="w-16 h-16 flex items-center justify-center border border-dashed border-slate-200 rounded-2xl bg-slate-50">
+                        <Loader2 className="w-5 h-5 animate-spin text-red-600" />
+                      </div>
+                    ) : (
+                      <label className="w-16 h-16 flex flex-col items-center justify-center border border-dashed border-slate-400 hover:border-red-500/50 rounded-2xl bg-slate-50 text-slate-900 hover:text-red-600 transition-colors cursor-pointer">
+                        <Camera className="w-5 h-5 text-slate-900" />
+                        <span className="text-[8px] mt-0.5 font-extrabold uppercase tracking-wider text-slate-900">Foto</span>
+                        <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
+                      </label>
+                    )}
+                  </div>
+
+                  {turnstileSiteKey && (
+                    <div className="shrink-0">
+                      <TurnstileWidget
+                        siteKey={turnstileSiteKey}
+                        onVerify={(token) => setTurnstileToken(token)}
+                      />
                     </div>
-                  ))}
-                  {uploading ? (
-                    <div className="w-16 h-16 flex items-center justify-center border border-dashed border-slate-200 rounded-2xl bg-slate-50">
-                      <Loader2 className="w-5 h-5 animate-spin text-red-600" />
-                    </div>
-                  ) : (
-                    <label className="w-16 h-16 flex flex-col items-center justify-center border border-dashed border-slate-300 hover:border-red-500/50 rounded-2xl bg-slate-50 text-slate-500 hover:text-red-600 transition-colors cursor-pointer">
-                      <Camera className="w-5 h-5" />
-                      <span className="text-[8px] mt-0.5 font-bold uppercase tracking-wider">Foto</span>
-                      <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
-                    </label>
                   )}
                 </div>
               </div>
-
-              {turnstileSiteKey && (
-                <TurnstileWidget
-                  siteKey={turnstileSiteKey}
-                  onVerify={(token) => setTurnstileToken(token)}
-                />
-              )}
 
               <button
                 type="submit"
@@ -569,5 +573,10 @@ function TurnstileWidget({
   }, [siteKey]);
 
   if (!siteKey) return null;
-  return <div ref={containerRef} className="flex justify-center my-3" />;
+  return (
+    <div
+      ref={containerRef}
+      className="flex justify-start sm:justify-end my-1 scale-[0.85] sm:scale-[0.88] origin-left sm:origin-right"
+    />
+  );
 }
