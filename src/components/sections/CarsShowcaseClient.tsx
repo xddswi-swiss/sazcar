@@ -44,16 +44,6 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
       <div className="mx-auto" style={{ maxWidth: '1200px' }}>
         {/* Section Header */}
         <div className="text-left" style={{ marginBottom: 'clamp(2.5rem, 2rem + 2vw, 4.5rem)' }}>
-          <span
-            className="inline-block bg-red-50 text-red-600 border border-red-100 font-normal uppercase tracking-widest rounded-full"
-            style={{
-              fontSize: 'clamp(0.625rem, 0.6rem + 0.1vw, 0.75rem)',
-              padding: '0.375rem 1rem',
-              marginBottom: 'clamp(0.75rem, 0.5rem + 0.5vw, 1.25rem)',
-            }}
-          >
-            Fahrzeuge zu verkaufen
-          </span>
           <h2
             className="font-black tracking-tight text-slate-900"
             style={{ fontSize: 'clamp(1.75rem, 1.393rem + 1.786vw, 3rem)' }}
@@ -118,7 +108,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                 </h3>
 
                 <div
-                  className="flex items-center flex-wrap text-slate-500 font-semibold"
+                  className="flex items-center flex-wrap text-slate-500 font-normal"
                   style={{
                     gap: 'clamp(0.5rem, 0.375rem + 0.3vw, 0.75rem)',
                     marginTop: '0.5rem',
@@ -142,13 +132,13 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                   style={{ marginTop: '1.25rem', paddingTop: '1rem' }}
                 >
                   <span
-                    className="font-black text-slate-900"
+                    className="font-normal text-slate-900"
                     style={{ fontSize: 'clamp(1.125rem, 1rem + 0.3vw, 1.375rem)' }}
                   >
                     CHF {formatCH(car.price)}.-
                   </span>
                   <span
-                    className="text-red-600 font-bold flex items-center gap-1 transition-all text-xs"
+                    className="text-red-600 font-normal flex items-center gap-1 transition-all text-xs"
                   >
                     <span>Details</span>
                     <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -230,16 +220,16 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                   { label: 'Getriebe', value: selectedCar.transmission },
                 ].map((spec) => (
                   <div key={spec.label} className="bg-white/40 backdrop-blur-md border border-slate-200/80 p-3 rounded-2xl">
-                    <span className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">{spec.label}</span>
-                    <span className="block font-bold text-slate-900 text-sm mt-0.5">{spec.value}</span>
+                    <span className="block text-[10px] font-normal text-slate-500 uppercase tracking-wider">{spec.label}</span>
+                    <span className={`block text-slate-900 text-sm mt-0.5 ${spec.label === 'Marke' ? 'font-bold' : 'font-normal'}`}>{spec.value}</span>
                   </div>
                 ))}
               </div>
 
               {/* Price Banner */}
               <div className="bg-red-50 border border-red-150 p-5 rounded-2xl text-center">
-                <span className="block text-xs font-bold text-red-600 uppercase tracking-wider">Verkaufspreis</span>
-                <span className="block font-black text-red-600 mt-1" style={{ fontSize: 'clamp(1.5rem, 1.25rem + 0.6vw, 2rem)' }}>
+                <span className="block text-xs font-normal text-red-600 uppercase tracking-wider">Verkaufspreis</span>
+                <span className="block font-normal text-red-600 mt-1" style={{ fontSize: 'clamp(1.5rem, 1.25rem + 0.6vw, 2rem)' }}>
                   CHF {formatCH(selectedCar.price)}.-
                 </span>
               </div>
@@ -247,8 +237,8 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
               {/* Description */}
               {selectedCar.description && (
                 <div className="space-y-2">
-                  <h4 className="font-bold text-slate-900 text-sm border-b border-slate-200 pb-2">Details & Beschreibung</h4>
-                  <p className="text-slate-600 text-sm leading-relaxed whitespace-pre-line">
+                  <h4 className="font-normal text-slate-900 text-sm border-b border-slate-200 pb-2">Details & Beschreibung</h4>
+                  <p className="text-slate-600 text-sm leading-relaxed whitespace-pre-line font-normal">
                     {selectedCar.description}
                   </p>
                 </div>
@@ -259,7 +249,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
             <div className="p-5 border-t border-slate-200 bg-slate-50">
               <a
                 href={`mailto:sazcargmbh@gmail.com?subject=Interesse an: ${selectedCar.title}`}
-                className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold text-sm py-3.5 rounded-2xl transition-all"
+                className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-normal text-sm py-3.5 rounded-2xl transition-all"
               >
                 <Mail className="w-4 h-4" />
                 <span>Interesse bekunden / Termin vereinbaren</span>

@@ -60,21 +60,6 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
           marginInline: 'auto',
         }}
       >
-        {/* Upper Accent Tag */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="inline-flex items-center gap-2 px-3.5 py-1 bg-white border border-slate-200 shadow-xs rounded-full mb-5 md:mb-6"
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-red-600" />
-          <span 
-            className="font-normal tracking-widest text-slate-500 uppercase text-[10px] md:text-xs"
-          >
-            Premium Automotive Studio
-          </span>
-        </motion.div>
-
         {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}

@@ -65,16 +65,6 @@ export default function Services() {
       <div className="mx-auto relative z-10" style={{ maxWidth: '1200px' }}>
         {/* Section Header */}
         <div className="text-left" style={{ marginBottom: 'clamp(2.5rem, 2rem + 2vw, 4.5rem)' }}>
-          <span
-            className="inline-block bg-red-50 text-red-600 border border-red-100 font-normal uppercase tracking-widest rounded-full"
-            style={{
-              fontSize: 'clamp(0.625rem, 0.6rem + 0.1vw, 0.75rem)',
-              padding: '0.375rem 1rem',
-              marginBottom: 'clamp(0.75rem, 0.5rem + 0.5vw, 1.25rem)',
-            }}
-          >
-            Unsere Kompetenzen
-          </span>
           <h2
             className="font-black tracking-tight text-slate-900"
             style={{

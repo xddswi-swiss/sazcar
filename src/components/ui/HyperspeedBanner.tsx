@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Hyperspeed from './Hyperspeed';
-import { ArrowUpRight, Zap } from 'lucide-react';
+import { ArrowUpRight, Zap, MessageSquare, Camera } from 'lucide-react';
 
 export default function HyperspeedBanner() {
   const [isSpeedingUp, setIsSpeedingUp] = useState(false);
@@ -75,12 +75,12 @@ export default function HyperspeedBanner() {
         </h2>
 
         {/* Meaningful Connection Between Speed & Repair Service */}
-        <p className="text-slate-200 text-xs sm:text-sm font-semibold mt-2.5 max-w-xl leading-relaxed drop-shadow-sm px-2">
+        <p className="text-slate-200 text-xs sm:text-sm font-normal mt-2.5 max-w-xl leading-relaxed drop-shadow-sm px-2">
           Wir erledigen Ihre Auto- & Karosseriereparatur in Höchstgeschwindigkeit – präzise, zuverlässig & professionell für Sie.
         </p>
 
         {/* Dynamic Speed-Up Indicator */}
-        <p className="text-red-400 text-[11px] sm:text-xs font-bold mt-2 drop-shadow-sm tracking-wide">
+        <p className="text-red-400 text-[11px] sm:text-xs font-normal mt-2 drop-shadow-sm tracking-wide">
           {isSpeedingUp ? (
             <span className="text-red-400 font-extrabold animate-bounce inline-block">
               ⚡ TURBO WARP SPEED AKTIV! ⚡
@@ -93,19 +93,22 @@ export default function HyperspeedBanner() {
         </p>
 
         {/* Action Buttons Overlay */}
-        <div className="pointer-events-auto flex items-center gap-3 mt-4">
+        <div className="pointer-events-auto flex flex-wrap justify-center items-center gap-3 mt-4">
           <a
             href="#termin"
-            className="bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-full shadow-lg shadow-red-900/50 transition-all flex items-center gap-1.5 group cursor-pointer hover:scale-105"
+            className="bg-red-600 hover:bg-red-700 text-white font-normal text-xs sm:text-sm px-5 py-2.5 rounded-full shadow-lg shadow-red-900/50 transition-all flex items-center gap-2 group cursor-pointer hover:scale-105"
           >
-            <span>Termin buchen</span>
-            <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <Zap className="w-4 h-4 text-amber-300 fill-amber-300" />
+            <span>Express-Offerte anfordern</span>
           </a>
           <a
-            href="#dienstleistungen"
-            className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white font-bold text-xs sm:text-sm px-5 py-2.5 rounded-full transition-all cursor-pointer hover:scale-105"
+            href="https://wa.me/41763784141?text=Hallo%20SAZCAR,%20ich%20m%C3%B6chte%20ein%20Schaden-Foto%20f%C3%BCr%20eine%20Express-Sch%C3%A4tzung%20senden."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white font-normal text-xs sm:text-sm px-5 py-2.5 rounded-full transition-all flex items-center gap-2 cursor-pointer hover:scale-105"
           >
-            Dienstleistungen
+            <Camera className="w-4 h-4 text-emerald-400" />
+            <span>Schaden-Foto via WhatsApp</span>
           </a>
         </div>
       </div>
