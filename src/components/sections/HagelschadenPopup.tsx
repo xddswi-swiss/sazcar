@@ -14,17 +14,18 @@ export default function HagelschadenPopup() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    // Show strictly ONCE per visitor ever
+    // Show once per browsing session, not once per visitor forever.
+    // sessionStorage clears when the tab closes, so returning visitors see it again.
     let seen = false;
     try {
-      seen = !!localStorage.getItem(SEEN_KEY);
+      seen = !!sessionStorage.getItem(SEEN_KEY);
     } catch {}
     if (seen) return;
 
     const timer = setTimeout(() => {
       setIsOpen(true);
       try {
-        localStorage.setItem(SEEN_KEY, '1');
+        sessionStorage.setItem(SEEN_KEY, '1');
       } catch {}
     }, 1000);
     return () => clearTimeout(timer);
