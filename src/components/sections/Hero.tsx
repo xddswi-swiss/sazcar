@@ -42,7 +42,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
 
       {/* Content Container (Left-aligned Layout) */}
       <div
-        className="relative z-10 w-full text-left pt-24 md:pt-28 lg:pt-32 xl:pt-40 pb-12 md:pb-16 xl:pb-24 px-4 sm:px-6 md:px-8 xl:px-16 lg:-translate-x-[10.25rem]"
+        className="relative z-10 w-full text-left pt-24 md:pt-28 lg:pt-32 xl:pt-40 pb-12 md:pb-16 xl:pb-24 px-4 sm:px-6 md:px-10 xl:px-16 xl:-translate-x-[10.25rem]"
         style={{
           maxWidth: '1000px',
           marginInline: 'auto',
