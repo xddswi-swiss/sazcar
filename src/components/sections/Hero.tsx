@@ -61,15 +61,17 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
         }}
       >
         {/* Title */}
+        {/* Headline size +12% vs previous (24px->27px mobile, 52px->58px @1440px ref): clamp(1.6875rem, 1.005rem + 2.911vw, 3.625rem) */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="font-black tracking-tight text-slate-900 leading-[1.1] text-2xl sm:text-3xl md:text-[2.15rem] lg:text-[2.55rem] xl:text-[3.25rem]"
+          className="font-black tracking-tight text-slate-900 leading-[1.1]"
+          style={{ fontSize: 'clamp(1.6875rem, 1.005rem + 2.911vw, 3.625rem)' }}
         >
           Ihre Carrosserie & <br />
           <span className="text-red-600">Autogarage</span>{" "}
-          <span className="inline-block relative h-[1.12em] overflow-hidden align-bottom min-w-[190px] sm:min-w-[260px] md:min-w-[300px] xl:min-w-[350px]">
+          <span className="inline-block relative h-[1.12em] overflow-hidden align-bottom min-w-[215px] sm:min-w-[292px] md:min-w-[336px] xl:min-w-[392px]">
             <AnimatePresence mode="wait">
               <motion.span
                 key={FLIP_WORDS[wordIndex]}
@@ -96,7 +98,8 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
           transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
           className="text-slate-700 max-w-[620px] ml-0 mr-auto font-normal"
           style={{
-            fontSize: 'clamp(0.875rem, 0.82rem + 0.28vw, 1.125rem)',
+            // +12% vs previous clamp(0.875rem, 0.82rem + 0.28vw, 1.125rem)
+            fontSize: 'clamp(0.98rem, 0.918rem + 0.314vw, 1.26rem)',
             marginTop: 'clamp(1.25rem, 1rem + 0.8vw, 2rem)',
             lineHeight: 1.6,
           }}
@@ -117,7 +120,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
         >
           <a
             href="#termin"
-            className="bg-red-600 hover:bg-red-700 text-white font-normal rounded-xl shadow-xs transition-all flex items-center gap-1.5 py-2 px-4 text-xs sm:text-sm group"
+            className="bg-red-600 hover:bg-red-700 text-white font-normal rounded-xl shadow-xs transition-all flex items-center gap-1.5 py-2 px-4 text-sm sm:text-base group"
           >
             <span>Online Termin buchen</span>
             <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -126,7 +129,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
             href="https://api.whatsapp.com/send?phone=41764717981&text=Guten%20Tag%20SAZCAR%20Team%2C%20ich%20bin%20%C3%BCber%20Ihre%20Webseite%20auf%20Sie%20aufmerksam%20geworden.%20Ich%20m%C3%B6chte%20gerne%20einen%20Termin%20%2F%20eine%20Offerte%20anfragen."
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-normal rounded-xl shadow-xs transition-all flex items-center gap-1.5 py-2 px-4 text-xs sm:text-sm group cursor-pointer"
+            className="bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-normal rounded-xl shadow-xs transition-all flex items-center gap-1.5 py-2 px-4 text-sm sm:text-base group cursor-pointer"
           >
             <MessageCircle className="w-3.5 h-3.5 fill-white stroke-emerald-600" />
             <span>WhatsApp Chat</span>
@@ -154,7 +157,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
                   <Icon className="w-4 h-4 stroke-[2.2]" />
                 </div>
                 <span
-                  className="font-normal text-slate-800 text-xs sm:text-sm whitespace-nowrap"
+                  className="font-normal text-slate-800 text-sm sm:text-base whitespace-nowrap"
                 >
                   {badge.text}
                 </span>

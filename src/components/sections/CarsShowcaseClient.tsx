@@ -345,7 +345,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                     }}
                     className="w-full bg-white hover:bg-amber-50/40 text-slate-800 font-normal py-3 px-4 rounded-xl border border-amber-400 hover:border-amber-500 transition-all flex items-center justify-center gap-2 cursor-pointer text-sm group"
                   >
-                    <Mail className="w-4 h-4 text-slate-700 group-hover:text-amber-600 transition-colors" />
+                    <Mail className="w-4 h-4 text-slate-700 group-hover:text-amber-400 transition-colors" />
                     <span>Anfrage</span>
                   </button>
 
@@ -354,7 +354,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                     onClick={() => setShowPhone(!showPhone)}
                     className="w-full bg-white hover:bg-amber-50/40 text-slate-800 font-normal py-3 px-4 rounded-xl border border-amber-400 hover:border-amber-500 transition-all flex items-center justify-center gap-2 cursor-pointer text-sm group"
                   >
-                    <Phone className="w-4 h-4 text-slate-700 group-hover:text-amber-600 transition-colors" />
+                    <Phone className="w-4 h-4 text-slate-700 group-hover:text-amber-400 transition-colors" />
                     <span>{showPhone ? '+41 76 302 54 54' : '076...anzeigen'}</span>
                   </button>
                 </div>
@@ -457,10 +457,10 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                     className={`px-3.5 sm:px-4 py-3 text-xs sm:text-sm font-extrabold rounded-t-2xl transition-all cursor-pointer flex items-center gap-2 select-none ${
                       activeTab === 'optional'
                         ? 'bg-amber-400 text-slate-950 font-black border-2 border-b-0 border-amber-400 -mb-[2px] shadow-2xs'
-                        : 'bg-slate-100 hover:bg-slate-200/80 text-slate-900 font-bold border border-slate-200/90'
+                        : 'bg-slate-100 hover:bg-slate-200/80 text-amber-400 font-bold border border-slate-200/90'
                     }`}
                   >
-                    <Crown className={`w-4 h-4 ${activeTab === 'optional' ? 'text-slate-950' : 'text-slate-900'}`} />
+                    <Crown className={`w-4 h-4 ${activeTab === 'optional' ? 'text-slate-950' : 'text-amber-400'}`} />
                     <span>Optionale Ausstattung ({activeCar.optional_equipment?.length || 0})</span>
                   </button>
 
@@ -485,10 +485,10 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                     className={`px-3.5 sm:px-4 py-3 text-xs sm:text-sm font-extrabold rounded-t-2xl transition-all cursor-pointer flex items-center gap-2 select-none ${
                       activeTab === 'desc'
                         ? 'bg-red-600 text-white font-black border-2 border-b-0 border-red-600 -mb-[2px] shadow-2xs'
-                        : 'bg-slate-100 hover:bg-slate-200/80 text-slate-900 font-bold border border-slate-200/90'
+                        : 'bg-slate-100 hover:bg-slate-200/80 text-red-600 font-bold border border-slate-200/90'
                     }`}
                   >
-                    <FileText className={`w-4 h-4 ${activeTab === 'desc' ? 'text-white' : 'text-slate-900'}`} />
+                    <FileText className={`w-4 h-4 ${activeTab === 'desc' ? 'text-white' : 'text-red-600'}`} />
                     <span>Fahrzeugbeschreibung</span>
                   </button>
                 </div>
