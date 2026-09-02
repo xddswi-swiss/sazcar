@@ -27,13 +27,16 @@ const iconMap: Record<string, LucideIcon> = {
   CloudRain,
 };
 
+// Bento asymmetry (wide/narrow cards) only kicks in at lg+ — at md (tablet, 2-col)
+// every card stays equal width, since a narrow bento card there was too tight for its
+// title next to the corner mascot.
 const bentoStyles = [
-  'md:col-span-2 md:row-span-1',
-  'md:col-span-1 md:row-span-1',
-  'md:col-span-1 md:row-span-1',
-  'md:col-span-2 md:row-span-1',
-  'md:col-span-2 md:row-span-1',
-  'md:col-span-1 md:row-span-1',
+  'lg:col-span-2',
+  '',
+  '',
+  'lg:col-span-2',
+  'lg:col-span-2',
+  '',
 ];
 
 export default function Services() {
@@ -95,7 +98,7 @@ export default function Services() {
 
         {/* Bento Grid */}
         <div
-          className="grid grid-cols-1 md:grid-cols-3"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
           style={{ gap: 'clamp(1rem, 0.75rem + 0.625vw, 1.5rem)' }}
         >
           {services.map((service, index) => {
@@ -129,13 +132,13 @@ export default function Services() {
                 </div>
 
                 <div className="space-y-4">
-                  {/* Icon + Title */}
+                  {/* Icon + Title — h3 gets flex-1 min-w-0 so its own pr (mascot's reserved width) actually shrinks the wrap box instead of overflowing */}
                   <div className="flex items-center gap-3">
                     <div className="p-3 bg-red-50 text-red-600 rounded-2xl w-fit shrink-0 group-hover:bg-red-600 group-hover:text-white transition-all duration-300 border border-red-100">
                       <Icon className="w-5 h-5" />
                     </div>
                     <h3
-                      className="font-bold text-slate-900 tracking-tight group-hover:text-red-600 transition-colors"
+                      className="font-bold text-slate-900 tracking-tight group-hover:text-red-600 transition-colors flex-1 min-w-0 pr-16 sm:pr-20"
                       style={{
                         fontSize: 'clamp(1rem, 0.95rem + 0.2vw, 1.25rem)',
                       }}
@@ -158,7 +161,7 @@ export default function Services() {
 
                 {/* Features List */}
                 <ul
-                  className={`grid gap-x-4 gap-y-2.5 border-t border-slate-100 pt-5 ${isBigCard ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'}`}
+                  className={`grid gap-x-4 gap-y-2.5 border-t border-slate-100 pt-5 ${isBigCard ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}
                   style={{
                     marginTop: 'clamp(1.5rem, 1.25rem + 0.5vw, 2rem)',
                   }}

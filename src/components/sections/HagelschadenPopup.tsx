@@ -73,7 +73,7 @@ export default function HagelschadenPopup() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="relative w-full max-w-lg md:max-w-3xl max-h-[90vh] flex flex-col bg-white rounded-3xl shadow-2xl border border-red-200 overflow-hidden text-slate-800 pointer-events-auto my-auto"
+              className="relative w-full max-w-lg md:max-w-3xl max-h-[85svh] flex flex-col bg-white rounded-3xl shadow-2xl border border-red-200 overflow-hidden text-slate-800 pointer-events-auto my-auto"
             >
               {/* Sticky Top Accent Stripe & Emergency Badge (Always visible on top) */}
               <div className="sticky top-0 z-20 shrink-0 bg-gradient-to-r from-red-600 via-red-500 to-amber-600 px-4 sm:px-8 py-3 sm:py-4 text-white flex items-center justify-between shadow-xs">
@@ -96,7 +96,10 @@ export default function HagelschadenPopup() {
               </div>
 
               {/* Main Content Area with Internal Scroll */}
-              <div className="p-4 sm:p-8 space-y-4 sm:space-y-6 overflow-y-auto flex-1">
+              <div
+                className="p-4 sm:p-8 space-y-4 sm:space-y-6 overflow-y-auto flex-1"
+                style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+              >
                 <div className="space-y-1.5 sm:space-y-2 text-left">
                   <h3 className="text-xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight">
                     Hagelschaden am Auto? Wir helfen sofort!

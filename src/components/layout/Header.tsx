@@ -263,13 +263,17 @@ export default function Header() {
                   <a
                     href={link.href}
                     onClick={(e) => {
-                      if (children.length > 0) {
+                      // Touch has no hover, so the dropdown preview mouse users get for free
+                      // never happens — first tap must reveal it instead of navigating away blind.
+                      // Second tap (dropdown already open) commits to the link, like a mouse click.
+                      const isTouch = typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches;
+                      if (children.length > 0 && isTouch && !isOpen) {
                         e.preventDefault();
-                        setOpenDropdown(isOpen ? null : link.href);
-                      } else {
-                        handleNavClick(link.href);
-                        setOpenDropdown(null);
+                        setOpenDropdown(link.href);
+                        return;
                       }
+                      handleNavClick(link.href);
+                      setOpenDropdown(null);
                     }}
                     className={`relative flex items-center gap-1 px-2.5 xl:px-3 py-1 text-sm xl:text-base font-extrabold transition-colors rounded-lg ${
                       isActive
@@ -278,7 +282,28 @@ export default function Header() {
                     }`}
                   >
                     {link.label}
-                    {children.length > 0 && <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />}
+                    {children.length > 0 && (
+                      <span
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`${link.label} Untermenü ${isOpen ? 'schliessen' : 'öffnen'}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setOpenDropdown(isOpen ? null : link.href);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setOpenDropdown(isOpen ? null : link.href);
+                          }
+                        }}
+                        className="p-2.5 -m-2.5 rounded"
+                      >
+                        <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                      </span>
+                    )}
                   </a>
 
                   {children.length > 0 && (

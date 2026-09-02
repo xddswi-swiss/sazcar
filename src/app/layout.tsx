@@ -54,11 +54,11 @@ export const metadata: Metadata = {
   },
 };
 
-// White status bar (time/battery/wifi area) on iOS Safari instead of the default gray.
-// theme-color alone isn't enough — without viewport-fit=cover, Safari has no page
-// content extending under the status bar/notch to sample the color from.
+// Red status bar (time/battery/wifi area) on iOS Safari, matching the site's red header,
+// instead of the default gray. theme-color alone isn't enough — without viewport-fit=cover,
+// Safari has no page content extending under the status bar/notch to sample the color from.
 export const viewport: Viewport = {
-  themeColor: '#ffffff',
+  themeColor: '#dc2626',
   viewportFit: 'cover',
 };
 
