@@ -1,5 +1,6 @@
 import Header from '@/components/layout/Header';
 import Hero from '@/components/sections/Hero';
+import HyperspeedBanner from '@/components/ui/HyperspeedBanner';
 import Services from '@/components/sections/Services';
 import BeforeAfter from '@/components/sections/BeforeAfter';
 import CarsShowcase from '@/components/sections/CarsShowcase';
@@ -75,6 +76,7 @@ export default async function Home() {
       {/* Main sections */}
       <main className="flex-1 flex flex-col">
         <Hero promotions={activePromotions || []} />
+        <HyperspeedBanner />
         <Services />
         <BeforeAfter />
         <CarsShowcase />
