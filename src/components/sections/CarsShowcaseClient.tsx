@@ -57,13 +57,13 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
         {/* Section Header */}
         <div className="text-left" style={{ marginBottom: 'clamp(2.5rem, 2rem + 2vw, 4.5rem)' }}>
           <h2
-            className="font-black tracking-tight text-slate-900"
+            className="font-black tracking-tight text-white"
             style={{ fontSize: 'clamp(1.75rem, 1.393rem + 1.786vw, 3rem)' }}
           >
             Aktuelle Occasionen
           </h2>
           <p
-            className="text-slate-600 font-normal"
+            className="text-white/90 font-normal"
             style={{
               fontSize: 'clamp(0.875rem, 0.83rem + 0.22vw, 1.0625rem)',
               marginTop: 'clamp(0.5rem, 0.375rem + 0.3vw, 1rem)',
