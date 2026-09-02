@@ -13,6 +13,13 @@ export const googleReviewsUrl = 'https://www.google.com/maps/search/?api=1&query
 
 export const reviews: ReviewItem[] = [
   {
+    id: 'adnan-aydin',
+    name: 'Adnan Aydin',
+    initial: 'A',
+    timeAgo: 'Stammkunde seit 20+ Jahren',
+    text: 'Ich bin seit über 20 Jahren treuer Kunde und kann nur Positives sagen. Freundlichkeit, Kompetenz und Hilfsbereitschaft stehen hier an erster Stelle. Man fühlt sich immer willkommen und ehrlich beraten. Dass sogar an einem Sonntag für mich geöffnet wurde, zeigt, wie wichtig den Mitarbeitern ihre Kunden sind. Herzlichen Dank für die vielen Jahre hervorragenden Service. Für mich die beste Garage überhaupt!',
+  },
+  {
     id: 'anton-schnell',
     name: 'Anton Schnell',
     initial: 'A',
@@ -25,13 +32,6 @@ export const reviews: ReviewItem[] = [
     initial: 'G',
     timeAgo: 'vor 3 Jahren',
     text: 'Schnell. Professionell. Sympathisch. Unkompliziert.',
-  },
-  {
-    id: 'sos-hausraeumungen',
-    name: 'SOS Hausräumungen',
-    initial: 'S',
-    timeAgo: 'vor 5 Jahren',
-    text: 'Er arbeitet ganz genau, perfekt.',
   },
   {
     id: 'kurt-aschmann',
