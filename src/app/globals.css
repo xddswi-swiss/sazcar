@@ -108,25 +108,25 @@ html {
    into the small box beside the pin before arriving ── */
 @keyframes map-car-drive {
   0%   { left: 94%; top: 74%; opacity: 0; }
-  5%   { opacity: 1; }
-  15%  { left: 80%; top: 48%; }
-  24%  { left: 75%; top: 20%; }
-  29%  { left: 79%; top: 12%; }
-  37%  { left: 56%; top: 14%; }
-  45%  { left: 40%; top: 15%; }
-  51%  { left: 28%; top: 32%; }
-  56%  { left: 16%; top: 28%; }
-  61%  { left: 6%;  top: 28%; }
-  66%  { left: 6%;  top: 49%; }
-  70%  { left: 19%; top: 49%; }
-  78%  { left: 45%; top: 60%; }
-  84%  { left: 68%; top: 64%; }
-  88%  { left: 76%; top: 62%; }
-  91%  { left: 60%; top: 53%; }
-  94%  { left: 49%; top: 50%; }
-  97%  { left: 49%; top: 24%; }
-  99%  { left: 40%; top: 24%; opacity: 1; }
-  100% { left: 48%; top: 40%; transform: scale(0.55); opacity: 0; }
+  4%   { opacity: 1; }
+  12%  { left: 80%; top: 48%; }
+  19%  { left: 75%; top: 20%; }
+  23%  { left: 79%; top: 12%; }
+  30%  { left: 56%; top: 14%; }
+  36%  { left: 40%; top: 15%; }
+  41%  { left: 28%; top: 32%; }
+  45%  { left: 16%; top: 28%; }
+  49%  { left: 6%;  top: 28%; }
+  53%  { left: 6%;  top: 49%; }
+  56%  { left: 19%; top: 49%; }
+  63%  { left: 45%; top: 60%; }
+  68%  { left: 68%; top: 64%; }
+  71%  { left: 76%; top: 62%; }
+  73%  { left: 60%; top: 53%; }
+  76%  { left: 49%; top: 50%; }
+  78%  { left: 49%; top: 24%; }
+  79%  { left: 40%; top: 24%; }
+  80%, 100% { left: 48%; top: 47%; opacity: 1; }
 }
 
 .map-car-drive {
