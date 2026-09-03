@@ -61,6 +61,42 @@ html {
   border-color: rgba(220, 38, 38, 0.2);
 }
 
+/* ── Print Styles for Car Exposé Datasheet ── */
+@media print {
+  html, body {
+    background: #ffffff !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Hide all top-level elements of body except the print portal root */
+  body > *:not(#print-car-expose) {
+    display: none !important;
+  }
+
+  #print-car-expose {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  #print-car-expose .grid > div,
+  #print-car-expose .bg-slate-50,
+  #print-car-expose .bg-amber-50\/60 {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+}
+
 .card-tint-red:hover {
   background-color: rgba(220, 38, 38, 0.18);
   border-color: rgba(220, 38, 38, 0.4);

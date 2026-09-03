@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import TurnstileWidget from '@/components/ui/TurnstileWidget';
 import { 
   Calendar, 
@@ -22,7 +23,8 @@ import {
   Compass, 
   Droplets,
   FileText,
-  Crown
+  Crown,
+  Printer
 } from 'lucide-react';
 
 interface CarItem {
@@ -60,6 +62,11 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
   const [showPhone, setShowPhone] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeTab, setActiveTab] = useState<'desc' | 'optional' | 'standard'>('desc');
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Form States
   const [formData, setFormData] = useState({
@@ -334,7 +341,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5">
                   <button
                     type="button"
                     onClick={() => {
@@ -343,19 +350,29 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                         document.getElementById('kontakt-form-client')?.scrollIntoView({ behavior: 'smooth' });
                       }, 150);
                     }}
-                    className="w-full bg-white hover:bg-amber-50/40 text-slate-800 font-normal py-3 px-4 rounded-xl border border-amber-400 hover:border-amber-500 transition-all flex items-center justify-center gap-2 cursor-pointer text-sm group"
+                    className="w-full bg-white hover:bg-amber-50/40 text-slate-800 font-normal py-2.5 px-3 rounded-xl border border-amber-400 hover:border-amber-500 transition-all flex items-center justify-center gap-1.5 cursor-pointer text-xs sm:text-sm group"
                   >
-                    <Mail className="w-4 h-4 text-slate-700 group-hover:text-amber-400 transition-colors" />
+                    <Mail className="w-4 h-4 text-slate-700 group-hover:text-amber-400 transition-colors shrink-0" />
                     <span>Anfrage</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setShowPhone(!showPhone)}
-                    className="w-full bg-white hover:bg-amber-50/40 text-slate-800 font-normal py-3 px-4 rounded-xl border border-amber-400 hover:border-amber-500 transition-all flex items-center justify-center gap-2 cursor-pointer text-sm group"
+                    className="w-full bg-white hover:bg-amber-50/40 text-slate-800 font-normal py-2.5 px-3 rounded-xl border border-amber-400 hover:border-amber-500 transition-all flex items-center justify-center gap-1.5 cursor-pointer text-xs sm:text-sm group"
                   >
-                    <Phone className="w-4 h-4 text-slate-700 group-hover:text-amber-400 transition-colors" />
-                    <span>{showPhone ? '+41 76 302 54 54' : '076...anzeigen'}</span>
+                    <Phone className="w-4 h-4 text-slate-700 group-hover:text-amber-400 transition-colors shrink-0" />
+                    <span className="truncate">{showPhone ? '+41 76 302 54 54' : '076...anzeigen'}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => window.print()}
+                    className="w-full bg-white hover:bg-amber-50/40 text-slate-800 font-normal py-2.5 px-3 rounded-xl border border-amber-400 hover:border-amber-500 transition-all flex items-center justify-center gap-1.5 cursor-pointer text-xs sm:text-sm group"
+                    title="Fahrzeug-Datenblatt als PDF drucken"
+                  >
+                    <Printer className="w-4 h-4 text-slate-700 group-hover:text-amber-400 transition-colors shrink-0" />
+                    <span>Drucken</span>
                   </button>
                 </div>
               </div>
@@ -647,6 +664,134 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
 
         </div>
         )}
+
+      {/* PRINT-ONLY A4 FAHRZEUG-DATENBLATT (EXPOSÉ) */}
+      {isMounted && activeCar && createPortal(
+        <div id="print-car-expose" className="hidden print:block font-sans">
+          {/* Header */}
+          <div className="flex items-center justify-between border-b-2 border-red-600 pb-4 mb-4">
+            <div className="flex items-center gap-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo_gold.svg" alt="SAZCAR GMBH" className="h-12 w-auto object-contain" />
+              <div>
+                <h1 className="text-xl font-black text-slate-900 tracking-tight">SAZCAR GMBH</h1>
+                <p className="text-xs font-bold text-red-600 uppercase tracking-widest">Autogarage & Carrosserie</p>
+              </div>
+            </div>
+            <div className="text-right text-xs text-slate-700 font-medium">
+              <p className="font-bold text-slate-900 text-base uppercase tracking-wider">FAHRZEUG-EXPOSÉ</p>
+              <p className="text-[11px] text-slate-500 font-medium">Schweizer Qualitäts-Occasion</p>
+            </div>
+          </div>
+
+          {/* Car Title & Price Banner */}
+          <div className="border-b border-slate-300 pb-3 flex items-center justify-between mb-4 gap-4">
+            <div className="flex-1 min-w-0">
+              <h2 className="text-xl font-black text-slate-900 leading-tight">{activeCar.title}</h2>
+              {activeCar.subtitle && <p className="text-xs text-slate-600 mt-1">{activeCar.subtitle}</p>}
+            </div>
+            <div className="text-right shrink-0">
+              <div className="text-2xl font-black text-red-600 whitespace-nowrap">CHF {formattedPrice}.–</div>
+              <p className="text-[10px] text-slate-500 font-semibold mt-0.5">MwSt. inkl. / Verkaufspreis</p>
+            </div>
+          </div>
+
+          {/* Photo & Technical Data Grid */}
+          <div className="grid grid-cols-2 gap-4 mb-4 items-start">
+            {/* Featured Photo */}
+            <div className="border border-slate-300 rounded-xl overflow-hidden aspect-[4/3] bg-slate-900">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={images[0]}
+                alt={activeCar.title}
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* Technical Specs */}
+            <div className="bg-white border border-slate-300 rounded-xl p-3 space-y-2 text-xs">
+              <h3 className="font-bold text-slate-900 border-b border-slate-200 pb-1 mb-2 text-xs uppercase tracking-wider text-red-600">
+                Technische Fahrzeugdaten
+              </h3>
+              <div className="grid grid-cols-2 gap-y-1.5 gap-x-2 text-slate-800">
+                <div><span className="text-slate-500 font-semibold">Erstzulassung:</span> <br /><strong>{activeCar.year}</strong></div>
+                <div><span className="text-slate-500 font-semibold">Kilometerstand:</span> <br /><strong>{formattedMileage}</strong></div>
+                <div><span className="text-slate-500 font-semibold">Treibstoff:</span> <br /><strong>{activeCar.fuel_type}</strong></div>
+                <div><span className="text-slate-500 font-semibold">Getriebe:</span> <br /><strong>{activeCar.transmission}</strong></div>
+                <div><span className="text-slate-500 font-semibold">Leistung:</span> <br /><strong>{activeCar.power || 'k.A.'}</strong></div>
+                <div><span className="text-slate-500 font-semibold">Karosserie:</span> <br /><strong>{activeCar.body_type || 'Limousine'}</strong></div>
+                <div><span className="text-slate-500 font-semibold">Antrieb:</span> <br /><strong>{activeCar.drive_type || 'k.A.'}</strong></div>
+                <div><span className="text-slate-500 font-semibold">Verbrauch:</span> <br /><strong>{activeCar.consumption || 'k.A.'}</strong></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Equipment lists */}
+          <div className="grid grid-cols-2 gap-4 mb-4 text-xs">
+            {/* Optional Equipment */}
+            {activeCar.optional_equipment && activeCar.optional_equipment.length > 0 && (
+              <div className="bg-amber-50/60 border border-amber-300 p-3 rounded-xl">
+                <h4 className="font-extrabold text-amber-500 border-b-2 border-amber-400 pb-1 mb-1.5 text-xs uppercase tracking-wider">
+                  Optionale Ausstattung ({activeCar.optional_equipment.length})
+                </h4>
+                <ul className="space-y-1 text-slate-800 text-[11px] list-disc list-inside">
+                  {activeCar.optional_equipment.slice(0, 10).map((opt, idx) => (
+                    <li key={idx} className="truncate">{opt}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Standard Equipment */}
+            {activeCar.standard_equipment && activeCar.standard_equipment.length > 0 && (
+              <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl">
+                <h4 className="font-bold text-slate-900 border-b border-slate-200 pb-1 mb-1.5 text-xs uppercase tracking-wider">
+                  Serienmässige Ausstattung ({activeCar.standard_equipment.length})
+                </h4>
+                <ul className="space-y-1 text-slate-800 text-[11px] list-disc list-inside">
+                  {activeCar.standard_equipment.slice(0, 10).map((std, idx) => (
+                    <li key={idx} className="truncate">{std}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          {/* Description */}
+          {activeCar.description && (
+            <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl mb-4 text-xs text-slate-800">
+              <h4 className="font-bold text-slate-900 border-b border-slate-200 pb-1 mb-1 text-xs uppercase tracking-wider">
+                Fahrzeugbeschreibung
+              </h4>
+              <p className="line-clamp-3 text-[11px] leading-relaxed">{activeCar.description}</p>
+            </div>
+          )}
+
+          {/* Personal Note / Invitation */}
+          <div className="bg-amber-50/80 border border-amber-300 rounded-xl p-3 mb-4 text-xs text-slate-900 flex items-start gap-2.5">
+            <span className="text-base leading-none shrink-0 mt-0.5">☕</span>
+            <div>
+              <p className="font-extrabold text-slate-900 mb-0.5">Herzlichen Dank für Ihr Interesse an unserem Fahrzeug!</p>
+              <p className="text-[11px] text-slate-700 leading-normal font-medium">
+                Sie müssen sich absolut nicht sofort entscheiden. Kommen Sie ganz unverbindlich bei uns vorbei, geniessen Sie einen frischen Kaffee und machen Sie eine entspannte Probefahrt. Wir freuen uns sehr auf Ihren Besuch!
+              </p>
+            </div>
+          </div>
+
+          {/* Footer Contact Info */}
+          <div className="border-t-2 border-slate-900 pt-3 mt-auto flex items-center justify-between text-xs text-slate-800">
+            <div>
+              <p className="font-bold text-slate-900">SAZCAR GMBH — Autogarage & Carrosserie</p>
+              <p className="text-[11px] text-slate-600">Ihr Schweizer Partner für geprüfte Qualitäts-Occasionen & Carrosserie</p>
+            </div>
+            <div className="text-right font-semibold">
+              <p>Direktkontakt: 076 302 54 54</p>
+              <p className="text-red-600 font-bold">www.sazcar.ch</p>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
 
       </div>
     </section>
