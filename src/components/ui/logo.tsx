@@ -38,7 +38,7 @@ export default function Logo({ className, variant = 'default' }: LogoProps) {
           }
         >
           <img
-            src="/logo.svg"
+            src="/logo_gold.svg"
             alt="SAZCAR GMBH Logo"
             className={
               inverted

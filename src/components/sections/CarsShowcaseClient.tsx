@@ -418,7 +418,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-3 sm:gap-4">
                 <div className="shrink-0 flex items-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/logo.svg" alt="SAZCAR GMBH" className="h-8 sm:h-10 w-auto object-contain" />
+                  <img src="/logo_gold.svg" alt="SAZCAR GMBH" className="h-8 sm:h-10 w-auto object-contain" />
                 </div>
 
                 <button

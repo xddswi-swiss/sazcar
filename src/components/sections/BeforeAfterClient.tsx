@@ -141,25 +141,29 @@ export default function BeforeAfterClient({ projects }: BeforeAfterClientProps) 
         </motion.div>
 
         {/* Project Details Footer & Navigation */}
-        <div
-          className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/45 backdrop-blur-lg border border-slate-200/80 hover:bg-white p-5 rounded-3xl shadow-sm mt-6 transition-all duration-300"
-          style={{
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-          }}
-        >
-          <div>
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 px-0 pt-4 mt-2 transition-all duration-300">
+          <div className="flex-1 space-y-2 text-left">
             <h3
-              className="font-normal text-slate-900 tracking-tight pl-3"
+              className="font-bold text-slate-900 tracking-tight text-left"
               style={{ fontSize: 'clamp(1rem, 0.95rem + 0.22vw, 1.25rem)' }}
             >
-              {project.brand} {project.model}
+              {project.model && project.model.toLowerCase().startsWith(project.brand.toLowerCase())
+                ? project.model
+                : `${project.brand} ${project.model || ''}`.trim()}
             </h3>
-            <div className="flex gap-2 flex-wrap mt-2">
-              {project.services_done?.map((srv) => (
+
+            <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed max-w-2xl text-left">
+              Professionell repariert, präzise ausgeführt und mit höchstem Qualitätsanspruch abgeschlossen. So bringen wir jedes Fahrzeug wieder in seinen optimalen Zustand.
+            </p>
+
+            <div className="flex gap-2 flex-wrap items-center justify-start pt-1 -ml-3">
+              {(project.services_done && project.services_done.length > 0
+                ? project.services_done
+                : ['Karosserie & Spenglerarbeiten', 'Autolackierung & Malerei']
+              ).map((srv) => (
                 <span
                   key={srv}
-                  className="inline-block bg-slate-100 border border-slate-200 text-slate-700 font-normal rounded-full"
+                  className="inline-block bg-slate-100 border border-slate-200 text-slate-700 font-normal rounded-full text-left"
                   style={{
                     fontSize: 'clamp(0.625rem, 0.61rem + 0.07vw, 0.6875rem)',
                     padding: '0.25rem 0.75rem',

@@ -86,7 +86,9 @@ export default function ProjectsList({ initialProjects }: ProjectsListProps) {
             <div key={proj.id} className="p-5 flex items-center justify-between hover:bg-slate-50/50 dark:hover:bg-slate-700/20 transition-all">
               <div className="space-y-1">
                 <h4 className="font-semibold text-slate-900 dark:text-white text-sm">{proj.brand} {proj.model}</h4>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Kontrollschild: {proj.license_plate}</p>
+                {proj.license_plate ? (
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Kontrollschild: {proj.license_plate}</p>
+                ) : null}
                 <div className="flex gap-1.5 flex-wrap">
                   {proj.services_done?.map((srv: string) => (
                     <span key={srv} className="inline-block bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px] px-2 py-0.5 rounded-full font-medium">
