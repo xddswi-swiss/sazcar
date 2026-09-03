@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { cldUrl } from '@/lib/cloudinaryUrl';
 
 interface Project {
   id: string;
@@ -95,7 +96,7 @@ export default function BeforeAfterClient({ projects }: BeforeAfterClientProps) 
           {afterImg && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={afterImg}
+              src={cldUrl(afterImg, 900)}
               alt={`${project.brand} ${project.model} – Nachher`}
               className="absolute inset-0 w-full h-full object-cover"
               draggable={false}
@@ -110,7 +111,7 @@ export default function BeforeAfterClient({ projects }: BeforeAfterClientProps) 
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={beforeImg}
+                src={cldUrl(beforeImg, 900)}
                 alt={`${project.brand} ${project.model} – Vorher`}
                 className="absolute inset-0 h-full object-cover"
                 style={{ width: `${100 / (sliderPosition / 100)}%`, maxWidth: 'none' }}
@@ -193,8 +194,9 @@ export default function BeforeAfterClient({ projects }: BeforeAfterClientProps) 
                   {p.before_image_urls?.[0] && (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={p.before_image_urls[0]}
+                      src={cldUrl(p.before_image_urls[0], 150)}
                       alt=""
+                      loading="lazy"
                       className="w-full h-full object-cover"
                       draggable={false}
                     />

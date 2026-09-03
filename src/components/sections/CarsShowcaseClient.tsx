@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import TurnstileWidget from '@/components/ui/TurnstileWidget';
+import { cldUrl } from '@/lib/cloudinaryUrl';
 import { 
   Calendar, 
   Fuel, 
@@ -210,8 +211,9 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                   <div className="relative aspect-[4/3] overflow-hidden bg-slate-950 shrink-0">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={cardImage}
+                      src={cldUrl(cardImage, 600)}
                       alt={car.title}
+                      loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     {car.image_urls && car.image_urls.length > 1 && (
@@ -250,7 +252,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                 {/* Main Image */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={images[activeImageIndex] || images[0]}
+                  src={cldUrl(images[activeImageIndex] || images[0], 900)}
                   alt={activeCar.title}
                   className="w-full h-full object-cover transition-all duration-300"
                 />
@@ -299,7 +301,7 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                         }`}
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={img} alt={`Thumb ${actualIndex}`} className="w-full h-full object-cover" />
+                        <img src={cldUrl(img, 200)} alt={`Thumb ${actualIndex}`} loading="lazy" className="w-full h-full object-cover" />
                         
                         {isFourthThumb && extraImagesCount > 0 && (
                           <div className="absolute inset-0 bg-black/65 backdrop-blur-[2px] flex items-center justify-center text-white text-xs font-black tracking-wider">
