@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { Zap, Camera } from 'lucide-react';
 
 // Static streak layout (top offset %, width %, delay s, color) — no JS render loop.
@@ -17,7 +17,7 @@ const SPEED_LINES = [
 export default function HyperspeedBanner() {
   const [isSpeedingUp, setIsSpeedingUp] = useState(false);
 
-  const lines = useMemo(() => SPEED_LINES, []);
+  const lines = SPEED_LINES;
 
   return (
     <div

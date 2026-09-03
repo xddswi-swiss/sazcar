@@ -195,7 +195,7 @@ export default function Header() {
             : 'border-b border-transparent'}
         `}
       >
-        {/* Temporary Red Background Test */}
+        {/* Header background layer — the only bg rule for <header>; `scrolled` only toggles border/shadow above */}
         <div className="absolute inset-0 z-[-1] pointer-events-none select-none bg-red-600" />
       <div
         className="mx-auto flex items-center justify-between"

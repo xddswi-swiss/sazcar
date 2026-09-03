@@ -16,26 +16,6 @@ export default function SazcarVanMascot({ className = '', isDriving = false }: S
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <style>{`
-          @keyframes micro-bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-1.5px); }
-          }
-          @keyframes smoke-puff {
-            0% { opacity: 0.8; transform: translate(0, 0) scale(1); }
-            100% { opacity: 0; transform: translate(-12px, -8px) scale(2.2); }
-          }
-          .animate-bounce-short {
-            animation: micro-bounce 0.22s infinite ease-in-out;
-          }
-          .smoke-1 {
-            animation: smoke-puff 0.8s infinite ease-out;
-          }
-          .smoke-2 {
-            animation: smoke-puff 0.8s 0.4s infinite ease-out;
-          }
-        `}</style>
-
         {/* Exhaust smoke puffs when driving */}
         {isDriving && (
           <g>
