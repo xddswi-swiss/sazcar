@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Logo from '@/components/ui/logo';
-import { Phone, Mail, MapPin, Clock, MessageCircle, Navigation, Car } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, MessageCircle, Navigation, ShipWheel } from 'lucide-react';
 
 const GOOGLE_MAPS_DIRECTIONS_URL =
   'https://www.google.com/maps/dir/?api=1&destination=SAZCAR+GMBH,+Unterdorfstrasse+14,+8165+Sch%C3%B6fflisdorf';
@@ -132,7 +132,9 @@ export default function Footer() {
               />
               {/* Decorative looping car winding across the map to the Sazcar pin */}
               <div aria-hidden className="pointer-events-none absolute inset-0 z-10">
-                <Car className="map-car-drive w-5 h-5 text-red-600 drop-shadow" strokeWidth={2.25} />
+                <div className="map-car-drive">
+                  <ShipWheel className="w-5 h-5 text-red-600 drop-shadow animate-spin" strokeWidth={2.25} />
+                </div>
               </div>
             </div>
           </div>

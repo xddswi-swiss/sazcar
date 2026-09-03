@@ -107,31 +107,30 @@ html {
    loops the left block, sweeps back right along the bottom, then loops
    into the small box beside the pin before arriving ── */
 @keyframes map-car-drive {
-  0%   { left: 94%; top: 74%; opacity: 0;   transform: rotate(-30deg); }
+  0%   { left: 94%; top: 74%; opacity: 0; }
   5%   { opacity: 1; }
-  15%  { left: 80%; top: 48%; transform: rotate(-35deg); }
-  24%  { left: 75%; top: 20%; transform: rotate(-10deg); }
-  29%  { left: 79%; top: 12%; transform: rotate(35deg); }
-  37%  { left: 56%; top: 14%; transform: rotate(-90deg); }
-  45%  { left: 40%; top: 15%; transform: rotate(-90deg); }
-  51%  { left: 28%; top: 32%; transform: rotate(-140deg); }
-  56%  { left: 16%; top: 28%; transform: rotate(-100deg); }
-  61%  { left: 6%;  top: 28%; transform: rotate(-100deg); }
-  66%  { left: 6%;  top: 49%; transform: rotate(180deg); }
-  70%  { left: 19%; top: 49%; transform: rotate(95deg); }
-  78%  { left: 45%; top: 60%; transform: rotate(100deg); }
-  84%  { left: 68%; top: 64%; transform: rotate(85deg); }
-  88%  { left: 76%; top: 62%; transform: rotate(15deg); }
-  91%  { left: 60%; top: 53%; transform: rotate(-55deg); }
-  94%  { left: 49%; top: 50%; transform: rotate(-15deg); }
-  97%  { left: 49%; top: 24%; transform: rotate(-90deg); }
+  15%  { left: 80%; top: 48%; }
+  24%  { left: 75%; top: 20%; }
+  29%  { left: 79%; top: 12%; }
+  37%  { left: 56%; top: 14%; }
+  45%  { left: 40%; top: 15%; }
+  51%  { left: 28%; top: 32%; }
+  56%  { left: 16%; top: 28%; }
+  61%  { left: 6%;  top: 28%; }
+  66%  { left: 6%;  top: 49%; }
+  70%  { left: 19%; top: 49%; }
+  78%  { left: 45%; top: 60%; }
+  84%  { left: 68%; top: 64%; }
+  88%  { left: 76%; top: 62%; }
+  91%  { left: 60%; top: 53%; }
+  94%  { left: 49%; top: 50%; }
+  97%  { left: 49%; top: 24%; }
   99%  { left: 40%; top: 24%; opacity: 1; }
-  100% { left: 48%; top: 40%; transform: rotate(-40deg) scale(0.55); opacity: 0; }
+  100% { left: 48%; top: 40%; transform: scale(0.55); opacity: 0; }
 }
 
 .map-car-drive {
   position: absolute;
-  transform-origin: center;
   animation: map-car-drive 16s ease-in-out infinite;
 }
 
