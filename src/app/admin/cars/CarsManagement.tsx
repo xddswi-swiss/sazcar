@@ -3,7 +3,9 @@
 import React, { useState, useTransition } from 'react';
 import { saveCar, deleteCar, toggleCarActive } from '../actions/cars';
 import { uploadImage } from '@/app/actions/upload';
-import { 
+import AdminModal from '@/components/admin/AdminModal';
+import { ADMIN_INPUT_CLASS } from '@/lib/adminStyles';
+import {
   Plus, 
   Search, 
   Trash2, 
@@ -413,23 +415,12 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
 
       {/* Form Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xl w-full max-w-[600px] max-h-[90vh] flex flex-col">
-            {/* Header */}
-            <div className="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-              <h3 className="font-bold text-slate-900 dark:text-white text-base">
-                {editingCar ? 'Fahrzeug bearbeiten' : 'Fahrzeug neu erfassen'}
-              </h3>
-              <button 
-                onClick={() => setIsModalOpen(false)}
-                className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-500 cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Scrollable Form */}
-            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-5 space-y-4">
+        <AdminModal
+          title={editingCar ? 'Fahrzeug bearbeiten' : 'Fahrzeug neu erfassen'}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleSubmit}
+          maxWidth="600px"
+        >
               {error && (
                 <div className="flex items-start gap-2.5 p-3 rounded-xl bg-red-50 text-red-700 border border-red-100 text-xs dark:bg-red-950/20 dark:text-red-400 dark:border-red-900">
                   <AlertCircle className="w-4.5 h-4.5 shrink-0 mt-0.5" />
@@ -447,7 +438,7 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
                   type="text"
                   required
                   defaultValue={editingCar?.title || ''}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                  className={ADMIN_INPUT_CLASS}
                   placeholder="z.B. VW Golf 2.0 R 4Motion DSG"
                 />
               </div>
@@ -462,7 +453,7 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
                   name="subtitle"
                   type="text"
                   defaultValue={editingCar?.subtitle || ''}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                  className={ADMIN_INPUT_CLASS}
                   placeholder="z.B. *8-fach alubereift*M-Sportsitze*Harman/Kardon*AC Schnitzer Tieferlegung*"
                 />
               </div>
@@ -480,7 +471,7 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
                     type="number"
                     required
                     defaultValue={editingCar?.year || new Date().getFullYear()}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                   />
                 </div>
 
@@ -494,7 +485,7 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
                     type="number"
                     required
                     defaultValue={editingCar?.mileage || 0}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                   />
                 </div>
 
@@ -508,7 +499,7 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
                     type="number"
                     required
                     defaultValue={editingCar?.price || 0}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                   />
                 </div>
               </div>
@@ -523,7 +514,7 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
                     name="fuel_type"
                     required
                     defaultValue={editingCar?.fuel_type || 'Benzin'}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                   >
                     <option value="Benzin">Benzin</option>
                     <option value="Diesel">Diesel</option>
@@ -542,7 +533,7 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
                     name="transmission"
                     required
                     defaultValue={editingCar?.transmission || 'Automat'}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                   >
                     <option value="Automat">Automat</option>
                     <option value="Handschaltung">Handschaltung (Manuel)</option>
@@ -562,7 +553,7 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
                     name="power"
                     type="text"
                     defaultValue={editingCar?.power || ''}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                     placeholder="z.B. 300 PS (221 kW)"
                   />
                 </div>
@@ -576,7 +567,7 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
                     name="consumption"
                     type="text"
                     defaultValue={editingCar?.consumption || ''}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                     placeholder="z.B. 7.6 l/100 km"
                   />
                 </div>
@@ -591,7 +582,7 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
                     id="drive_type"
                     name="drive_type"
                     defaultValue={editingCar?.drive_type || 'Allrad'}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                   >
                     <option value="Allrad">Allrad (4x4 / 4Motion / xDrive)</option>
                     <option value="Vorderrad">Vorderrad (Frontantrieb)</option>
@@ -607,7 +598,7 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
                     id="body_type"
                     name="body_type"
                     defaultValue={editingCar?.body_type || 'Limousine'}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                   >
                     <option value="Limousine">Limousine</option>
                     <option value="Kombi">Kombi</option>
@@ -859,7 +850,7 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
                   name="description"
                   rows={3}
                   defaultValue={editingCar?.description || ''}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                  className={ADMIN_INPUT_CLASS}
                   placeholder="Details zur Ausstattung, Zustand, MFK etc."
                 />
               </div>
@@ -928,9 +919,7 @@ export default function CarsManagement({ initialCars }: CarsManagementProps) {
                   )}
                 </button>
               </div>
-            </form>
-          </div>
-        </div>
+        </AdminModal>
       )}
     </div>
   );

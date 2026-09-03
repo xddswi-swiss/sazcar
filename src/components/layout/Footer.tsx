@@ -20,7 +20,7 @@ export default function Footer() {
         paddingInline: 'clamp(1rem, 0.429rem + 2.857vw, 3rem)',
       }}
     >
-      <div className="mx-auto space-y-10" style={{ maxWidth: '1200px' }}>
+      <div className="mx-auto space-y-10 section-container-1200">
         {/* Main Grid */}
         <div
           className="grid grid-cols-1 md:grid-cols-3"

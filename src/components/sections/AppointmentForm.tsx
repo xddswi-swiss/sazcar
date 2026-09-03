@@ -212,8 +212,7 @@ export default function AppointmentForm() {
     return (
       <section
         id="termin"
-        className="relative w-full overflow-hidden bg-slate-50 text-slate-800"
-        style={{ padding: 'clamp(4rem, 3rem + 4vw, 7.5rem) clamp(1rem, 0.429rem + 2.857vw, 3rem)' }}
+        className="relative w-full overflow-hidden bg-slate-50 text-slate-800 section-pad"
       >
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -243,8 +242,7 @@ export default function AppointmentForm() {
   return (
     <section
       id="termin"
-      className="relative w-full overflow-hidden bg-slate-50 text-slate-800"
-      style={{ padding: 'clamp(4rem, 3rem + 4vw, 7.5rem) clamp(1rem, 0.429rem + 2.857vw, 3rem)' }}
+      className="relative w-full overflow-hidden bg-slate-50 text-slate-800 section-pad"
     >
       {/* ── Background Sketch Illustration (Watermark style, multiplied to blend with slate-50) ── */}
       <div
@@ -259,11 +257,10 @@ export default function AppointmentForm() {
         />
       </div>
 
-      <div className="mx-auto relative z-10" style={{ maxWidth: '1200px' }}>
+      <div className="mx-auto relative z-10 section-container-1200">
         <div className="text-left" style={{ marginBottom: 'clamp(2.5rem, 2rem + 2vw, 4rem)' }}>
           <h2
-            className="font-black tracking-tight text-slate-900"
-            style={{ fontSize: 'clamp(1.75rem, 1.393rem + 1.786vw, 3rem)' }}
+            className="font-black tracking-tight text-slate-900 section-heading-size"
           >
             Online-Terminanfrage
           </h2>

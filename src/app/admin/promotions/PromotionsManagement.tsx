@@ -21,6 +21,8 @@ import {
   ArrowDown,
   ImageIcon,
 } from 'lucide-react';
+import AdminModal from '@/components/admin/AdminModal';
+import { ADMIN_INPUT_CLASS } from '@/lib/adminStyles';
 
 type BadgeType = 'winter_tires' | 'summer_tires' | 'detailing' | 'service' | 'custom';
 
@@ -399,21 +401,12 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-xs">
-          <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-xl w-full max-w-[600px] max-h-[90vh] flex flex-col">
-            <div className="p-5 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-              <h3 className="font-bold text-slate-900 dark:text-white text-base">
-                {editingPromo ? 'Aktion bearbeiten' : 'Neue Aktion erstellen'}
-              </h3>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-500 cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-5 space-y-4">
+        <AdminModal
+          title={editingPromo ? 'Aktion bearbeiten' : 'Neue Aktion erstellen'}
+          onClose={() => setIsModalOpen(false)}
+          onSubmit={handleSubmit}
+          maxWidth="600px"
+        >
               {error && (
                 <div className="flex items-start gap-2.5 p-3 rounded-xl bg-red-50 text-red-700 border border-red-100 text-xs dark:bg-red-950/20 dark:text-red-400 dark:border-red-900">
                   <AlertCircle className="w-4.5 h-4.5 shrink-0 mt-0.5" />
@@ -435,7 +428,7 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
                       applyTemplate(flatTemplates[Number(idx)]);
                       e.target.value = '';
                     }}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                   >
                     <option value="">Vorlage wählen …</option>
                     {templateGroups.map((group) => (
@@ -462,7 +455,7 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
                   required
                   value={formTitle}
                   onChange={(e) => setFormTitle(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                  className={ADMIN_INPUT_CLASS}
                   placeholder="z.B. Winterreifen-Aktion"
                 />
               </div>
@@ -477,7 +470,7 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
                   required
                   value={formBadgeType}
                   onChange={(e) => setFormBadgeType(e.target.value as BadgeType)}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                  className={ADMIN_INPUT_CLASS}
                 >
                   {(Object.keys(badgeLabels) as BadgeType[]).map((key) => (
                     <option key={key} value={key}>{badgeLabels[key]}</option>
@@ -495,7 +488,7 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
                   type="text"
                   value={formDescription}
                   onChange={(e) => setFormDescription(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                  className={ADMIN_INPUT_CLASS}
                   placeholder="Wird angezeigt, wenn kein Preis/Prozent gesetzt ist"
                 />
               </div>
@@ -542,7 +535,7 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
                     type="number"
                     step="0.01"
                     defaultValue={editingPromo?.original_price ?? ''}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                   />
                 </div>
                 <div>
@@ -555,7 +548,7 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
                     type="number"
                     step="0.01"
                     defaultValue={editingPromo?.discounted_price ?? ''}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                   />
                 </div>
                 <div>
@@ -567,7 +560,7 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
                     name="discount_percent"
                     type="number"
                     defaultValue={editingPromo?.discount_percent ?? ''}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                   />
                 </div>
               </div>
@@ -586,7 +579,7 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
                     type="date"
                     required
                     defaultValue={editingPromo?.start_date || new Date().toISOString().slice(0, 10)}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                   />
                 </div>
                 <div>
@@ -599,7 +592,7 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
                     type="date"
                     required
                     defaultValue={editingPromo?.end_date || ''}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500 text-slate-900 dark:text-white"
+                    className={ADMIN_INPUT_CLASS}
                   />
                 </div>
               </div>
@@ -637,9 +630,7 @@ export default function PromotionsManagement({ initialPromotions }: { initialPro
                   )}
                 </button>
               </div>
-            </form>
-          </div>
-        </div>
+        </AdminModal>
       )}
     </div>
   );

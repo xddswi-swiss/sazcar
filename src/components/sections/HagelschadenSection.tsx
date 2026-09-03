@@ -150,10 +150,7 @@ export default function HagelschadenSection() {
   return (
     <section
       id="hagelschaden"
-      className="relative w-full overflow-hidden bg-slate-50 text-slate-800"
-      style={{
-        padding: 'clamp(4rem, 3rem + 4vw, 7.5rem) clamp(1rem, 0.429rem + 2.857vw, 3rem)',
-      }}
+      className="relative w-full overflow-hidden bg-slate-50 text-slate-800 section-pad"
     >
       {/* Background Sketch Illustration (Watermark style, multiplied to blend with slate-50) */}
       <div
@@ -168,7 +165,7 @@ export default function HagelschadenSection() {
         />
       </div>
 
-      <div className="mx-auto relative z-10" style={{ maxWidth: '1200px' }}>
+      <div className="mx-auto relative z-10 section-container-1200">
         {/* Section Header */}
         <div className="text-left" style={{ marginBottom: 'clamp(2.5rem, 2rem + 2vw, 4.5rem)' }}>
           <h2

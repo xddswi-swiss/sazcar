@@ -169,3 +169,16 @@ html {
   animation: smoke-puff 0.8s 0.4s infinite ease-out;
 }
 
+/* ── Shared section-shell sizing — was the same three clamp() inline styles
+   copy-pasted across every page section (Services, Testimonials, BeforeAfter,
+   AppointmentForm, Hagelschaden, CarsShowcase, impressum/datenschutz/karriere) ── */
+.section-pad {
+  padding: clamp(4rem, 3rem + 4vw, 7.5rem) clamp(1rem, 0.429rem + 2.857vw, 3rem);
+}
+.section-container-1200 {
+  max-width: 1200px;
+}
+.section-heading-size {
+  font-size: clamp(1.75rem, 1.393rem + 1.786vw, 3rem);
+}
+

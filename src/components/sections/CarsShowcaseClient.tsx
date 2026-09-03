@@ -173,13 +173,12 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
         padding: 'clamp(3rem, 2.5rem + 3vw, 6rem) clamp(1rem, 0.5rem + 2vw, 3rem)',
       }}
     >
-      <div className="mx-auto relative z-10" style={{ maxWidth: '1200px' }}>
+      <div className="mx-auto relative z-10 section-container-1200">
 
         {/* Section Header */}
         <div className="text-left mb-6">
           <h2
-            className="font-black tracking-tight text-slate-900"
-            style={{ fontSize: 'clamp(1.75rem, 1.393rem + 1.786vw, 3rem)' }}
+            className="font-black tracking-tight text-slate-900 section-heading-size"
           >
             Aktuelle Occasionen
           </h2>
