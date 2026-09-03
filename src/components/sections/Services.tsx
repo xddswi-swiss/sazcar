@@ -114,14 +114,14 @@ export default function Services() {
             return (
               <motion.div
                 key={service.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.5, delay: index * 0.05, ease: 'easeOut' }}
+                viewport={{ once: true, margin: '-20px' }}
+                transition={{ duration: 0.4, delay: index * 0.04, ease: [0.25, 1, 0.5, 1] }}
                 className={`
                   group relative border-2 border-t-4 rounded-3xl overflow-hidden
-                  transition-all duration-300 shadow-sm hover:shadow-md
-                  flex flex-col justify-between bg-white/70
+                  transition-colors duration-300 shadow-sm hover:shadow-md
+                  flex flex-col justify-between bg-white/80 will-change-transform transform-gpu
                   ${color.border} ${color.top}
                 `}
                 style={{
