@@ -102,21 +102,37 @@ html {
   border-color: rgba(220, 38, 38, 0.4);
 }
 
-/* ── Looping car winding through the Standort map card to the pin ── */
+/* ── Looping car following a hand-drawn route through the Standort map
+   card: starts bottom-right, climbs the diagonal, sweeps the top edge,
+   loops the left block, sweeps back right along the bottom, then loops
+   into the small box beside the pin before arriving ── */
 @keyframes map-car-drive {
-  0%   { left: -8%;  top: 66%; opacity: 0;   transform: rotate(-8deg); }
-  8%   { opacity: 1; }
-  25%  { left: 16%;  top: 74%; transform: rotate(12deg); }
-  45%  { left: 30%;  top: 60%; transform: rotate(-18deg); }
-  65%  { left: 39%;  top: 50%; transform: rotate(-32deg); }
-  85%  { left: 45%;  top: 44%; transform: rotate(-42deg); opacity: 1; }
-  100% { left: 48%;  top: 40%; transform: rotate(-42deg) scale(0.55); opacity: 0; }
+  0%   { left: 94%; top: 74%; opacity: 0;   transform: rotate(-30deg); }
+  5%   { opacity: 1; }
+  15%  { left: 80%; top: 48%; transform: rotate(-35deg); }
+  24%  { left: 75%; top: 20%; transform: rotate(-10deg); }
+  29%  { left: 79%; top: 12%; transform: rotate(35deg); }
+  37%  { left: 56%; top: 14%; transform: rotate(-90deg); }
+  45%  { left: 40%; top: 15%; transform: rotate(-90deg); }
+  51%  { left: 28%; top: 32%; transform: rotate(-140deg); }
+  56%  { left: 16%; top: 28%; transform: rotate(-100deg); }
+  61%  { left: 6%;  top: 28%; transform: rotate(-100deg); }
+  66%  { left: 6%;  top: 49%; transform: rotate(180deg); }
+  70%  { left: 19%; top: 49%; transform: rotate(95deg); }
+  78%  { left: 45%; top: 60%; transform: rotate(100deg); }
+  84%  { left: 68%; top: 64%; transform: rotate(85deg); }
+  88%  { left: 76%; top: 62%; transform: rotate(15deg); }
+  91%  { left: 60%; top: 53%; transform: rotate(-55deg); }
+  94%  { left: 49%; top: 50%; transform: rotate(-15deg); }
+  97%  { left: 49%; top: 24%; transform: rotate(-90deg); }
+  99%  { left: 40%; top: 24%; opacity: 1; }
+  100% { left: 48%; top: 40%; transform: rotate(-40deg) scale(0.55); opacity: 0; }
 }
 
 .map-car-drive {
   position: absolute;
   transform-origin: center;
-  animation: map-car-drive 7s ease-in-out infinite;
+  animation: map-car-drive 16s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
