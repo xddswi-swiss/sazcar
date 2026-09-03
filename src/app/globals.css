@@ -122,3 +122,30 @@ html {
   }
 }
 
+/* ── Hyperspeed banner: lightweight CSS speed-line streaks (replaces the
+   Three.js WebGL scene, which ran an uncapped render loop and dominated
+   mobile Total Blocking Time) ── */
+@keyframes speed-line {
+  0% { transform: translateX(120vw); opacity: 0; }
+  8% { opacity: 1; }
+  92% { opacity: 1; }
+  100% { transform: translateX(-120vw); opacity: 0; }
+}
+
+.speed-line {
+  position: absolute;
+  right: 0;
+  height: 2px;
+  border-radius: 9999px;
+  animation: speed-line linear infinite;
+  animation-duration: var(--speed-line-duration, 2.4s);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .speed-line {
+    animation: none;
+    opacity: 0;
+  }
+}
+

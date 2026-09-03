@@ -1,50 +1,23 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import Hyperspeed from './Hyperspeed';
-import { ArrowUpRight, Zap, MessageSquare, Camera } from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Zap, Camera } from 'lucide-react';
+
+// Static streak layout (top offset %, width %, delay s, color) — no JS render loop.
+const SPEED_LINES = [
+  { top: 12, width: 38, delay: 0, color: 'rgba(220,38,38,0.85)' },
+  { top: 24, width: 55, delay: 0.4, color: 'rgba(255,255,255,0.6)' },
+  { top: 38, width: 30, delay: 1.1, color: 'rgba(220,38,38,0.7)' },
+  { top: 52, width: 65, delay: 0.2, color: 'rgba(255,255,255,0.5)' },
+  { top: 64, width: 42, delay: 0.9, color: 'rgba(220,38,38,0.8)' },
+  { top: 76, width: 50, delay: 1.5, color: 'rgba(255,255,255,0.55)' },
+  { top: 88, width: 34, delay: 0.6, color: 'rgba(220,38,38,0.75)' },
+];
 
 export default function HyperspeedBanner() {
   const [isSpeedingUp, setIsSpeedingUp] = useState(false);
 
-  // Memoize options so WebGL scene is NOT torn down & recreated on state changes!
-  const hyperspeedOptions = useMemo(() => ({
-    distortion: 'turbulentDistortion',
-    length: 400,
-    roadWidth: 10,
-    islandWidth: 2,
-    lanesPerRoad: 3,
-    fov: 90,
-    fovSpeedUp: 150,          // Dramatic Warp FOV Speedup
-    speedUp: 5,               // 5x Speed Acceleration on Press
-    carLightsFade: 0.4,
-    totalSideLightSticks: 20,
-    lightPairsPerRoadWay: 40,
-    shoulderLinesWidthPercentage: 0.05,
-    brokenLinesWidthPercentage: 0.1,
-    brokenLinesLengthPercentage: 0.5,
-    lightStickWidth: [0.12, 0.5] as [number, number],
-    lightStickHeight: [1.3, 1.7] as [number, number],
-    movingAwaySpeed: [60, 80] as [number, number],
-    movingCloserSpeed: [-120, -160] as [number, number],
-    carLightsLength: [12, 80] as [number, number],
-    carLightsRadius: [0.05, 0.14] as [number, number],
-    carWidthPercentage: [0.3, 0.5] as [number, number],
-    carShiftX: [-0.8, 0.8] as [number, number],
-    carFloorSeparation: [0, 5] as [number, number],
-    colors: {
-      roadColor: 0x080808,      // Deep Charcoal
-      islandColor: 0x0a0a0a,    // Neutral Dark Gray
-      background: 0x000000,     // Black Background
-      shoulderLines: 0xdc2626,  // SAZCAR Red Lines
-      brokenLines: 0xffffff,    // Pure White Lines
-      leftCars: [0xdc2626, 0xef4444, 0xb91c1c],  // SAZCAR Red Taillights
-      rightCars: [0xffffff, 0xf8fafc, 0xe2e8f0], // Pure White Xenon Lights
-      sticks: 0xdc2626,         // Pure Red Sticks
-    },
-    onSpeedUp: () => setIsSpeedingUp(true),
-    onSlowDown: () => setIsSpeedingUp(false),
-  }), []);
+  const lines = useMemo(() => SPEED_LINES, []);
 
   return (
     <div
@@ -55,9 +28,21 @@ export default function HyperspeedBanner() {
       onTouchStart={() => setIsSpeedingUp(true)}
       onTouchEnd={() => setIsSpeedingUp(false)}
     >
-      {/* Official React Bits Three.js Hyperspeed Canvas */}
-      <div className="absolute inset-0 w-full h-full pointer-events-auto">
-        <Hyperspeed effectOptions={hyperspeedOptions} />
+      {/* Lightweight CSS speed-line streaks — GPU-only transform/opacity, no render loop */}
+      <div className="absolute inset-0 w-full h-full bg-black overflow-hidden">
+        {lines.map((line, i) => (
+          <span
+            key={i}
+            className="speed-line"
+            style={{
+              top: `${line.top}%`,
+              width: `${line.width}%`,
+              background: line.color,
+              animationDelay: `${line.delay}s`,
+              ['--speed-line-duration' as string]: isSpeedingUp ? '0.5s' : '2.4s',
+            }}
+          />
+        ))}
       </div>
 
       {/* Glassmorphism UI Overlay */}
