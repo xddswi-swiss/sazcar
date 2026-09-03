@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { Car } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
 
@@ -12,14 +11,7 @@ interface LogoProps {
 }
 
 /**
- * Logo component with fallback.
- * If public/logo.svg exists, it renders via next/image.
- * Otherwise, renders a styled text + icon fallback.
- *
- * Colors are chosen from `variant`, not `prefers-color-scheme` — the two
- * usages sit on fixed backgrounds (white header, red footer) regardless of
- * the visitor's OS theme, so tying color to dark-mode made the text vanish
- * on a light header for dark-mode users.
+ * Logo component with fallback and rich gold window effects.
  */
 export default function Logo({ className, variant = 'default' }: LogoProps) {
   const [hasError, setHasError] = useState(false);
@@ -29,21 +21,40 @@ export default function Logo({ className, variant = 'default' }: LogoProps) {
   if (!hasError) {
     return (
       <div className={`relative overflow-visible flex items-center ${className || ''}`}>
-        {/* White Badge Card for Header Logo to prevent text collision during scroll */}
+        {/* White Badge Card with Kırmızı Seçenek 1: Red Laser Sweep Line */}
         <div
           className={
             inverted
               ? 'contents'
-              : 'bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-md rounded-2xl px-4 py-2 flex items-center justify-center -my-5 sm:-my-8 relative z-30 translate-y-6 sm:translate-y-8'
+              : 'relative bg-white border-2 border-amber-400/90 shadow-[0_4px_25px_rgba(245,158,11,0.45)] rounded-2xl px-5 py-2.5 flex items-center justify-center -my-5 sm:-my-8 z-30 translate-y-6 sm:translate-y-8 overflow-hidden group transition-all duration-300 hover:shadow-[0_6px_30px_rgba(220,38,38,0.5)] hover:border-red-400'
           }
         >
+          {!inverted && (
+            <>
+              {/* Inner Soft Red Tint Accent */}
+              <div className="absolute inset-0 bg-gradient-to-b from-red-50/40 via-transparent to-red-50/40 pointer-events-none rounded-2xl" />
+
+              {/* Kırmızı Seçenek 1: 100% Vibrant Red Laser Sweep Line */}
+              <motion.div
+                className="absolute inset-0 w-[55%] h-full bg-gradient-to-r from-transparent via-red-600 via-red-500 to-transparent skew-x-[-25deg] pointer-events-none z-10 opacity-95 drop-shadow-[0_0_12px_rgba(220,38,38,0.95)]"
+                animate={reduceMotion ? undefined : { x: ['-150%', '250%'] }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 2.6,
+                  ease: 'easeInOut',
+                  repeatDelay: 1.4,
+                }}
+              />
+            </>
+          )}
+
           <img
             src="/logo_gold.svg"
             alt="SAZCAR GMBH Logo"
             className={
               inverted
-                ? 'h-10 sm:h-12 w-auto object-contain block max-w-full'
-                : 'h-14 md:h-16 lg:h-18 xl:h-24 w-auto object-contain block max-w-none'
+                ? 'h-9 sm:h-11 w-auto object-contain block max-w-full'
+                : 'h-12 md:h-14 lg:h-16 xl:h-20 w-auto object-contain block max-w-none relative z-20 drop-shadow-[0_2px_8px_rgba(217,119,6,0.35)] transition-transform duration-300 group-hover:scale-105'
             }
             onError={() => setHasError(true)}
           />
