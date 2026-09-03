@@ -39,7 +39,7 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
 
       {/* ── Background Sketch Illustration (Smaller & Right-aligned on desktop) ── */}
       <div
-        className="absolute inset-y-0 right-0 md:right-6 w-full md:w-[58%] z-0 pointer-events-none select-none opacity-[0.22] sm:opacity-[0.26] md:opacity-[0.32]"
+        className="absolute inset-y-0 right-0 md:right-6 w-full md:w-[58%] z-0 pointer-events-none select-none opacity-[0.4] sm:opacity-[0.48] md:opacity-[0.55]"
         aria-hidden="true"
       >
         <Image
