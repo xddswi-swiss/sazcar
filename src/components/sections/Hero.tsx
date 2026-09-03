@@ -48,7 +48,8 @@ export default function Hero({ promotions = [] }: { promotions?: Promotion[] }) 
           fill
           sizes="(min-width: 768px) 58vw, 100vw"
           className="object-contain object-center md:object-right"
-          priority
+          preload
+          fetchPriority="high"
         />
       </div>
 

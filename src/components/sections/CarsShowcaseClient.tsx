@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import TurnstileWidget from '@/components/ui/TurnstileWidget';
-import { cldUrl } from '@/lib/cloudinaryUrl';
+import { cldUrl, cldSrcSet } from '@/lib/cloudinaryUrl';
 import { 
   Calendar, 
   Fuel, 
@@ -253,6 +253,8 @@ export default function CarsShowcaseClient({ cars }: CarsShowcaseClientProps) {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={cldUrl(images[activeImageIndex] || images[0], 900)}
+                  srcSet={cldSrcSet(images[activeImageIndex] || images[0], [400, 700, 900])}
+                  sizes="(min-width: 1024px) 560px, 100vw"
                   alt={activeCar.title}
                   className="w-full h-full object-cover transition-all duration-300"
                 />

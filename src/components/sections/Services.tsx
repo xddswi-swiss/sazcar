@@ -72,7 +72,6 @@ export default function Services() {
           alt="Services Sketch Background"
           fill
           className="object-cover object-center"
-          priority
         />
       </div>
 

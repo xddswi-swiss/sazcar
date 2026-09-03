@@ -256,7 +256,6 @@ export default function AppointmentForm() {
           alt="Appointment Sketch Background"
           fill
           className="object-cover object-center"
-          priority
         />
       </div>
 

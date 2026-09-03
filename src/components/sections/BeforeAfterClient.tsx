@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { cldUrl } from '@/lib/cloudinaryUrl';
+import { cldUrl, cldSrcSet } from '@/lib/cloudinaryUrl';
 
 interface Project {
   id: string;
@@ -97,6 +97,8 @@ export default function BeforeAfterClient({ projects }: BeforeAfterClientProps) 
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={cldUrl(afterImg, 900)}
+              srcSet={cldSrcSet(afterImg, [500, 800, 1200])}
+              sizes="(min-width: 1024px) 1136px, 100vw"
               alt={`${project.brand} ${project.model} – Nachher`}
               className="absolute inset-0 w-full h-full object-cover"
               draggable={false}
@@ -112,6 +114,8 @@ export default function BeforeAfterClient({ projects }: BeforeAfterClientProps) 
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={cldUrl(beforeImg, 900)}
+                srcSet={cldSrcSet(beforeImg, [500, 800, 1200])}
+                sizes="(min-width: 1024px) 1136px, 100vw"
                 alt={`${project.brand} ${project.model} – Vorher`}
                 className="absolute inset-0 h-full object-cover"
                 style={{ width: `${100 / (sliderPosition / 100)}%`, maxWidth: 'none' }}
