@@ -102,17 +102,21 @@ html {
   border-color: rgba(220, 38, 38, 0.4);
 }
 
-/* ── Looping car driving across the Standort map card ── */
+/* ── Looping car winding through the Standort map card to the pin ── */
 @keyframes map-car-drive {
-  0% { left: -10%; opacity: 0; }
-  8% { opacity: 1; }
-  92% { opacity: 1; }
-  100% { left: 105%; opacity: 0; }
+  0%   { left: -8%;  top: 66%; opacity: 0;   transform: rotate(-8deg); }
+  8%   { opacity: 1; }
+  25%  { left: 16%;  top: 74%; transform: rotate(12deg); }
+  45%  { left: 30%;  top: 60%; transform: rotate(-18deg); }
+  65%  { left: 39%;  top: 50%; transform: rotate(-32deg); }
+  85%  { left: 45%;  top: 44%; transform: rotate(-42deg); opacity: 1; }
+  100% { left: 48%;  top: 40%; transform: rotate(-42deg) scale(0.55); opacity: 0; }
 }
 
 .map-car-drive {
   position: absolute;
-  animation: map-car-drive 6s linear infinite;
+  transform-origin: center;
+  animation: map-car-drive 7s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

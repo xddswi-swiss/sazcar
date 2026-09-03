@@ -130,8 +130,8 @@ export default function Footer() {
                 loading="lazy"
                 title="Google Maps Standort"
               />
-              {/* Decorative looping car driving across the top edge of the map */}
-              <div aria-hidden className="pointer-events-none absolute inset-x-0 top-2 z-10">
+              {/* Decorative looping car winding across the map to the Sazcar pin */}
+              <div aria-hidden className="pointer-events-none absolute inset-0 z-10">
                 <Car className="map-car-drive w-5 h-5 text-red-600 drop-shadow" strokeWidth={2.25} />
               </div>
             </div>
